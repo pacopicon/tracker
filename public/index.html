@@ -10,6 +10,7 @@
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    <!-- <script src="https://unpkg.com/react-router/umd/react-router.min.js"></script> -->
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -20,12 +21,34 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>React App</title>
+    <!-- <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '255419694935493',
+          cookie     : true,
+          xfbml      : true,
+          version    : 'v2.8'
+        });
+        FB.AppEvents.logPageView();
+      };
+
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "//connect.facebook.net/en_US/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+  </script> -->
   </head>
   <body>
     <noscript>
       You need to enable JavaScript to run this app.
     </noscript>
-    <div id="root"></div>
+    <input type="checkbox" id="fold">
+    <label for="fold">Fold</label>
+    <!-- <div id="root"></div> -->
+    <div id="main" class="main"></div>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
