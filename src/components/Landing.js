@@ -3,6 +3,8 @@ import { getFunName } from '../helpers';
 import firebase from 'firebase';
 import { database } from 'firebase';
 import rebase from '../base';
+import PropTypes from 'prop-types';
+
 
 class Landing extends React.Component {
   constructor() {
@@ -138,6 +140,10 @@ class Landing extends React.Component {
     )
   }
 }
+
+// Landing.contextTypes = {
+//   router: React.propTypes.object
+// }
 
 // Landing.propTypes = {
 //   storeID: PropTypes.string.isRequired

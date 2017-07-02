@@ -18,26 +18,32 @@ class App extends React.Component {
     this.removeFromOrder = this.removeFromOrder.bind(this);
     // getinitialState
     this.state = {
-      fishes: {},
-      order: {}
+      fishes: {}
     };
   }
 
   componentWillMount() {
-    // this runs right before the app is rendered
-    this.ref = rebase.base.syncState(`${this.props.match.params.storeID}/fishes`, {
-      context: this,
-      state: 'fishes'
-    });
-    // check if there is any order in localStorage
-    const localStorageRef = localStorage.getItem(`order-${this.props.match.params.storeID}`);
+    rebase.app.auth().onAuthStateChanged((user, error) => {
+      if(user) {
 
-    if(localStorageRef) {
-      // update our App component's order state
-      this.setState({
-        order: JSON.parse(localStorageRef)
-      });
-    }
+
+        // this runs right before the app is rendered
+        this.ref = rebase.base.syncState(`users/${user.uid}/fishes`, {
+          context: this,
+          state: 'fishes'
+        });
+        // check if there is any order in localStorage
+        // const localStorageRef = localStorage.getItem(`order-${this.props.match.params}`);
+        //
+        //
+        // if(localStorageRef) {
+        //   // update our App component's order state
+        //   this.setState({
+        //     order: JSON.parse(localStorageRef)
+        //   });
+        // }
+      }
+    });
   }
 
   componentWillUnmount() {
@@ -45,7 +51,7 @@ class App extends React.Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    localStorage.setItem(`order-${this.props.match.params.storeID}`, JSON.stringify(nextState.order));
+    // localStorage.setItem(`order-${this.props.match.params.storeID}`, JSON.stringify(nextState.order));
   }
 
   addFish(fish) {
@@ -110,18 +116,17 @@ class App extends React.Component {
             {/* .keys() extracts the keys from an object and pushes them all into an array.  .map() iterates over this array. */}
           </ul>
         </div>
-        <Order
+        {/* <Order
           fishes={this.state.fishes} order={this.state.order}
           params={this.props.match.params}
           removeFromOrder={this.removeFromOrder}
-        />
+        /> */}
         <UserPage
+          fishes={this.state.fishes}
           addFish={this.addFish}
           loadSamples={this.loadSamples}
-          fishes={this.state.fishes}
           updateFish={this.updateFish}
           removeFish={this.removeFish}
-          storeID={this.props.match.params.storeID}
         />
       </div>
     )

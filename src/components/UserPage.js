@@ -72,7 +72,6 @@ UserPage.propTypes = {
   removeFish: PropTypes.func,
   addFish: PropTypes.func.isRequired,
   loadSamples: PropTypes.func.isRequired,
-  storeID: PropTypes.string.isRequired
 };
 
 export default UserPage;
