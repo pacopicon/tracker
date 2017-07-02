@@ -23,12 +23,14 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    rebase.app.auth().onAuthStateChanged((user, error) => {
-      if(user) {
-
+    // rebase.app.auth().onAuthStateChanged((user, error) => {
+    //   if(user) {
+    //   }
+    // });
 
         // this runs right before the app is rendered
-        this.ref = rebase.base.syncState(`users/${user.uid}/fishes`, {
+        // this.ref = rebase.base.syncState(`users/${user.uid}/fishes`, {
+        this.ref = rebase.base.syncState(`users/${this.props.match.params.userID}/fishes`, {
           context: this,
           state: 'fishes'
         });
@@ -42,8 +44,7 @@ class App extends React.Component {
         //     order: JSON.parse(localStorageRef)
         //   });
         // }
-      }
-    });
+
   }
 
   componentWillUnmount() {

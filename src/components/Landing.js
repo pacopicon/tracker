@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 class Landing extends React.Component {
   constructor() {
     super();
-    this.goToStore = this.goToStore.bind(this);
+    this.grabIdAndEnter = this.grabIdAndEnter.bind(this);
     this.renderLogin = this.renderLogin.bind(this);
     this.authenticate = this.authenticate.bind(this);
     this.authHandler = this.authHandler.bind(this);
@@ -19,18 +19,22 @@ class Landing extends React.Component {
     }
   }
 
-  goToStore(event) {
-    event.preventDefault();
+  grabIdAndEnter(authData) {
+    // event.preventDefault();
     console.log('You changed the URL');
     // first grab the text from the box
-    const storeId = this.storeInput.value;
-    console.log(`Going to ${storeId}`);
+    const userID = authData.user.uid;
+    console.log(`Going to ${userID}`);
     // second we're going to transition from / to /store/:storeID
     // this.context.router.transitionTo(`/store/${storeId}`);
 
-    this.props.location.pathname = `/store/${storeId}`;
-    this.props.history.push(`/store/${storeId}`);
-    this.props.history.replace(`/store/${storeId}`);
+    // this.props.location.pathname = `/store/${storeId}`;
+    // this.props.history.push(`/store/${storeId}`);
+    // this.props.history.replace(`/store/${storeId}`);
+
+    this.props.location.pathname = `/UserPage/${userID}`;
+    this.props.history.push(`/UserPage/${userID}`);
+    this.props.history.replace(`/UserPage/${userID}`);
   }
 
   componentDidMount() {
@@ -53,6 +57,7 @@ class Landing extends React.Component {
         user: user
       }
       this.authHandler(authData);
+      this.grabIdAndEnter(authData);
     });
 
   }
@@ -86,9 +91,9 @@ class Landing extends React.Component {
       });
     });
 
-    this.props.location.pathname = `/UserPage`;
-    this.props.history.push(`/UserPage`);
-    this.props.history.replace(`/UserPage`);
+    // this.props.location.pathname = `/UserPage`;
+    // this.props.history.push(`/UserPage`);
+    // this.props.history.replace(`/UserPage`);
   }
 
   renderLogin() {
@@ -109,6 +114,9 @@ class Landing extends React.Component {
 
     if(!this.state.uid) {
       return <div>{this.renderLogin()}</div>
+    } else {
+      // return null
+      return <div>{this.renderLogin()}</div>
     }
 
     // if(this.state.uid !== this.state.owner) {
@@ -125,19 +133,19 @@ class Landing extends React.Component {
     -->// return <p>Hello</p>
     // 3rd way of rendering HTML onto DOM: multi-line w/ JSX:
     //-->
-    return (
-      // Comment like this here
-      // <form className="store-selector" onSubmit={(this.goToStore.bind(this)}>
-      // The above vunction syntax is more verbose, but ties the above call to the constructor
-      <form className="store-selector" onSubmit={(e) => this.goToStore(e)}>
-      {/* The above function syntax is easy but will be fired by any 'goToStore' */}
-        {/* But omment like this over here! */}
-        <h2>Please Enter a Store</h2>
-        <input type="text" required placeholder="Store name" defaultValue={getFunName()} ref={(input) => {this.storeInput = input}}/>
-        <button type="submit">Visit Store -></button>
-      </form>
-      // <p></p> --> cannot do this, you must always only return one parent element.  Otherwise you get this error: 'Syntax error: Adjacent JSX elements must be wrapped in an enclosing tag'
-    )
+    // return (
+    //   // Comment like this here
+    //   // <form className="store-selector" onSubmit={(this.grabIdAndEnter.bind(this)}>
+    //   // The above vunction syntax is more verbose, but ties the above call to the constructor
+    //   <form className="store-selector" onSubmit={(e) => this.grabIdAndEnter(e)}>
+    //   {/* The above function syntax is easy but will be fired by any 'grabIdAndEnter' */}
+    //     {/* But omment like this over here! */}
+    //     <h2>Please Enter a Store</h2>
+    //     <input type="text" required placeholder="Store name" defaultValue={getFunName()} ref={(input) => {this.storeInput = input}}/>
+    //     <button type="submit">Visit Store -></button>
+    //   </form>
+    //   // <p></p> --> cannot do this, you must always only return one parent element.  Otherwise you get this error: 'Syntax error: Adjacent JSX elements must be wrapped in an enclosing tag'
+    // )
   }
 }
 

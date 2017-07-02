@@ -11,30 +11,9 @@ import './css/style.css';
 import App from './components/App';
 import Landing from './components/Landing';
 import NotFound from './components/NotFound';
-import UserPage from './components/UserPage';
+// import UserPage from './components/UserPage';
 
 const Root = () => {
-  rebase.app.auth().onAuthStateChanged((user, error) => {
-    if(user) {
-
-
-      // this runs right before the app is rendered
-      this.ref = rebase.base.syncState(`users/${user.uid}/fishes`, {
-        context: this,
-        state: 'fishes'
-      });
-      // check if there is any order in localStorage
-      // const localStorageRef = localStorage.getItem(`order-${this.props}`);
-      //
-      //
-      // if(localStorageRef) {
-      //   // update our App component's order state
-      //   this.setState({
-      //     order: JSON.parse(localStorageRef)
-      //   });
-      // }
-    }
-  });
   return(
     <BrowserRouter>
       <Switch>
@@ -42,7 +21,7 @@ const Root = () => {
         {/* <Match exactly pattern="/" component={Landing} /> */}
         {/* <Match pattern="/UserPage/:storeID" component={App} /> */}
         <Route exact path="/" component={Landing} />
-        <Route path="/UserPage" component={App} />
+        <Route path="/UserPage/:userID" component={App} />
         <Route component={NotFound} />
       </Switch>
     </BrowserRouter>
