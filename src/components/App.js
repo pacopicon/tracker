@@ -3,93 +3,75 @@ import Header from './Header';
 import Order from './Order';
 import Landing from './Landing';
 import UserPage from './UserPage';
-import Fish from './Fish';
-import sampleFishes from '../sample-fishes.js';
+import Student from './Student';
+import sampleStudentes from '../sample-students.js';
 import rebase from '../base';
 
 class App extends React.Component {
   constructor() {
     super();
-    this.addFish = this.addFish.bind(this);
+    this.addStudent = this.addStudent.bind(this);
     this.loadSamples = this.loadSamples.bind(this);
     this.addToOrder = this.addToOrder.bind(this);
-    this.updateFish = this.updateFish.bind(this);
-    this.removeFish = this.removeFish.bind(this);
+    this.updateStudent = this.updateStudent.bind(this);
+    this.removeStudent = this.removeStudent.bind(this);
     this.removeFromOrder = this.removeFromOrder.bind(this);
     // getinitialState
     this.state = {
-      fishes: {}
+      students: {}
     };
   }
 
   componentWillMount() {
-    // rebase.app.auth().onAuthStateChanged((user, error) => {
-    //   if(user) {
-    //   }
-    // });
-
-        // this runs right before the app is rendered
-        // this.ref = rebase.base.syncState(`users/${user.uid}/fishes`, {
-        this.ref = rebase.base.syncState(`users/${this.props.match.params.userID}/fishes`, {
-          context: this,
-          state: 'fishes'
-        });
-        // check if there is any order in localStorage
-        // const localStorageRef = localStorage.getItem(`order-${this.props.match.params}`);
-        //
-        //
-        // if(localStorageRef) {
-        //   // update our App component's order state
-        //   this.setState({
-        //     order: JSON.parse(localStorageRef)
-        //   });
-        // }
-
+    this.ref = rebase.base.syncState(`users/${this.props.match.params.userID}/students`, {
+      context: this,
+      state: 'students'
+    });
   }
 
   componentWillUnmount() {
     rebase.base.removeBinding(this.ref);
   }
 
-  componentWillUpdate(nextProps, nextState) {
-    // localStorage.setItem(`order-${this.props.match.params.storeID}`, JSON.stringify(nextState.order));
-  }
+  // componentWillUpdate(nextProps, nextState) {
+  //   localStorage.setItem(`order-${this.props.match.params.storeID}`, JSON.stringify(nextState.order));
+  // }
 
-  addFish(fish) {
+  addStudent(student) {
     // update our state
-    const fishes = {...this.state.fishes};
-    // add in our new fish
+    const students = {...this.state.students};
+    // add in our new student
     const timestamp = Date.now();
-    fishes[`fish-${timestamp}`] = fish;
-    // you can do this: this.state.fishes.fish1 = fish;
+    students[`student-${timestamp}`] = student;
+    // you can do this: this.state.students.student1 = student;
     // set state
-    // this is more standard, grabbing the state and updating it: this.setState({ fishes: fishes})
+    // this is more standard, grabbing the state and updating it: this.setState({ students: students})
     // the below is the most advanced syntax, ES6
-    this.setState({ fishes });
+    this.setState({ students });
   }
 
-  updateFish(key, updatedFish) {
-    const fishes = {...this.state.fishes};
-    fishes[key] = updatedFish;
-    this.setState({ fishes });
+  updateStudent(key, updatedStudent) {
+    const students = {...this.state.students};
+    students[key] = updatedStudent;
+    this.setState({ students });
   }
 
-  removeFish(key) {
-    const fishes = {...this.state.fishes};
-    fishes[key] = null;
-    this.setState({ fishes });
+  removeStudent(key) {
+    const students = {...this.state.students};
+    students[key] = null;
+    this.setState({ students });
   }
 
   loadSamples() {
     this.setState({
-      fishes: sampleFishes
+      students: sampleStudentes
     })
   }
 
   addToOrder(key) {
     // take a copy of our state
     const order = {...this.state.order}
-    // update or add the new number of fish ordered
+    // update or add the new number of student ordered
     order[key] = order[key] + 1 || 1;
     // update our state
     // this.setState({order: order});
@@ -107,27 +89,27 @@ class App extends React.Component {
       <div className="catch-of-the-day">
         <div className="menu">
           <Header age="5000" cool={true} tagline="Fresh Seafood Market"/>
-          <ul className="list-of-fishes">
+          <ul className="list-of-students">
             {
               Object
-                .keys(this.state.fishes)
-                .map(key => <Fish key={key} index={key} details={this.state.fishes[key]} addToOrder={this.addToOrder}/>)
+                .keys(this.state.students)
+                .map(key => <Student key={key} index={key} details={this.state.students[key]} addToOrder={this.addToOrder}/>)
 
             }
             {/* .keys() extracts the keys from an object and pushes them all into an array.  .map() iterates over this array. */}
           </ul>
         </div>
         {/* <Order
-          fishes={this.state.fishes} order={this.state.order}
+          students={this.state.students} order={this.state.order}
           params={this.props.match.params}
           removeFromOrder={this.removeFromOrder}
         /> */}
         <UserPage
-          fishes={this.state.fishes}
-          addFish={this.addFish}
+          students={this.state.students}
+          addStudent={this.addStudent}
           loadSamples={this.loadSamples}
-          updateFish={this.updateFish}
-          removeFish={this.removeFish}
+          updateStudent={this.updateStudent}
+          removeStudent={this.removeStudent}
         />
       </div>
     )

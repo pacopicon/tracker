@@ -1,5 +1,5 @@
 import React from 'react';
-import AddFishForm from './AddFishForm';
+import AddStudentForm from './AddStudentForm';
 import PropTypes from 'prop-types';
 import rebase from '../base';
 import firebase from 'firebase';
@@ -23,28 +23,28 @@ class UserPage extends React.Component {
   }
 
   handleChange(e, key) {
-    const fish = this.props.fishes[key];
-    // take a copy of that fish and update it with the new data
-    const updatedFish = {
-      ...fish,
+    const student = this.props.students[key];
+    // take a copy of that student and update it with the new data
+    const updatedStudent = {
+      ...student,
       [e.target.name]: e.target.value
     }
-    this.props.updateFish(key, updatedFish);
+    this.props.updateStudent(key, updatedStudent);
   }
 
   renderUserPage(key) {
-    const fish = this.props.fishes[key];
+    const student = this.props.students[key];
     return (
-      <div key={key} className="fish-edit">
-        <input type="text" name="name" value={fish.name} placeholder="Fish Name" onChange={(e) => this.handleChange(e, key)} />
-        <input type="text" name="price" value={fish.price} placeholder="Fish Price" onChange={(e) => this.handleChange(e, key)} />
-        <select type="text" name="status" value={fish.status} placeholder="Fish Status" onChange={(e) => this.handleChange(e, key)} >
+      <div key={key} className="student-edit">
+        <input type="text" name="name" value={student.name} placeholder="Student Name" onChange={(e) => this.handleChange(e, key)} />
+        <input type="text" name="price" value={student.price} placeholder="Student Price" onChange={(e) => this.handleChange(e, key)} />
+        <select type="text" name="status" value={student.status} placeholder="Student Status" onChange={(e) => this.handleChange(e, key)} >
           <option value="available">Fresh!</option>
           <option value="unavailable">Sold Out!</option>
         </select>
-        <textarea type="text" name="desc" value={fish.desc} placeholder="Fish Desc" onChange={(e) => this.handleChange(e, key)} ></textarea>
-        <input type="text" name="image"  value={fish.image}placeholder="Fish Image" onChange={(e) => this.handleChange(e, key)} />
-        <button onClick={ () => this.props.removeFish(key)}>Remove Fish</button>
+        <textarea type="text" name="desc" value={student.desc} placeholder="Student Desc" onChange={(e) => this.handleChange(e, key)} ></textarea>
+        <input type="text" name="image"  value={student.image}placeholder="Student Image" onChange={(e) => this.handleChange(e, key)} />
+        <button onClick={ () => this.props.removeStudent(key)}>Remove Student</button>
       </div>
     )
   }
@@ -58,19 +58,19 @@ class UserPage extends React.Component {
       <div>
         <h2>UserPage</h2>
         {logout}
-        {Object.keys(this.props.fishes).map(this.renderUserPage)}
-        <AddFishForm addFish={this.props.addFish} />
-        <button onClick={this.props.loadSamples}>Load Sample Fishes</button>
+        {Object.keys(this.props.students).map(this.renderUserPage)}
+        <AddStudentForm addStudent={this.props.addStudent} />
+        <button onClick={this.props.loadSamples}>Load Sample Studentes</button>
       </div>
     )
   }
 }
 
 UserPage.propTypes = {
-  fishes: PropTypes.object.isRequired,
-  updateFish: PropTypes.func,
-  removeFish: PropTypes.func,
-  addFish: PropTypes.func.isRequired,
+  students: PropTypes.object.isRequired,
+  updateStudent: PropTypes.func,
+  removeStudent: PropTypes.func,
+  addStudent: PropTypes.func.isRequired,
   loadSamples: PropTypes.func.isRequired,
 };
 
