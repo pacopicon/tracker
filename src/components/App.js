@@ -2,6 +2,7 @@ import React from 'react';
 import Header from './Header';
 import Order from './Order';
 import Landing from './Landing';
+import UserPage from './UserPage';
 import Fish from './Fish';
 import sampleFishes from '../sample-fishes.js';
 import rebase from '../base';
@@ -114,7 +115,7 @@ class App extends React.Component {
           params={this.props.match.params}
           removeFromOrder={this.removeFromOrder}
         />
-        <Landing
+        <UserPage
           addFish={this.addFish}
           loadSamples={this.loadSamples}
           fishes={this.state.fishes}

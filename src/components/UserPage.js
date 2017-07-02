@@ -3,6 +3,7 @@ import AddFishForm from './AddFishForm';
 import PropTypes from 'prop-types';
 import rebase from '../base';
 import firebase from 'firebase';
+import App from './App';
 
 
 class UserPage extends React.Component {
