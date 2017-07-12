@@ -43,7 +43,7 @@ class UserPage extends React.Component {
           <option value="unavailable">Sold Out!</option>
         </select>
         <textarea type="text" name="desc" value={student.desc} placeholder="Student Desc" onChange={(e) => this.handleChange(e, key)} ></textarea>
-        <input type="text" name="image"  value={student.image}placeholder="Student Image" onChange={(e) => this.handleChange(e, key)} />
+        <input type="text" name="image"  value={student.image} placeholder="Student Image" onChange={(e) => this.handleChange(e, key)} />
         <button onClick={ () => this.props.removeStudent(key)}>Remove Student</button>
       </div>
     )

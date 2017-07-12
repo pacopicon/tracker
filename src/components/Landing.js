@@ -4,13 +4,16 @@ import firebase from 'firebase';
 import { database } from 'firebase';
 import rebase from '../base';
 import PropTypes from 'prop-types';
+import big from '../assets/images/big.png';
+import { Button, Form, FormGroup, Label, Input, FormText, Container, Row, Col } from 'reactstrap';
+
 
 
 class Landing extends React.Component {
   constructor() {
     super();
     this.grabIdAndEnter = this.grabIdAndEnter.bind(this);
-    this.renderLogin = this.renderLogin.bind(this);
+    // this.renderLogin = this.renderLogin.bind(this);
     this.authenticate = this.authenticate.bind(this);
     this.authHandler = this.authHandler.bind(this);
     this.state = {
@@ -96,28 +99,60 @@ class Landing extends React.Component {
     // this.props.history.replace(`/UserPage`);
   }
 
-  renderLogin() {
-    const fbprovider = new firebase.auth.FacebookAuthProvider();
-
-    return (
-      <nav className="login">
-        <h2>UserPage</h2>
-        <p>Sign in to manage your store's UserPage</p>
-        <button className="facebook" onClick={() => this.authenticate(fbprovider)}>Log In with Facebook</button>
-      </nav>
-    )
-  }
+  // renderLogin() {
+  //
+  //
+  //   return (
+  //     <nav className="login">
+  //       <h2>UserPage</h2>
+  //       <p>Sign in to manage your store's UserPage</p>
+  //
+  //     </nav>
+  //   )
+  // }
 
   // ReactDom.render()
   render() {
+    const fbprovider = new firebase.auth.FacebookAuthProvider();
+    const title = "TestTrakker"
 
+    // if(!this.state.uid) {
+    //   return <div>{this.renderLogin()}</div>
+    // } else {
+    //   // return null
+    //   return <div>{this.renderLogin()}</div>
+    // }
 
-    if(!this.state.uid) {
-      return <div>{this.renderLogin()}</div>
-    } else {
-      // return null
-      return <div>{this.renderLogin()}</div>
-    }
+    return (
+      <section>
+        <Col className="hero-content">
+            <img className="pencilPic" src={big} />
+        </Col>
+
+{/* BEGIN oAuth LOGIN */}
+        <Col className="link-container">
+          <div className="login" onClick={() => this.authenticate(fbprovider)}><p>log in with <i className="fa fa-facebook-square" aria-hidden="true"></i></p></div>
+        </Col>
+{/* END oAuth LOGIN */}
+        <Col className="selling-points container clearfix" lg="12" md="12" sm="12" xs="12">
+          <Col className="point column third" lg="4" md="4" sm="4" xs="4">
+            <i className="fa fa-calculator" aria-hidden="true"></i>
+            <h5 className="point-title">Modular Math?</h5>
+            <p className="point-description">When does a 135-minute test with a 1.5 time extention that began at 11:37am end? Let {title} do test time math for you!</p>
+          </Col>
+          <Col className="point column third" lg="4" md="4" sm="4" xs="4">
+            <i className="fa fa-thumbs-o-up" aria-hidden="true"></i>
+            <h5 className="point-title">Un-complicate!</h5>
+            <p className="point-description">Keep track of students in extended time testing with different time extensions, start times, and tests.</p>
+          </Col>
+          <Col className="point column third" lg="4" md="4" sm="4" xs="4">
+            <i className="fa fa-folder-open-o" aria-hidden="true"></i>
+            <h5 className="point-title">Record-friendly</h5>
+            <p className="point-description">{title} organizes important information in an easy-to-print format for your records.</p>
+          </Col>
+        </Col>
+      </section>
+    )
 
     // if(this.state.uid !== this.state.owner) {
     //   return (

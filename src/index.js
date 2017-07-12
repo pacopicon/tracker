@@ -5,9 +5,14 @@ import { render } from 'react-dom';
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import rebase from './base';
+import 'bootstrap/dist/css/bootstrap.css';
 
 
-import './css/style.css';
+import './css/landing.min.css';
+import './css/main.min.css';
+import './css/user.min.css';
+import './css/navbar.min.css';
+import './css/testData.min.css';
 import App from './components/App';
 import Landing from './components/Landing';
 import NotFound from './components/NotFound';

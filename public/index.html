@@ -8,8 +8,11 @@
       manifest.json provides metadata used when your web app is added to the
       homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
     -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Fredoka+One|Montserrat" rel="stylesheet">
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+
     <!-- <script src="https://unpkg.com/react-router/umd/react-router.min.js"></script> -->
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
@@ -20,7 +23,7 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
+    <title>TestTrakker React</title>
     <!-- <script>
       window.fbAsyncInit = function() {
         FB.init({
@@ -41,12 +44,33 @@
        }(document, 'script', 'facebook-jssdk'));
   </script> -->
   </head>
+  <!-- <script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId           : '1710165355951309',
+      autoLogAppEvents: true,
+      xfbml           : true,
+      version         : 'v2.9'
+    });
+    FB.AppEvents.logPageView();
+    FB.ui({
+      method: 'share',
+      href: 'https://developers.facebook.com/docs'
+    }, function(response){});
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script> -->
   <body>
     <noscript>
       You need to enable JavaScript to run this app.
     </noscript>
-    <input type="checkbox" id="fold">
-    <label for="fold">Fold</label>
     <!-- <div id="root"></div> -->
     <div id="main" class="main"></div>
     <!--

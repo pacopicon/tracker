@@ -3,12 +3,12 @@ import { database } from 'firebase';
 import Rebase from 're-base';
 
 const app = firebase.initializeApp({
-  apiKey: "AIzaSyATj_L8WZ1X4nmDnebaT0hnXVziJFu_IIc",
-  authDomain: "tracker-675ec.firebaseapp.com",
-  databaseURL: "https://tracker-675ec.firebaseio.com",
-  projectId: "tracker-675ec",
-  storageBucket: "",
-  messagingSenderId: "763225130025"
+  apiKey: "AIzaSyC9bwyy9NHISIZbKFerdIU_jjAdDeZq-To",
+  authDomain: "testtrakker.firebaseapp.com",
+  databaseURL: "https://testtrakker.firebaseio.com",
+  projectId: "testtrakker",
+  storageBucket: "testtrakker.appspot.com",
+  messagingSenderId: "446548077493"
 });
 
 const base = Rebase.createClass(app.database());
