@@ -89,7 +89,9 @@ class App extends React.Component {
     return(
       <div className="catch-of-the-day">
         <div className="menu">
-          <Header age="5000" cool={true} tagline="Fresh Seafood Market"/>
+          <Header
+            age="5000"
+            state={this.state}/>
           <ul className="list-of-students">
             {
               Object
