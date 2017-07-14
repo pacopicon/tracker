@@ -103,7 +103,7 @@ class AddStudentForm extends React.Component {
     return(
       <form ref={(input) => this.studentForm = input} className="" onSubmit={(e) => this.createStudent(e)}>
         <div className="form-fields marginRight marginLeft col-lg-12 col-md-12 col-sm-12 col-xs-12">
-          <div className="nameAndExtend col-lg-4 col-md-4 col-sm-4 col-xs-12">
+          <div className="nameAndExtend col-lg-2 col-md-2 col-sm-2 col-xs-12">
             <div className="nameForm smallWidthMargin col-lg-6 col-md-6 col-sm-6 col-xs-12">
               <div className="form-group">
                 <input ref={(input) => this.name = input} type="text" placeholder="student name" />
@@ -120,7 +120,7 @@ class AddStudentForm extends React.Component {
             </div>
           </div>
 {/*BEGIN A test and B test*/}
-          <div className="testOneAndTwo col-lg-4 col-md-4 col-sm-4 col-xs-12">
+          <div className="testOneAndTwo col-lg-5 col-md-5 col-sm-5 col-xs-12">
             {/* <div>{this.renderTestForm(this.AtestName, this.AtestTime)}</div> */}
             <div className="nameAndTime col-lg-6 col-md-6 col-sm-6 col-xs-12">
               <div className="testNameForm smallWidthMargin col-lg-6 col-md-6 col-sm-6 col-xs-6">
@@ -161,7 +161,7 @@ class AddStudentForm extends React.Component {
           </div>
 {/*END A test and B test*/}
 {/*BEGIN C test and D test*/}
-          <div className="testThreeAndFour col-lg-4 col-md-4 col-sm-4 col-xs-12">
+          <div className="testThreeAndFour col-lg-5 col-md-5 col-sm-5 col-xs-12">
             {/* <div>{this.renderTestForm(this.CtestName, this.CtestTime)}</div> */}
             <div className="nameAndTime col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <div className="testNameForm smallWidthMargin col-lg-6 col-md-6 col-sm-6 col-xs-6">
