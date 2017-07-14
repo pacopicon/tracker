@@ -1,0 +1,31 @@
+// $bgColor: #D6F3FF
+// $bgColor: #E2F7FF
+// $bgColor: #F0AD4E
+$bgColor: #EDFAFF
+
+// @import "variables.sass"
+
+*, *::before, *::after
+
+html
+  height: 100%
+  font-size: 112%
+  background-color: $bgColor
+
+body
+  background-repeat: no-repeat
+  background-attachment: fixed
+  background-position: center
+  font-family: 'Montserrat', sans-serif
+  background-color: $bgColor
+  min-height: 100%
+  padding-top: 0
+
+
+.clearfix::before,
+.clearfix::after
+    content: " "
+    display: table
+
+.clearfix::after
+    clear: both

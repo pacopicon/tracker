@@ -1,0 +1,686 @@
+@import "testData.min.css"
+
+$bgPrimary: #337AB7
+// $bgColor: #D6F3FF
+// $bgColor: #E2F7FF
+// $bgColor: #F0AD4E
+$bgColor: #EDFAFF
+$darkNavy: #3f4e62
+$bsBlue: #5BC0DE
+$green: #5CB85C
+$bsRed: #D9534F
+$bsYellow: #F0AD4E
+$barWidth: 79%
+$btnHeight: 1.5em
+
+// @import "variables.sass"
+//
+// Index:
+// I - clock ---- l.
+
+section
+  height: 200%
+  background-color: $bgColor
+
+  // background-color: $bgColor
+.html
+  background-color: $bgColor
+
+.body
+  white-space: nowrap
+  height: 200%
+
+.navbar
+  font-size: 1.5em
+  overflow: hidden
+  background-color: $darkNavy
+  line-height: 2.5em
+  p
+    text-align: center
+    padding: 0
+    margin: 0
+    color: $bgColor
+
+button
+
+.menuBtn
+  height: 80%
+  border: 2px solid $darkNavy
+  text-decoration: none
+  transition: all 0.2s ease-in-out
+  background-color: $darkNavy
+  cursor: pointer
+  font-size: 1em
+  overflow: auto
+  text-align: center
+  p
+    padding: 0
+    margin: 0
+    color: $bgColor
+
+.menu-one:hover
+    background-color: $bsBlue
+    transition: all 0.2s ease-in-out
+
+.menu-two:hover
+    background-color: $bsRed
+    transition: all 0.2s ease-in-out
+
+.list-group
+  position: relative
+  margin-left: 5%
+  margin-right: 5%
+  top: 6em
+  height: 200%
+  font-size: 1.2em
+  // asdf
+
+/* end css for navbar */
+
+// Begin CSS for Alerts
+
+.alert
+  transition: all 1s ease-in-out
+  // min-height: 3em
+
+.alert-message
+  overflow: auto
+  // height: 5em
+//   float: left
+//   width: 100%
+  // max-width: 20em
+
+.yesNoContainer
+  width: 11em
+  // text-align: center
+  float: right
+  // margin-right: 42%
+
+.yesBtn, .noBtn
+  border: 2.5px solid $bsRed
+  background-color: #F2DEDE
+  color: $bsRed
+  height: 1.8em
+  border-radius: 1em
+  text-decoration: none
+  text-align: center
+  overflow: hidden
+  width: 5em
+  transition: all 0.2s ease-in-out
+  p
+    color: $bsRed
+  &:active
+    background-color: #e7eaeb
+  &:hover
+    transition: all 0.2s ease-in-out
+    background-color: $bsRed
+    p
+      color: #F2DEDE
+
+.yesBtn
+  float: left
+  transition: all 0.2s ease-in-out
+
+.noBtn
+  float: right
+  transition: all 0.2s ease-in-out
+
+.main-body
+  border-radius: 0em
+  padding: 1em
+  padding-top: 0
+  padding-left: 0
+  padding-right: 0
+  margin-bottom: 2em
+  min-height: 30%
+  resize: vertical
+
+/* begin CSS for SelectAll / ClearAll / InvertSelect */
+
+.formControls
+  border-radius: 1em
+  background-color: $bgColor
+  min-height: 1.8em
+  margin-bottom: 0.5em
+
+.mainBtn
+  padding-right: 7.5px
+  padding-left: 7.5px
+  transition: all 0.5s ease-in-out
+
+.deleteSelectedStudents
+  padding-right: 7.5px
+  padding-left: 7.5px
+
+.startSelectedTests
+  @extend .deleteSelectedStudents
+
+
+.IIndaryBtnYes
+  transition: all 1s ease-in-out
+
+.IIndaryBtnNo
+  display: none
+  transition: all 1s ease-in-out
+
+.controlBtn
+  border: 2.5px solid $darkNavy
+  background-color: $bgColor
+  color: $darkNavy
+  height: 1.8em
+  border-radius: 1em
+  text-decoration: none
+  text-align: center
+  overflow: hidden
+  width: 100%
+  transition: all 1s ease-in-out
+  &:hover
+    transition: all 0.2s ease-in-out
+    background-color: $darkNavy
+    color: $bgColor
+  &:active
+    background-color: #e7eaeb
+
+// end CSS for SelectAll / ClearAll / InvertSelect
+
+// Begin CSS for student Display and Student data
+
+.studentDisplay
+  display: table-row
+  width: 100%
+  margin-left: 0.5em
+
+.student
+  float: left
+  padding-left: 0
+  padding-right: 0.5em
+  height: 1.2em
+  padding-top: -0.5em
+
+.checkboxIndexName
+  height: 1em
+  white-space: normal
+  float: left
+
+.marginRight
+  margin-right: 0
+  padding-right: 0
+
+.marginLeft
+  margin-left: 0
+  padding-left: 0
+
+.indexAndNameCell
+  min-width: 5em
+
+.indexAndNameCell
+  p
+    overflow: hidden
+    padding-left: 1em
+
+.checkbox
+  float: left
+  top: 2px
+
+.indexAndName
+  text-align: left
+  height: 1.5em
+  padding: 0
+  float: left
+
+.deleteContainer
+  position: relative
+  margin-top: 1em
+  height: 4em
+
+.deleteBtn
+  padding-top: 0.2em
+  float: left
+  font-size: 1em
+  width: 1em
+  margin: 0
+  color: $darkNavy
+  text-align: center
+  transition: all 0.5s ease-in-out
+  &:hover
+    cursor: pointer
+    padding-left: 0.1em
+    transition: all 0.5s ease-in-out
+    color: $bsRed
+
+// End CSS for student
+
+// Begin CSS for Test Data
+
+.dataButtonsAndBars
+   padding-left: 0
+   padding-right: 0
+   min-height: 0
+   transition: all 1s ease-in-out
+
+.deleteHighlight
+  padding-left: 1em
+  transition: all 1s ease-in-out
+
+hr
+  margin: 0
+  width: 148% - $barWidth
+  max-width: 17.5em
+  border-top: 1px solid $darkNavy
+
+.addTest
+  width: 3em
+  height: 1em
+  i
+    font-size: 1em
+
+.addTestBottom
+  left: 7em
+  width: 3em
+  height: 1em
+  i
+    font-size: 2em
+
+.fa
+  color: $darkNavy
+
+.fa-plus, .fa-minus
+  transition: all 0.5s ease-in-out
+  cursor: pointer
+  &:hover
+    padding-left: 0.1em
+    color: $bsBlue
+    transition: all 0.5s ease-in-out
+
+.testTimeData
+  border-radius: 0.5em
+  width: 100% - $barWidth
+  padding-right: 0
+  float: left
+  padding-bottom: 0.2em
+  p
+    font-size: 0.7em
+    line-height: 1.3em
+    color: $darkNavy
+    padding-left: 0.1em
+
+.hideTest
+  padding: 0
+
+.testTimeCell
+  height: 100%
+
+.dataPoint, .dataPointLabel
+  margin-top: 0.35em
+  margin-bottom: 0
+  padding-bottom: 0
+  text-align: left
+  padding-left: 0
+  padding-right: 0
+
+// End CSS for Test Data
+
+// Begin CSS for Test Buttons
+
+.buttonsAndBars
+  width: $barWidth
+  float: right
+
+.testNameCell
+  height: 100%
+
+.buttonContainer
+  padding-left: 0
+  padding-right: 0
+  padding-bottom: 0.3em
+  p
+    line-height: 1em
+
+.countBtn
+  border-radius: 0.5em
+  min-height: $btnHeight
+  font-size: 1em
+  background-color: $bgColor
+  width: 100%
+  border: 2.5px solid $green
+  color: $green
+  cursor: pointer
+  p
+    margin: 0
+  &:hover
+    background-color: $green
+    color: $bgColor
+    transition: all 0.2s ease-in-out
+
+.pauseBtn
+  @extend .countBtn
+  border: 2.5px solid $bsYellow
+  color: $bsYellow
+  cursor: pointer
+  &:hover
+    transition: all 0.2s ease-in-out
+    background-color: $bsYellow
+    color: $bgColor
+
+.grayCell
+  @extend .countBtn
+  border: 2.5px solid $darkNavy
+  color: $darkNavy
+  cursor: not-allowed
+  &:hover
+    transition: all 0.2s ease-in-out
+    background-color: $darkNavy
+    color: $bgColor
+
+.redBtn
+  @extend .countBtn
+  border: 2.5px solid $bsRed
+  color: $bsRed
+  cursor: not-allowed
+  &:hover
+    transition: all 0.2s ease-in-out
+    background-color: $bsRed
+    color: $bgColor
+
+.redText
+  color: $bsRed
+
+.fa-minus
+  float: left
+  cursor: pointer
+  &:hover
+    padding-left: 0.1em
+    color: $bsRed
+    transition: all 0.5s ease-in-out
+
+.resumeBtn, .resetBtn, .endBtn
+  border-radius: 0.5em
+  background-color: $bgColor
+  height: $btnHeight
+  padding-bottom: 1em
+  cursor: pointer
+  &:hover
+    transition: all 0.2s ease-in-out
+    color: $bgColor
+    background-color: $green
+
+.resetBtn
+  color: $bsYellow
+  border-top: 2.5px solid $bsYellow
+  border-bottom: 2.5px solid $bsYellow
+  border-top-right-radius: 0
+  border-bottom-right-radius: 0
+  border-top-left-radius: 0
+  border-bottom-left-radius: 0
+  border-right: $bgColor
+  border-left: $bgColor
+
+  &:hover
+    color: $bgColor
+    background-color: $bsYellow
+
+.endBtn
+  border: 2.5px solid $bsRed
+  color: $bsRed
+  float: right
+  border-top: 2.5px solid $bsRed
+  border-bottom: 2.5px solid $bsRed
+  border-right: 2.5px solid $bsRed
+  border-top-left-radius: 0
+  border-bottom-left-radius: 0
+  border-left: $bgColor
+
+  &:hover
+    transition: all 0.2s ease-in-out
+    color: $bgColor
+    background-color: $bsRed
+
+.resumeBtn
+  border-top: 2.5px solid $green
+  border-left: 2.5px solid $green
+  border-bottom: 2.5px solid $green
+  border-top-right-radius: 0
+  border-bottom-right-radius: 0
+  border-right: $bgColor
+  color: $green
+  float: left
+
+// End CSS for Test Buttons
+
+// Begin in-line Form CSS
+
+.addTestBtn
+  width: 1em
+  position: relative
+  &:hover
+    background-color: $bsBlue
+    i
+      color: $bgColor
+
+.checkAdd
+  color: $bsBlue
+  position: absolute
+  margin: 0
+  top: 5px
+  bottom: 0
+  right: 0
+  left: 0
+
+.addStudentBtn
+  width: 100%
+  min-width: 4em
+
+.inlineForm
+  padding: 0
+
+.inlineNameForm, .inlineTestTimeForm
+  padding-left: 3.75px
+  padding-right: 3.75px
+  width: 15%
+
+.inlineTestTimeForm
+  width: 5%
+
+/* End in-line Form CSS */
+
+/* Begin CSS for Bars */
+
+.bars
+  height: 2.8em
+  padding-left: 0
+  padding-right: 0
+  // margin-bottom: 0.5em
+
+.progress
+  height: 1.25em
+
+.progress-bar
+  p
+    font-size: 1.5em
+
+.fullBar
+  margin-bottom: 0
+  padding-bottom: 0
+  border-top-left-radius: 0.5em
+  border-top-right-radius: 0.5em
+  border-bottom-left-radius: 0em
+  border-bottom-right-radius: 0em
+
+.splitBar
+  border-top-left-radius: 0em
+  border-top-right-radius: 0em
+  border-bottom-left-radius: 0.5em
+  border-bottom-right-radius: 0.5em
+  // margin-bottom: 0.5em
+
+.barLabel
+  line-height: 1.3em
+  height: 100%
+  color: $bgColor
+
+/* Begin CSS for FORM */
+
+.form-fields
+  margin-top: 1em
+  margin-bottom: 1em
+  min-height: 2em
+
+.nameAndExtend
+  float: left
+  margin-right: 0
+  padding-right: 0
+  padding-left: 15px
+  min-height: 2.6em
+  @media only screen and (max-width : 844px)
+    padding-right: 15px
+
+.smallWidthMargin
+  @media only screen and (max-width : 844px)
+    margin-bottom: 7.5px
+
+.nameForm
+  float: left
+  padding-left: 3.75px
+  padding-right: 3.75px
+
+.nameInput
+  width: 100%
+
+.form-control
+
+.extendForm
+  float: right
+  @extend .nameForm
+
+.tip
+  width: 0
+  height: 0
+  margin: 0
+  padding: 0
+
+.extendInput
+  width: 100%
+
+.nameAndTime
+  @extend .nameForm
+
+.testNameForm
+  @extend .nameForm
+
+.testTimeForm
+  @extend .nameForm
+
+.testNameForm
+  float: left
+  width: 48%
+
+.testOneAndTwo
+  float: left
+  min-height: 2.6em
+  padding-left: 0
+  padding-right: 0
+  @media only screen and (max-width : 844px)
+    padding-left: 10.5px
+    padding-right: 10.5px
+
+.testThreeAndFour
+  float: right
+  min-height: 2.6em
+  padding-left: 0
+  @media only screen and (max-width : 844px)
+    padding-left: 10.5px
+    padding-right: 10.5px
+
+.testNameInput
+
+.testTimeForm
+  width: 52%
+  float: right
+
+.inlineTestTimeForm
+  width: 25%
+
+.btn-div
+  padding-right: 0.9
+  padding-left: 0.9
+  padding-bottom: 10em
+
+.addStudentBtn, .addTestBtn
+  border-radius: 1em
+  min-height: 2em
+  border: 2.5px solid $bsBlue
+  color: $bsBlue
+  background-color: $bgColor
+
+  &:active
+    background-color: #0B5FAA
+    color: $bgColor
+
+  &:hover
+    background-color: $bsBlue
+    color: $bgColor
+    transition: all 0.2s ease-in-out
+
+// End CSS for FORM
+
+// @media only screen and (min-width : 1200px)
+//
+// .dataPair
+// border-right: 0.125em solid
+//
+// .dataPairPause
+// border-left: 0.125em solid
+//
+//
+// @media only screen and (min-width : 768px)
+//
+// .hamburger
+//   display: none
+//
+// @media only screen and (max-width : 585px)
+// // actually 641
+//
+// @media only screen and (max-width : 767px)
+// // actually 844
+//
+// .btn-wrap
+//   padding-left: 0
+//   margin-left: 0
+//   padding-right: 0
+//   margin-right: 0
+//
+// .middle-wrap
+//   margin-bottom: 0.5em
+//
+// @media only screen and (max-width : 767px)
+//
+// @media only screen and (max-width : 781px)
+//   /*actually 858*/
+//
+// @media only screen and (max-width : 969px)
+//
+// @media only screen and (max-width : 429px)
+//
+// @media only screen and (max-width : 529px) and (min-width : 430px)
+//
+// @media only screen and (max-width : 607px) and (min-width : 530px)
+//
+// @media only screen and (max-width : 767px) and (min-width : 608px)
+//
+// @media only screen and (max-width : 799px) and (min-width : 768px)
+//
+// @media only screen and (max-width : 969px) and (min-width : 800px)
+//
+// @media only screen and (max-width : 991px) and (min-width : 970px)
+//
+// @media only screen and (max-width : 1076px) and (min-width : 992px)
+//
+// @media only screen and (max-width : 1199px) and (min-width : 1077px)
+//
+// @media only screen and (max-width : 1425px) and (min-width : 1200px)
+//
+// @media only screen and (max-width : 1716px) and (min-width : 1426px)
+//
+// @media only screen and (max-width : 2153px) and (min-width : 1717px)
+//
+// @media only screen and (max-width : 2600px) and (min-width : 2154px)

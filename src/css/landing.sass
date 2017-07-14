@@ -1,0 +1,160 @@
+$bgPrimary: #337AB7
+// $bgColor: #D6F3FF
+// $bgColor: #E2F7FF
+// $bgColor: #F0AD4E
+$bgColor: #EDFAFF
+$darkNavy: #3f4e62
+$bsBlue: #5BC0DE
+$green: #5CB85C
+$bsRed: #D9534F
+$bsYellow: #F0AD4E
+$barWidth: 70%
+$btnHeight: 1.5em
+$imgSize: 85%
+$imgGrow: 30%
+$facebookBlue: #3B5998
+
+// @import "variables.sass"
+
+body
+  max-height: 200px
+
+// BEGIN login btn
+
+.hero-content
+  position: relative
+  max-height: 490px
+  background-image: url(../assets/images/pencil-transparent-big.png)
+  // background-image: url(../assets/images/pencil.png)
+  background-repeat: no-repeat
+  background-position: center center
+  background-size: cover
+  top: 5em
+
+.hero-content .hero-title
+  position: relative
+  top: 20%
+  // -webkit-transform: translateY(-50%)
+  // -moz-transform: translateY(-50%)
+  // transform: translateY(-50%)
+  width: 100%
+  padding: 0
+  margin: 0
+  padding-top: 5em
+  color: $bsBlue
+  text-align: center
+  font-size: 4rem
+  font-weight: 300
+
+.hero-title
+  position: absolute
+  // height: 100%
+  // width: 45%
+  margin: 0 auto
+  left: 0
+  top: 0
+  bottom: 8em
+  right: 0
+  // margin-bottom: 12em
+
+// .hero-title h1
+//   font-size: 6rem
+//   letter-spacing: 4rem
+//   transition: all 1s ease-in-out
+//
+// img
+//   margin-top: -1.5em
+//   margin-bottom: -1.4em
+//   width: $imgSize
+//   height: $imgSize
+//   transition: all 1s ease-in-out
+//
+// img.closed
+//   margin-top: -1.5em
+//   margin-bottom: -1.4em
+//   width: $imgGrow
+//   height: $imgGrow
+//   transition: all 1s ease-in-out
+
+// END icon
+
+// BEGIN login btn
+
+.link-container
+  position: absolute
+  // height: 100%
+  width: 25%
+  height: 2.6em
+  margin: 0 auto
+  left: 0
+  top: 37em
+  bottom: 0
+  right: 0
+  margin-bottom: 5em
+
+.manageBtnWrap
+
+.login
+  min-height: 2.5em
+  min-width: 2em
+  border-radius: 0.5em
+  border: 5px solid $darkNavy
+  cursor: pointer
+  padding: 0.3em
+  margin-bottom: 0.7em
+  transition: all 0.5s ease-in-out
+  p
+    font-size: 20px
+    margin: 0
+    padding: 0
+    line-height: 1.1em
+    text-align: center
+    font-family: 'Montserrat', sans-serif
+    color: $darkNavy
+    overflow: auto
+    transition: all 0.5s ease-in-out
+  i
+    color: $facebookBlue
+    transition: all 0.5s ease-in-out
+  &:hover
+    background-color: $darkNavy
+    color: $bgColor
+    transition: all 0.5s ease-in-out
+    p
+      color: $bgColor
+      transition: all 0.5s ease-in-out
+    i
+      color: $bgColor
+      transition: all 0.5s ease-in-out
+  &:active
+    color: $darkNavy
+    p
+      color: $bgColor
+
+// END LOGIN AND ICON
+
+// BEGIN selling-points
+
+section.selling-points
+  position: relative
+  // max-height: 1em
+  top: 15em
+
+.point
+  display: table-cell
+  position: relative
+  width: 33.3%
+  padding: 2rem
+  text-align: center
+  color: #3f4e62
+  opacity: 1
+  -webkit-transform: scaleX(0.9) translateY(3rem)
+  -moz-transform: scaleX(0.9) translateY(3rem)
+  transform: scaleX(0.9) translateY(3rem)
+
+.point .point-title
+  font-size: 1.25rem
+
+.fa-calculator, .fa-thumbs-o-up, .fa-folder-open-o
+  color: $darkNavy
+  font-size: 5rem

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import '../css/user.min.css';
-
+import { Intent, Button, NumericInput } from "@blueprintjs/core";
+// import * as Blueprint from "@blueprintjs/core";
 
 class AddStudentForm extends React.Component {
   constructor() {
@@ -104,20 +104,20 @@ class AddStudentForm extends React.Component {
       <form ref={(input) => this.studentForm = input} className="" onSubmit={(e) => this.createStudent(e)}>
         <div className="form-fields marginRight marginLeft col-lg-12 col-md-12 col-sm-12 col-xs-12">
           <div className="nameAndExtend col-lg-4 col-md-4 col-sm-4 col-xs-12">
-            <div className="nameForm smallWidthMargin col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <div className="nameForm smallWidthMargin col-lg-6 col-md-6 col-sm-6 col-xs-12">
               <div className="form-group">
                 <input ref={(input) => this.name = input} type="text" placeholder="student name" />
               </div>
             </div>
-          </div>
-          <div className="form-group extendForm smallWidthMargin col-lg-6 col-md-6 col-sm-6 col-xs-12">
-            <select type="select" name="select" ref={(input) => this.extendTime = input}>
-              <option value="1">1</option>
-              <option value="1.5">1.5</option>
-              <option value="2">2</option>
-              <option value="2.5">2.5</option>
-              <option value="3">3</option>
-            </select>
+            <div className="form-group extendForm smallWidthMargin col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <select type="select" name="select" ref={(input) => this.extendTime = input}>
+                <option value="1">1</option>
+                <option value="1.5">1.5</option>
+                <option value="2">2</option>
+                <option value="2.5">2.5</option>
+                <option value="3">3</option>
+              </select>
+            </div>
           </div>
 {/*BEGIN A test and B test*/}
           <div className="testOneAndTwo col-lg-4 col-md-4 col-sm-4 col-xs-12">
@@ -134,6 +134,12 @@ class AddStudentForm extends React.Component {
                   {/* <TimePicker defaultValue={moment('13:30:56', 'HH:mm')} ref={(input) => this.AtestTime = input} /> */}
                   {/* <TimePicker defaultValue={moment('01:00:00', format)} ref={(input) => this.AtestTime = moment(input, format)} format={format} /> */}
                   {/* <TimePicker ref={(input) => this.AtestTime = input} /> */}
+                  <NumericInput ref={(input) => this.AtestTime = input}
+                                stepSize="5"
+                                buttonPosition="left"
+                                placeholder="1"
+                                allowNumericCharactersOnly="true"
+                  />
                 </div>
               </div>
             </div>
@@ -190,7 +196,7 @@ class AddStudentForm extends React.Component {
 {/*END A test and B test*/}
         </div>
         <div className="btn-div col-lg-12 col-md-12 col-sm-12 col-xs-12">
-          <button type="submit" className="addStudentBtn"></button>
+          <button type="submit" className="addStudentBtn"> add student</button>
         </div>
       </form>
     )
