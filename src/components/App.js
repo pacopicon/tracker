@@ -6,7 +6,6 @@ import UserPage from './UserPage';
 import Student from './Student';
 import sampleStudentes from '../sample-students.js';
 import rebase from '../base';
-import { Button, Form, FormGroup, Label, Input, FormText, Container, Row, Col } from 'reactstrap';
 
 class App extends React.Component {
   constructor() {
