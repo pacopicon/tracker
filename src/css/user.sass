@@ -525,12 +525,14 @@ hr
   margin-bottom: 1em
   min-height: 2em
 
+.nameAndExtend, .testOneAndTwo, .testThreeAndFour
+  min-height: 2em
+
 .nameAndExtend
   float: left
   margin-right: 0
   padding-right: 0
   padding-left: 15px
-  min-height: 2.6em
   @media only screen and (max-width : 844px)
     padding-right: 15px
 
@@ -538,26 +540,28 @@ hr
   @media only screen and (max-width : 844px)
     margin-bottom: 7.5px
 
+.nameForm, .extendForm, input, select, .hour, .minute,
+  height: 2em
+
 .nameForm
   float: left
   padding-left: 3.75px
   padding-right: 3.75px
-  height: 1em
-
-.nameInput
-  width: 100%
-
-.form-control
 
 .extendForm
   float: right
   @extend .nameForm
 
-.tip
-  width: 0
-  height: 0
-  margin: 0
-  padding: 0
+input
+  border-radius: 0.25em
+  border-style: ridge
+  width: 100%
+
+// .tip
+//   width: 0
+//   height: 0
+//   margin: 0
+//   padding: 0
 
 .extendInput
   width: 100%
@@ -577,7 +581,6 @@ hr
 
 .testOneAndTwo
   float: left
-  min-height: 2.6em
   padding-left: 0
   padding-right: 0
   @media only screen and (max-width : 844px)
@@ -586,7 +589,6 @@ hr
 
 .testThreeAndFour
   float: right
-  min-height: 2.6em
   padding-left: 0
   @media only screen and (max-width : 844px)
     padding-left: 10.5px
@@ -594,21 +596,82 @@ hr
 
 .testNameInput
 
+.hour
+  width: 2.5em
+
+.minute
+  width: 3em
+
+
+
+
+.quantity
+  position: relative
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button
+
+  -webkit-appearance: none
+  margin: 0
+
+input[type=number]
+
+  -moz-appearance: textfield
+
+.quantity input
+  width: 45px
+  height: 42px
+  line-height: 1.65
+  float: left
+  display: block
+  padding: 0
+  margin: 0
+  padding-left: 7px
+  border: 1px solid #eee
+
+.quantity input:focus
+  outline: 0
+
+.quantity-nav
+  float: left
+  position: relative
+  height: 42px
+
+.quantity-button
+  position: relative
+  cursor: pointer
+  border-left: 1px solid #eee
+  width: 20px
+  text-align: center
+  color: #333
+  font-size: 13px
+  font-family: "Trebuchet MS", Helvetica, sans-serif !important
+  line-height: 1.7
+  -webkit-transform: translateX(-100%)
+  transform: translateX(-100%)
+  -webkit-user-select: none
+  -moz-user-select: none
+  -ms-user-select: none
+  -o-user-select: none
+  user-select: none
+
+.quantity-button.quantity-up
+  position: absolute
+  height: 50%
+  top: 0
+  border-bottom: 1px solid #eee
+
+.quantity-button.quantity-down
+  position: absolute
+  bottom: -1px
+  height: 50%
+
+
+
+
 .testTimeForm
   width: 52%
   float: right
-
-.pt-input-group, .pt-input
-  width: 1.4em
-  border-radius: 0.2em
-  border-style: solid 1px
-
-.pt-input
-  float: left
-
-.pt-button-group
-  float: right
-
 
 .inlineTestTimeForm
   width: 25%
@@ -618,7 +681,8 @@ hr
   padding-left: 0.9
   padding-bottom: 10em
 
-.addStudentBtn, .addTestBtn
+.addStudentBtn
+  margin-top: 20em
   border-radius: 1em
   min-height: 2em
   border: 2.5px solid $bsBlue

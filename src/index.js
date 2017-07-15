@@ -5,7 +5,7 @@ import { render } from 'react-dom';
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import rebase from './base';
-import 'bootstrap/dist/css/bootstrap.css';
+// import 'bootstrap/dist/css/bootstrap.css';
 
 
 import './css/landing.min.css';

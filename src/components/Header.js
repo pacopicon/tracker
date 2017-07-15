@@ -2,7 +2,6 @@ import React from 'react';
 import rebase from '../base';
 import PropTypes from 'prop-types';
 import Landing from './Landing';
-import { Button, Form, FormGroup, Label, Input, FormText, Container, Row, Col } from 'reactstrap';
 
 class Header extends React.Component {
   constructor() {
@@ -53,9 +52,9 @@ class Header extends React.Component {
         <span> </span>
         <span> </span>
       </button>
-      <Col className="hidden-sm-down navbar-brand" lg="3" md="3" sm="3" xs="12">
+      <div className="hidden-sm-down navbar-brand col-lg-3 col-md-3 col-sm-3 col-xs-12">
         <b><p className="navHeading">TestTrakker</p></b>
-      </Col>
+      </div>
       <div className="collapse navbar-collapse" id="collapsingNavbar">
         <ul className="nav navbar-nav">
           <li className="nav-item">
