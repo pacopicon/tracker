@@ -12,7 +12,7 @@ class App extends React.Component {
     super();
     this.addStudent = this.addStudent.bind(this);
     this.loadSamples = this.loadSamples.bind(this);
-    this.addToOrder = this.addToOrder.bind(this);
+    // this.addToOrder = this.addToOrder.bind(this);
     this.updateStudent = this.updateStudent.bind(this);
     this.removeStudent = this.removeStudent.bind(this);
     this.removeFromOrder = this.removeFromOrder.bind(this);
@@ -23,7 +23,7 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    this.ref = rebase.base.syncState(`users/${this.props.match.params.userID}/students`, {
+    this.ref = rebase.base.syncState(`${this.props.match.params.userID}/students`, {
       context: this,
       state: 'students'
     });
@@ -48,6 +48,7 @@ class App extends React.Component {
     // this is more standard, grabbing the state and updating it: this.setState({ students: students})
     // the below is the most advanced syntax, ES6
     this.setState({ students });
+    console.log("this.state.students = ", this.state.students);
   }
 
   updateStudent(key, updatedStudent) {
@@ -68,15 +69,15 @@ class App extends React.Component {
     })
   }
 
-  addToOrder(key) {
-    // take a copy of our state
-    const order = {...this.state.order}
-    // update or add the new number of student ordered
-    order[key] = order[key] + 1 || 1;
-    // update our state
-    // this.setState({order: order});
-    this.setState({ order });
-  }
+  // addToOrder(key) {
+  //   // take a copy of our state
+  //   const order = {...this.state.order}
+  //   // update or add the new number of student ordered
+  //   order[key] = order[key] + 1 || 1;
+  //   // update our state
+  //   // this.setState({order: order});
+  //   this.setState({ order });
+  // }
 
   removeFromOrder(key) {
     const order = {...this.state.order}
@@ -91,21 +92,16 @@ class App extends React.Component {
           <Header
             age="5000"
             state={this.state}/>
-          <ul className="list-of-students">
+          <div className="row studentDisplay marginLeft marginRight col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            {/* ng-repeat="student in students" ng-mouseleave="hover = false" */}
             {
               Object
                 .keys(this.state.students)
-                .map(key => <Student key={key} index={key} details={this.state.students[key]} addToOrder={this.addToOrder}/>)
-
+                .map(key => <Student key={key} index={key} details={this.state.students[key]} updateStudent={this.updateStudent} removeStudent={this.removeStudent}/>)
             }
             {/* .keys() extracts the keys from an object and pushes them all into an array.  .map() iterates over this array. */}
-          </ul>
+          </div>
         </div>
-        {/* <Order
-          students={this.state.students} order={this.state.order}
-          params={this.props.match.params}
-          removeFromOrder={this.removeFromOrder}
-        /> */}
         <UserPage
           students={this.state.students}
           addStudent={this.addStudent}

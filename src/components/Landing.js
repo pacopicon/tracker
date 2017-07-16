@@ -5,9 +5,6 @@ import { database } from 'firebase';
 import rebase from '../base';
 import PropTypes from 'prop-types';
 import big from '../assets/images/big.png';
-import { Button, Form, FormGroup, Label, Input, FormText, Container, Row, Col } from 'reactstrap';
-
-
 
 class Landing extends React.Component {
   constructor() {
@@ -74,7 +71,8 @@ class Landing extends React.Component {
 
     // grab the store info
     const user = authData.user;
-    const userRef = database(rebase.app).ref().child(`users/${user.uid}`);
+    // const userRef = database(rebase.app).ref().child(`users/${user.uid}`);
+    const userRef = database(rebase.app).ref(user.uid);
 
     // query the firebase once for the store data
     userRef.once('value', (snapshot) => {
@@ -125,32 +123,32 @@ class Landing extends React.Component {
 
     return (
       <section>
-        <Col className="hero-content">
+        <div className="hero-content">
             <img className="pencilPic" src={big} />
-        </Col>
+        </div>
 
 {/* BEGIN oAuth LOGIN */}
-        <Col className="link-container">
+        <div className="link-container">
           <div className="login" onClick={() => this.authenticate(fbprovider)}><p>log in with <i className="fa fa-facebook-square" aria-hidden="true"></i></p></div>
-        </Col>
+        </div>
 {/* END oAuth LOGIN */}
-        <Col className="selling-points container clearfix" lg="12" md="12" sm="12" xs="12">
-          <Col className="point column third" lg="4" md="4" sm="4" xs="4">
+        <div className="selling-points container clearfix col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div className="point column third col-lg-4 col-md-4 col-sm-4 col-xs-4">
             <i className="fa fa-calculator" aria-hidden="true"></i>
             <h5 className="point-title">Modular Math?</h5>
             <p className="point-description">When does a 135-minute test with a 1.5 time extention that began at 11:37am end? Let {title} do test time math for you!</p>
-          </Col>
-          <Col className="point column third" lg="4" md="4" sm="4" xs="4">
+          </div>
+          <div className="point column third col-lg-4 col-md-4 col-sm-4 col-xs-4">
             <i className="fa fa-thumbs-o-up" aria-hidden="true"></i>
             <h5 className="point-title">Un-complicate!</h5>
             <p className="point-description">Keep track of students in extended time testing with different time extensions, start times, and tests.</p>
-          </Col>
-          <Col className="point column third" lg="4" md="4" sm="4" xs="4">
+          </div>
+          <div className="point column third col-lg-4 col-md-4 col-sm-4 col-xs-4">
             <i className="fa fa-folder-open-o" aria-hidden="true"></i>
             <h5 className="point-title">Record-friendly</h5>
             <p className="point-description">{title} organizes important information in an easy-to-print format for your records.</p>
-          </Col>
-        </Col>
+          </div>
+        </div>
       </section>
     )
 

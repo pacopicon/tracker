@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import NumericInput from 'react-numeric-input';
 import $ from 'jquery'
-// import { Intent, Button, NumericInput,  } from "@blueprintjs/core";
-// import * as Blueprint from "@blueprintjs/core";
 
 class AddStudentForm extends React.Component {
   constructor() {
@@ -20,58 +18,11 @@ class AddStudentForm extends React.Component {
   createStudent(event) {
     event.preventDefault();
 
-    // if (typeof testOneName === "undefined") {
-    //       testOneName = '';
-    // }
-    // if (typeof testTwoName === "undefined") {
-    //   testTwoName = '';
-    // }
-    // if (typeof testThreeName === "undefined") {
-    //   testThreeName = '';
-    // }
-    // if (typeof testFourName === "undefined") {
-    //   testFourName = '';
-    // }
-
-    // if (typeof this.AtestHour.value === "undefined" || typeof this.AtestMinute.value === "undefined") {
-    //   const AtestTimeNum = 18000000;
-    //   AtestTotalTime = 0;
-    // } else if (this.AtestHour.value && this.AtestMinute.value) {
-    //   const AtestTimeNum = addHoursAndMinutes(this.AtestHour.value, this.AtestMinute.value);
-    //   const AtestTotalTime = AtestTimeNum * this.extendTime.value;
-    // }
-    // if (typeof this.BtestHour.value === "undefined" || typeof this.BtestMinute.value === "undefined") {
-    //   const BtestTimeNum = 18000000;
-    //   const BtestTotalTime = 0;
-    // } else if (this.BtestHour.value && this.BtestMinute.value) {
-    //   const BtestTimeNum = addHoursAndMinutes(this.BtestHour.value, this.BtestMinute.value);
-    //   const BtestTotalTime = BtestTimeNum * this.extendTime.value;
-    // }
-    // if (typeof this.CtestHour.value === "undefined" || typeof this.CtestMinute.value === "undefined") {
-    //   const CtestTimeNum = 18000000;
-    //   const CtestTotalTime = 0;
-    // } else if (this.CtestHour.value && this.CtestMinute.value) {
-    //   const CtestTimeNum = addHoursAndMinutes(this.CtestHour.value, this.CtestMinute.value);
-    //   const CtestTotalTime = CtestTimeNum * this.extendTime.value;
-    // }
-    // if (typeof this.DtestHour.value === "undefined" || typeof this.DtestMinute.value === "undefined") {
-    //   const DtestTimeNum = 18000000;
-    //   const DtestTotalTime = 0;
-    // } else if (this.DtestHour.value && this.DtestMinute.value) {
-    //   const DtestTimeNum = addHoursAndMinutes(this.DtestHour.value, this.DtestMinute.value);
-    //   const DtestTotalTime = DtestTimeNum * this.extendTime.value;
-    // }
-
     console.log("this.AtestHour.value = ", this.AtestHour.value);
     console.log("this.AtestMinute.value = ", this.AtestMinute.value);
-    // console.log("this.BtestHour.value = ", this.BtestHour.value);
-    // console.log("this.BtestMinute.value = ", this.BtestMinute.value);
-    // console.log("this.CtestHour.value = ", this.CtestHour.value);
-    // console.log("this.CtestMinute.value = ", this.CtestMinute.value);
-    // console.log("this.DtestHour.value = ", this.DtestHour.value);
-    // console.log("this.DtestMinute.value = ", this.DtestMinute.value);
 
     const student = {
+      order: Object.keys(this.props.students).length,
       name: this.name.value,
       extendTime: this.extendTime.value,
       tests: {
@@ -137,6 +88,64 @@ class AddStudentForm extends React.Component {
       isSafeToDelete: false,
       created_at: Date.now().toString()
     }
+
+    // const student = {
+    //   name: this.name.value,
+    //   extendTime: this.extendTime.value,
+    //   Aname: this.AtestName.value,
+    //   Atime: this.addHoursAndMinutes(this.AtestHour.value, this.AtestMinute.value) || 18000000,
+    //   Atotal: this.addHoursAndMinutes(this.AtestHour.value, this.AtestMinute.value) * this.extendTime.value || 0,
+    //   AstartRec: 0,
+    //   AstartTime: 0,
+    //   AisTimerStart: false,
+    //   AisTimerPaused: false,
+    //   ApausedTime: 0,
+    //   ApausedTotal: 0,
+    //   AisTestOver: false,
+    //   AtestEndedAt: 0,
+    //   Bname: this.BtestName.value,
+    //   // time: this.addHoursAndMinutes(this.BtestHour.value, this.BtestMinute.value) || 18000000,
+    //   // total: this.addHoursAndMinutes(this.BtestHour.value, this.BtestMinute.value) * this.extendTime.value || 0,
+    //   Btime: (typeof this.BtestHour === "undefined") ? 18000000 : this.addHoursAndMinutes(this.BtestHour.value, this.BtestMinute.value),
+    //   Btotal: (typeof this.BtestHour === "undefined") ? 0 : this.addHoursAndMinutes(this.BtestHour.value, this.BtestMinute.value) * this.extendTime.value,
+    //   BstartRec: 0,
+    //   BstartTime: 0,
+    //   BisTimerStart: false,
+    //   BisTimerPaused: false,
+    //   BpausedTime: 0,
+    //   BpausedTotal: 0,
+    //   BisTestOver: false,
+    //   BtestEndedAt: 0,
+    //   Cname: this.CtestName.value,
+    //   // time: this.addHoursAndMinutes(this.CtestHour.value, this.CtestMinute.value) || 18000000,
+    //   // total: this.addHoursAndMinutes(this.CtestHour.value, this.CtestMinute.value) * this.extendTime.value || 0,
+    //   Ctime: (typeof this.CtestHour === "undefined") ? 18000000 : this.addHoursAndMinutes(this.CtestHour.value, this.CtestMinute.value),
+    //   Ctotal: (typeof this.CtestHour === "undefined") ? 0 : this.addHoursAndMinutes(this.CtestHour.value, this.CtestMinute.value) * this.extendTime.value,
+    //   CstartRec: 0,
+    //   CstartTime: 0,
+    //   CisTimerStart: false,
+    //   CisTimerPaused: false,
+    //   CpausedTime: 0,
+    //   CpausedTotal: 0,
+    //   CisTestOver: false,
+    //   CtestEndedAt: 0,
+    //   Dname: this.DtestName.value,
+    //   // time: this.addHoursAndMinutes(this.DtestHour.value, this.DtestMinute.value) || 18000000,
+    //   // total: this.addHoursAndMinutes(this.DtestHour.value, this.DtestMinute.value) * this.extendTime.value || 0,
+    //   Dtime: (typeof this.DtestHour === "undefined") ? 18000000 : this.addHoursAndMinutes(this.DtestHour.value, this.DtestMinute.value),
+    //   Dtotal: (typeof this.DtestHour === "undefined") ? 0 : this.addHoursAndMinutes(this.DtestHour.value, this.DtestMinute.value) * this.extendTime.value,
+    //   DstartRec: 0,
+    //   DstartTime: 0,
+    //   DisTimerStart: false,
+    //   DisTimerPaused: false,
+    //   DpausedTime: 0,
+    //   DpausedTotal: 0,
+    //   DisTestOver: false,
+    //   DtestEndedAt: 0,
+    //   isSafeToDelete: false,
+    //   created_at: Date.now().toString()
+    // }
+
     this.props.addStudent(student);
     this.studentForm.reset();
   }
@@ -175,9 +184,19 @@ class AddStudentForm extends React.Component {
       btnUp.click(function() {
         var oldValue = parseFloat(input.val());
         if (oldValue >= max) {
-          var newVal = min;
+          // if(oldValue < 10) {
+            // var newVal = '0' + min;
+            var newVal = min;
+          // } else {
+            // var newVal = min;
+          // }
         } else {
-          var newVal = oldValue + 1 * step;
+          // if(oldValue < 10 && oldValue != step) {
+          if(oldValue == 0 && step == 5) {
+            var newVal = '0' + (oldValue + 1 * step);
+          } else {
+            var newVal = oldValue + 1 * step;
+          }
         }
         spinner.find("input").val(newVal);
         spinner.find("input").trigger("change");
@@ -186,9 +205,18 @@ class AddStudentForm extends React.Component {
       btnDown.click(function() {
         var oldValue = parseFloat(input.val());
         if (oldValue <= min) {
-          var newVal = max;
+          // if(oldValue < 10) {
+            // var newVal = '0' + max;
+          // } else {
+            var newVal = max;
+          // }
         } else {
-          var newVal = oldValue - 1 * step;
+          // if(oldValue < 10) {
+          if((oldValue == 10 || oldValue == 5) && step == 5) {
+            var newVal = '0' + (oldValue - 1 * step);
+          } else {
+            var newVal = oldValue - 1 * step;
+          }
         }
         spinner.find("input").val(newVal);
         spinner.find("input").trigger("change");
@@ -203,8 +231,10 @@ class AddStudentForm extends React.Component {
       <form ref={(input) => this.studentForm = input} className="" onSubmit={(e) => this.createStudent(e)}>
         <div className="form-fields marginRight marginLeft col-lg-12 col-md-12 col-sm-12 col-xs-12">
           <div className="nameAndExtend col-lg-2 col-md-2 col-sm-2 col-xs-12">
-            <div className="nameForm smallWidthMargin form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
-              <input className="nameInput" ref={(input) => this.name = input} type="text" placeholder="student name" />
+            <div className="nameForm smallWidthMargin col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <div className="form-group">
+                <input className="form-control nameInput" ref={(input) => this.name = input} type="text" placeholder="student name" />
+              </div>
             </div>
             <div className="extendForm smallWidthMargin form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
               <select className="extendInput" type="select" name="select" ref={(input) => this.extendTime = input}>
@@ -226,17 +256,12 @@ class AddStudentForm extends React.Component {
                 </div>
               </div>
               <div className="testTimeForm smallWidthMargin col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                  {/* <NumericInput ref={(value) => this.AtestHour = value} className="hour" min={0} max={6} value={0} /> :
-                  <NumericInput ref={(value) => this.AtestMinute = value} className="minute" min={0} max={60} step={5} value={0} /> */}
-                  {/* {this.renderNumberPicker(this.AtestHour, this.AtestMinute)} */}
-                  {/* <input type="number" min="0" max="6" step="1" ref={(input) => this.AtestHour = input}/>
-                  <input type="number" min="0" max="59" step="5" ref={(input) => this.AtestHour = input}/> */}
-                  <div className="quantity">
-                    <input type="number" min="0" max="6" step="1" value="0" ref={(input) => this.AtestHour = input}/>
-                  </div>
-                  <div className="quantity">
-                    <input type="number" min="0" max="55" step="5" value="0" ref={(input) => this.AtestMinute = input}/>
-                  </div>
+                <div className="quantity">
+                  <input type="number" min="0" max="6" step="1" value="0" ref={(input) => this.AtestHour = input}/>
+                </div>
+                <div className="quantity">
+                  <input type="number" min="00" max="55" step="5" value="00" ref={(input) => this.AtestMinute = input}/>
+                </div>
               </div>
             </div>
             {/* <div>{this.renderTestForm(this.BtestName, this.BtestTime)}</div> */}
@@ -247,9 +272,11 @@ class AddStudentForm extends React.Component {
                 </div>
               </div>
               <div className="testTimeForm smallWidthMargin col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                <div className="form-group">
-                  {/* <NumericInput ref={(input) => this.BtestHour = input} className="hour" min={0} max={6} /> :
-                  <NumericInput ref={(input) => this.BtestMinute = input} className="minute" min={0} max={60} step={5} /> */}
+                <div className="quantity">
+                  <input type="number" min="0" max="6" step="1" value="0" ref={(input) => this.AtestHour = input}/>
+                </div>
+                <div className="quantity">
+                  <input type="number" min="00" max="55" step="5" value="00" ref={(input) => this.AtestMinute = input}/>
                 </div>
               </div>
             </div>
@@ -265,9 +292,11 @@ class AddStudentForm extends React.Component {
                 </div>
               </div>
               <div className="testTimeForm smallWidthMargin col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                <div className="form-group">
-                  {/* <NumericInput ref={(input) => this.CtestHour = input} className="hour" min={0} max={6} /> :
-                  <NumericInput ref={(input) => this.CtestMinute = input} className="minute" min={0} max={60} step={5} /> */}
+                <div className="quantity">
+                  <input type="number" min="0" max="6" step="1" value="0" ref={(input) => this.AtestHour = input}/>
+                </div>
+                <div className="quantity">
+                  <input type="number" min="00" max="55" step="5" value="00" ref={(input) => this.AtestMinute = input}/>
                 </div>
               </div>
             </div>
@@ -279,9 +308,11 @@ class AddStudentForm extends React.Component {
                 </div>
               </div>
               <div className="testTimeForm smallWidthMargin col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                <div className="form-group">
-                {/* <NumericInput ref={(input) => this.DtestHour = input} className="hour" min={0} max={6} /> :
-                <NumericInput ref={(input) => this.DtestMinute = input} className="minute" min={0} max={60} step={5} /> */}
+                <div className="quantity">
+                  <input type="number" min="0" max="6" step="1" value="0" ref={(input) => this.AtestHour = input}/>
+                </div>
+                <div className="quantity">
+                  <input type="number" min="00" max="55" step="5" value="00" ref={(input) => this.AtestMinute = input}/>
                 </div>
               </div>
             </div>

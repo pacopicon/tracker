@@ -540,13 +540,14 @@ hr
   @media only screen and (max-width : 844px)
     margin-bottom: 7.5px
 
-.nameForm, .extendForm, input, select, .hour, .minute,
-  height: 2em
+.nameForm, .extendForm, input, select, .hour, .minute, .quantity input, .form-control
+  height: 42px !important
 
 .nameForm
   float: left
   padding-left: 3.75px
   padding-right: 3.75px
+  margin: 0
 
 .extendForm
   float: right
@@ -554,14 +555,8 @@ hr
 
 input
   border-radius: 0.25em
-  border-style: ridge
+  // border-style: ridge
   width: 100%
-
-// .tip
-//   width: 0
-//   height: 0
-//   margin: 0
-//   padding: 0
 
 .extendInput
   width: 100%
@@ -596,13 +591,6 @@ input
 
 .testNameInput
 
-.hour
-  width: 2.5em
-
-.minute
-  width: 3em
-
-
 
 
 .quantity
@@ -619,8 +607,8 @@ input[type=number]
   -moz-appearance: textfield
 
 .quantity input
-  width: 45px
-  height: 42px
+  width: 50%
+  // height: 42px
   line-height: 1.65
   float: left
   display: block

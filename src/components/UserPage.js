@@ -3,6 +3,7 @@ import AddStudentForm from './AddStudentForm';
 import PropTypes from 'prop-types';
 import rebase from '../base';
 import firebase from 'firebase';
+import Student from './Student';
 import App from './App';
 
 
@@ -10,7 +11,7 @@ class UserPage extends React.Component {
 
   constructor() {
     super();
-    this.renderUserPage = this.renderUserPage.bind(this);
+    // this.renderUserPage = this.renderUserPage.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.logout = this.logout.bind(this);
   }
@@ -32,22 +33,23 @@ class UserPage extends React.Component {
     this.props.updateStudent(key, updatedStudent);
   }
 
-  renderUserPage(key) {
-    const student = this.props.students[key];
-    return (
-      <div key={key} className="student-edit">
-        <input type="text" name="name" value={student.name} placeholder="Student Name" onChange={(e) => this.handleChange(e, key)} />
-        <input type="text" name="price" value={student.price} placeholder="Student Price" onChange={(e) => this.handleChange(e, key)} />
-        <select type="text" name="status" value={student.status} placeholder="Student Status" onChange={(e) => this.handleChange(e, key)} >
-          <option value="available">Fresh!</option>
-          <option value="unavailable">Sold Out!</option>
-        </select>
-        <textarea type="text" name="desc" value={student.desc} placeholder="Student Desc" onChange={(e) => this.handleChange(e, key)} ></textarea>
-        <input type="text" name="image"  value={student.image} placeholder="Student Image" onChange={(e) => this.handleChange(e, key)} />
-        <button onClick={ () => this.props.removeStudent(key)}>Remove Student</button>
-      </div>
-    )
-  }
+  // renderUserPage(key) {
+  //   const student = this.props.students[key];
+  //   return (
+  //     <div key={key} className="student-edit">
+  //       shitskies!
+  //       <input type="text" name="name" value={student.name} placeholder="Student Name" onChange={(e) => this.handleChange(e, key)} />
+  //       <input type="text" name="price" value={student.price} placeholder="Student Price" onChange={(e) => this.handleChange(e, key)} />
+  //       <select type="text" name="status" value={student.status} placeholder="Student Status" onChange={(e) => this.handleChange(e, key)} >
+  //         <option value="available">Fresh!</option>
+  //         <option value="unavailable">Sold Out!</option>
+  //       </select>
+  //       <textarea type="text" name="desc" value={student.desc} placeholder="Student Desc" onChange={(e) => this.handleChange(e, key)} ></textarea>
+  //       <input type="text" name="image"  value={student.image} placeholder="Student Image" onChange={(e) => this.handleChange(e, key)} />
+  //       <button onClick={ () => this.props.removeStudent(key)}>Remove Student</button>
+  //     </div>
+  //   )
+  // }
 
   render() {
     // the long way: const logout = <button onClick={ () => this.logout()}>Log Out!</button>;
@@ -58,9 +60,16 @@ class UserPage extends React.Component {
       <div>
         <h2>UserPage</h2>
         {logout}
-        {Object.keys(this.props.students).map(this.renderUserPage)}
-        <AddStudentForm addStudent={this.props.addStudent} />
-        <button onClick={this.props.loadSamples}>Load Sample Studentes</button>
+        {/* {
+          Object
+            .keys(this.props.students)
+            .map(this.renderUserPage)
+        } */}
+        <AddStudentForm
+            addStudent={this.props.addStudent}
+            students={this.props.students}
+        />
+        {/* <button onClick={this.props.loadSamples}>Load Sample Studentes</button> */}
       </div>
     )
   }
