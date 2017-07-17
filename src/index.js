@@ -26,7 +26,8 @@ const Root = () => {
         {/* <Match exactly pattern="/" component={Landing} /> */}
         {/* <Match pattern="/UserPage/:storeID" component={App} /> */}
         <Route exact path="/" component={Landing} />
-        <Route path="/UserPage/:userID" component={App} />
+        {/* <Route path="/UserPage/:userID" component={App} /> */}
+        <Route path="/App/:userID" component={App} />
         <Route component={NotFound} />
       </Switch>
     </BrowserRouter>

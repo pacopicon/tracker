@@ -1,29 +1,135 @@
-export function formatPrice(cents) {
-  return `$${(cents / 100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`;
-  // \B = Find a match not at the beginning/end of a word
-  // ?=n = Matches any string followed by a specific string n [here: ?=(...)]
-  // \d{3} = Find and match a digit string sequence of 3 characters
-  // ?!\d = Find and match a string that is NOT [!] followed by a digit string.
-  // g = Perform a global match (find all matches rather than stopping after the first match)
+export function mountNumberInput() {
+  return componentDidMount() {
+
+    $('<div class="quantity-nav"><div class="quantity-button quantity-up">+</div><div class="quantity-button quantity-down">-</div></div>').insertAfter('.quantity input');
+    $('.quantity').each(function() {
+      var spinner = $(this),
+        input = spinner.find('input[type="number"]'),
+        btnUp = spinner.find('.quantity-up'),
+        btnDown = spinner.find('.quantity-down'),
+        min = input.attr('min'),
+        max = input.attr('max'),
+        step = input.attr('step');
+
+      btnUp.click(function() {
+        var oldValue = parseFloat(input.val());
+        if (oldValue >= max) {
+          // if(oldValue < 10) {
+            // var newVal = '0' + min;
+            var newVal = min;
+          // } else {
+            // var newVal = min;
+          // }
+        } else {
+          // if(oldValue < 10 && oldValue != step) {
+          if(oldValue == 0 && step == 5) {
+            var newVal = '0' + (oldValue + 1 * step);
+          } else {
+            var newVal = oldValue + 1 * step;
+          }
+        }
+        spinner.find("input").val(newVal);
+        spinner.find("input").trigger("change");
+      });
+
+      btnDown.click(function() {
+        var oldValue = parseFloat(input.val());
+        if (oldValue <= min) {
+          // if(oldValue < 10) {
+            // var newVal = '0' + max;
+          // } else {
+            var newVal = max;
+          // }
+        } else {
+          // if(oldValue < 10) {
+          if((oldValue == 10 || oldValue == 5) && step == 5) {
+            var newVal = '0' + (oldValue - 1 * step);
+          } else {
+            var newVal = oldValue - 1 * step;
+          }
+        }
+        spinner.find("input").val(newVal);
+        spinner.find("input").trigger("change");
+      });
+
+    });
+  }
 }
 
-export function rando(arr) {
-  return arr[Math.floor(Math.random() * arr.length)];
+export function addHoursAndMinutes(hours, minutes) {
+  var timeInMillisecs = (hours * 60 * 60 * 1000) + (minutes * 60 * 1000);
+  return timeInMillisecs;
 }
 
-export function slugify(text) {
-  return text.toString().toLowerCase()
-    .replace(/s+/g, '-') // /s+ = Find at least one whitespace character.  Replace spaces with -
-    .replace(/[^\w\-]+/g, '') // Find and match anyt character that is not a word character {[^] = Find anything not in the brackets, \w = find a word character }.  Remov all non-word chars
-    .replace(/\-\-+/g, '-')  // Replace multiple - with single -
-    .replace(/^-+/, '') // Trim - from start of text
-    .replace(/-+$/, ''); // Trim - from end of text
-}
+export function parseTime(timeInMillisecs) {
+  // 'time' has to be in milliseconds
+  // var millisecsInYear = 12 * 30.4166 * 24 * 60 * 60 * 1000;
+  var millisecsInYear = 31535930880;
+  // var millisecsInMonth = 30.4166 * 24 * 60 * 60 * 1000;
+  var millisecsInMonth = 2627994239.9999995;
+  // var millisecsInDay = 24 * 60 * 60 * 1000;
+  var millisecsInDay = 86400000;
+  // var millisecsInHour = 60 * 60 * 1000;
+  var millisecsInHour = 3600000;
+  // var millisecsInMinute = 60 * 1000;
+  var millisecsInMinute = 60000;
+  var millisecsInSecs = 1000;
 
-export function getFunName() {
-  const adjectives = ['adorable', 'beautiful', 'clean', 'drab', 'elegant', 'fancy', 'glamorous', 'handsome', 'long', 'magnificent', 'old-fashioned', 'plain', 'quaint', 'sparkling', 'ugliest', 'unsightly', 'angry', 'bewildered', 'clumsy', 'defeated', 'embarrassed', 'fierce', 'grumpy', 'helpless', 'itchy', 'jealous', 'lazy', 'mysterious', 'nervous', 'obnoxious', 'panicky', 'repulsive', 'scary', 'thoughtless', 'uptight', 'worried'];
+  if (timeInMillisecs < 0) {
+    var years = Math.abs(timeInMillisecs / millisecsInYear);
+    var lessThanYear = Math.abs(timeInMillisecs % millisecsInYear);
+    var months = Math.abs(lessThanYear / millisecsInMonth);
+    var lessThanMonth = Math.abs(lessThanYear % millisecsInMonth);
+    var days = Math.abs(lessThanMonth / millisecsInDay);
+    var lessThanDay = Math.abs(lessThanMonth % millisecsInDay);
+    var hours = Math.abs(lessThanDay / millisecsInHour);
+    var lessThanHour = Math.abs(lessThanDay % millisecsInHour);
+    var minutes = Math.abs(lessThanHour / millisecsInMinute);
+    var lessThanMinute = Math.abs(lessThanHour % millisecsInMinute);
+    var seconds = Math.abs(Math.round(lessThanMinute / millisecsInSecs));
+  } else {
+    var years = Math.floor(timeInMillisecs / millisecsInYear);
+    var lessThanYear = timeInMillisecs % millisecsInYear;
+    var months = Math.floor(lessThanYear / millisecsInMonth);
+    var lessThanMonth = lessThanYear % millisecsInMonth;
+    var days = Math.floor(lessThanMonth / millisecsInDay);
+    var lessThanDay = lessThanMonth % millisecsInDay;
+    var hours = Math.floor(lessThanDay / millisecsInHour);
+    var lessThanHour = lessThanDay % millisecsInHour;
+    var minutes = Math.floor(lessThanHour / millisecsInMinute);
+    var lessThanMinute = lessThanHour % millisecsInMinute;
+    var seconds = Math.round(lessThanMinute / millisecsInSecs);
 
-  const nouns = ['women', 'men', 'children', 'teeth', 'feet', 'people', 'leaves', 'mice', 'geese', 'halves', 'knives', 'wives', 'lives', 'elves', 'loaves', 'potatoes', 'tomatoes', 'cacti', 'foci', 'fungi', 'nuclei', 'syllabuses', 'analyses', 'diagnoses', 'oases', 'theses', 'crises', 'phenomena', 'criteria', 'data'];
+    var addZero = function(timeUnit) {
+      if (timeUnit == 0 || timeUnit == 1 || timeUnit == 2 || timeUnit == 3 || timeUnit == 4 || timeUnit == 5 || timeUnit == 6 || timeUnit == 7 || timeUnit == 8 || timeUnit == 9) {
+        return "0" + timeUnit;
+      // } else if (timeUnit == 60) {
+      //   return "00";
+      } else {
+        return timeUnit;
+      }
+    };
 
-  return `${rando(adjectives)}-${rando(adjectives)}-${rando(nouns)}`;
+    // var addZero = function(timeUnit) {
+    //
+    //   timeUnit = timeUnit - 1;
+    //
+    //   if (timeUnit == 0 || timeUnit == 1 || timeUnit == 2 || timeUnit == 3 || timeUnit == 4 || timeUnit == 5 || timeUnit == 6 || timeUnit == 7 || timeUnit == 8 || timeUnit == 9) {
+    //     return "0" + timeUnit;
+    //   } else {
+    //     return timeUnit;
+    //   }
+    // };
+  }
+
+  return {
+    total: timeInMillisecs,
+    year: years,
+    month: months,
+    day: days,
+    hour: hours,
+    minute: addZero(minutes),
+    second: addZero(seconds),
+    hourMinSec: hours + ":" + addZero(minutes) + ":" + addZero(seconds)
+  };
 }

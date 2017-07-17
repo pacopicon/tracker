@@ -9,6 +9,14 @@ class Header extends React.Component {
     this.logout = this.logout.bind(this);
     this.goToPrintPage = this.goToPrintPage.bind(this);
     this.goToTrackerPage = this.goToTrackerPage.bind(this);
+    this.getTeacherName = this.getTeacherName.bind(this);
+  }
+
+  getTeacherName(string) {
+    var string = string.trim();
+    var spaceIndex = string.indexOf(string.match(/\s/));
+    var lastName = string.slice(spaceIndex + 1, string.length);
+    return lastName;
   }
 
   goToPrintPage() {
@@ -32,6 +40,15 @@ class Header extends React.Component {
       this.props.history.replace(`/Landing`);
     }
   }
+
+  // another way: (from UserPage.js)
+
+  // logout() {
+  //   rebase.app.auth().signOut().then(() => {
+  //     console.log("should have been logged out");
+  //   });
+  //   this.setState({ uid: null });
+  // }
 
   goToTrackerPage() {
     rebase.app.auth().onAuthStateChanged((authData, error) => {
