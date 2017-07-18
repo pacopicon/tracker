@@ -10,6 +10,7 @@ import rebase from '../base';
 class App extends React.Component {
   constructor() {
     super();
+    this.logout = this.logout.bind(this);
     this.addStudent = this.addStudent.bind(this);
     this.updateStudent = this.updateStudent.bind(this);
     this.removeStudent = this.removeStudent.bind(this);
@@ -19,18 +20,39 @@ class App extends React.Component {
     this.addHoursAndMinutes = this.addHoursAndMinutes.bind(this);
     this.processTimeInput = this.processTimeInput.bind(this);
     this.toggleInvert = this.toggleInvert.bind(this);
+    this.saveAndToggleInvert = this.saveAndToggleInvert.bind(this);
     this.alertON = this.alertON.bind(this);
     this.alertOFF = this.alertON.bind(this);
+    this.clock = this.clock.bind(this);
+    this.dbTimeout = this.dbTimeout.bind(this);
+    this.dbTimeErase = this.dbTimeErase.bind(this);
+    this.warningRejection = this.warningRejection.bind(this);
+    this.startSelectedTests = this.startSelectedTests.bind(this);
+    this.turnOffAlert = this.turnOffAlert.bind(this);
+    this.switchControl = this.switchControl.bind(this);
+    this.toggleSelectForDelete = this.toggleSelectForDelete.bind(this);
+    this.renderHeader = this.renderHeader.bind(this);
 
     // getinitialState
     this.state = {
+      printPage: false,
       students: {},
       alert: false,
       selectAll: true,
       clickedToDelete: false,
       deleteAppear: false,
       clearSelected: false,
-      warn: false
+      warn: false,
+      alert: false,
+      time: 0,
+      waitOption: 1800000,
+      timeoutStarted: false,
+      info: false,
+      selStudents: [],
+      selTests: [],
+      selectAll: true,
+      invertSelect: false,
+
     };
   }
 
@@ -48,6 +70,151 @@ class App extends React.Component {
   // componentWillUpdate(nextProps, nextState) {
   //   localStorage.setItem(`order-${this.props.match.params.storeID}`, JSON.stringify(nextState.order));
   // }
+
+// BEGIN Functions to be distributed to various Children
+
+  logout() {
+    rebase.app.auth().signout().then(() => {
+      this.setState({uid: null});
+    });
+    if(!this.state.uid) {
+      this.props.location.pathname = `/Landing`;
+      this.props.history.push(`/Landing`);
+      this.props.history.replace(`/Landing`);
+    }
+  }
+
+  addHoursAndMinutes(hours, minutes) {
+    const timeInMillisecs = (hours * 60 * 60 * 1000) + (minutes * 60 * 1000);
+    return timeInMillisecs;
+  }
+
+  warnClose() {
+    this.setState({ warn: true });
+  }
+
+  dbTimeout() {
+    this.setState({ warn: true });
+  }
+
+  dbTimeErase() {
+    this.logout();
+  }
+
+  if(!this.state.timeoutStarted) {
+    setTimeout(
+      () => this.dbTimeout(),
+      this.state.waitOption);
+    setTimeout(
+      () => this.dbTimeErase(),
+      this.state.waitOption)
+  }
+
+  warningRejection() {
+    this.setState({ warn          : false,
+                    waitOption    : this.state.waitOption + 1800000,
+                    timeoutStarted: false
+    });
+  }
+
+  alertON() {
+    this.setState({ alert: true});
+  }
+
+  alertOFF() {
+    this.setState({ alert: false});
+  }
+
+// END Functions to be distributed to various Children
+
+// BEGIN Student selection functions
+
+  toggleInvert() {
+    const unsafeCount = 0;
+    const safeCount = 0;
+
+    Object
+      .keys(this.state.students)
+      .map(key => {
+        if(students[key] & students[key].isSafeToDelete) {
+          safeCount++;
+        } else if(students[key] && !students[key].isSafeToDelete) {
+          unsafeCount++;
+        }
+      });
+
+    setState({
+      clickedToDelete: false
+    });
+
+    if(safeCount > 0) {
+      setState({
+        clickedToDelete: true
+      });
+
+      setTimeout(
+        () => setState({
+          deleteAppear: true
+        }),
+      1000);
+    } else {
+      setState({
+        deleteAppear: true
+      });
+
+      setTimeout(
+        () => setState({
+          clickedToDelete: true
+        }),
+      1000);
+    }
+    console.log("clickedToDelete: " + this.state.clickedToDelete);
+
+    if (safeCount > 0 && unsafeCount > 1) {
+      setState({
+        invertSelect: true,
+        selectAll   : false
+      });
+      console.log("safeCount: " + safeCount);
+      console.log("invertSelect is" + this.state.invertSelect + "; selectAll is " + this.state.selectAll);
+    } else if (safeCount > 0 && safeCount == Object.keys(this.state.students).length) {
+        setState({
+          invertSelect   : false,
+          selectAll      : false,
+          clearSelected  : true,
+          clickedToDelete: true;
+        });
+      console.log("invertSelect " + this.state.invertSelect + "; selectAll is " + this.state.selectAll);
+    } else if (safeCount == 0) {
+      setState({
+        invertSelect   : true,
+        selectAll      : true,
+        clickedToDelete: false
+      });
+      console.log("invertSelect " + this.state.invertSelect + " is false; selectAll is " + this.state.selectAll);
+    }
+  }
+
+
+
+// END Student selection functions
+
+// BEGIN Clock Functions
+
+  clock() {
+    setState({
+      time: Date.now()
+    });
+  }
+
+  setInterval(
+    () => this.clock(),
+    1000
+  );
+
+// END Clock Functions
+
+// BEGIN Student CRUD functions
 
   addStudent(student) {
     // update our state
@@ -85,11 +252,11 @@ class App extends React.Component {
     this.setState({ clearSelected   : false,
                     deleteAppear    : false
     });
-    window.setTimeout(
-      this.setState({ selectAll       : true,
-                      clickedToDelete : false
+    setTimeout(
+      () => this.setState({ selectAll       : true,
+                            clickedToDelete : false
       }),
-    1000);
+      1000);
 
     Object
       .keys(this.state.students)
@@ -124,68 +291,219 @@ class App extends React.Component {
 
   }
 
-  warnClose() {
-    this.setState({ warn: true });
+  toggleSelectForDelete() {
+    Object
+      .keys(this.state.students)
+      .map(key => {
+        if (!students[key].isSafeToDelete) {
+          students[key].isSafeToDelete = true;
+        } else if (students[key].isSafeToDelete) {
+          students[key].isSafeToDelete = false;
+        }
+        this.updateStudent(key, students[key]);
+      });
   }
 
-  addHoursAndMinutes(hours, minutes) {
-    const timeInMillisecs = (hours * 60 * 60 * 1000) + (minutes * 60 * 1000);
-    return timeInMillisecs;
+// END Student CRUD functions
+
+// BEGIN (collective) students functions
+
+startSelectedTests() {
+  const students = {...this.state.students};
+  Object
+    .keys(this.state.students)
+    .map(key => {
+      const student = students[key];
+      if (student.isSafeToDelete) {
+        const tests = student.tests;
+        Object
+        .keys(tests)
+        .map(key =>{
+          if(!tests[key].hasTimerStarted && !tests[key].isOver) {
+            setState({
+              selTests: this.state.selTests.push(tests[key]),
+              selStudents: this.state.selStudents.push(student)
+            });
+          }
+        });
+
+      }
+    });
+    setState({
+      info: true
+    });
+    setTimeout(
+      () => turnOffAlert
+    )
+}
+
+switchControl() {
+  if (this.state.selectAll && !this.state.invertSelect) {
+    this.toggleSelectForDelete();
+    this.setState({
+        selectAll: false,
+        invertSelect: false,
+        clickedToDelete: true
+    });
+    setTimeout(
+      () => this.setState({
+        clearSelected: true}),
+      1000
+    );
+    setTimeout(
+      () => this.setState({
+        deleteAppear: true}),
+      1000
+    );
+
+  } else if (this.state.clearSelected) {
+
+    this.toggleSelectForDelete();
+    this.setState({
+      clearSelected: false,
+      deleteAppear: false
+    });
+    setTimeout(
+      () => this.setState({
+        selectAll: true}),
+      1000
+    );
+    setTimeout(
+      () => this.setState({
+        clickedToDelete: false}),
+      1000
+    );
+
+  } else if (this.state.invertSelect) {
+    this.toggleSelectForDelete();
   }
+}
 
-  processTimeInput(key, testNo) {
+renderHeader() {
+  return (
+    <Header
+      age="5000"
+      state={this.state}
+      logout={this.logout}
+      printPage={this.state.printPage}
+    />
+  )
+}
 
-  }
+// END (collective) students functions
 
-  toggleInvert() {
-
-  }
-
-  alertON() {
-    this.setState({ alert: true});
-  }
-
-  alertOFF() {
-    this.setState({ alert: false});
-  }
+// BEGIN render
 
   render() {
-    return(
-      <div className="main-frame">
-        <Header
-          age="5000"
-          state={this.state}
-        />
-        {
-          Object
-            .keys(this.state.students)
-            .map(key => <Student
-                          key={key}
-                          index={key}
-                          // student={this.state.students[key]}
-                          updateStudent={this.updateStudent}
-                          removeStudent={this.removeStudent}
-                        />
-            )
-        }
-        {/* .keys() extracts the keys from an object and pushes them all into an array.  .map() iterates over this array. */}
+    if(!this.state.printPage) {
+      return (
+        <div className="main-frame">
+          {this.renderHeader()}
 
-        {/* <UserPage
-          students={this.state.students}
-          addStudent={this.addStudent}
-          updateStudent={this.updateStudent}
-          removeStudent={this.removeStudent}
-        /> */}
-        <AddStudentForm
-          students={this.state.students}
-          addStudent={this.addStudent}
-          addHoursAndMinutes={this.addHoursAndMinutes}
-          toggleInvert={this.toggleInvert}
-          alertON={this.alertON}
-          alertOFF={this.alertOFF}
-        />
+          <div className="list-group">
+            <div className={"alert alert-danger" + (this.state.warn) ? "" : "hidden"} role="alert">
+              <div className="alert-message">Do you wish to erase student list and close session?
+                <div className="yesNoContainer">
+                  <button className="yesBtn" onClick={() => this.logout()}><p>close session</p></button>
+                  <button className="noBtn" onClick={() => this.warningRejection()}><p>not yet</p></button>
+                </div>
+              </div>
+            </div>
+            <div className={"alert alert-warning" + (this.state.alert) ? "" : "hidden"} role="alert">
+              <i className="fa fa-exclamation" aria-hidden="true"></i>
+              <i className="fa fa-exclamation" aria-hidden="true"></i>
+              <i className="fa fa-exclamation" aria-hidden="true"></i> oops! At minimum, please enter student name and testing extension multiple.
+              <i className="fa fa-exclamation" aria-hidden="true"></i>
+              <i className="fa fa-exclamation" aria-hidden="true"></i>
+              <i className="fa fa-exclamation" aria-hidden="true"></i>
+            </div>
+
+            <div className={"alert alert-info" + (this.state.info) ? "" : "hidden"} role="alert">There are no tests ready to start at this time.</div>
+
+  {/*begin Student Display*/}
+            <div className="container-fluid main-body w3-panel w3-card-2">
+  {/*SELECT / DELETE CONTROLS*/}
+              <div className={"row formControls marginLeft marginRight" + (Object.keys(this.state.students).length < 2) ? "hidden" : ""} >
+                <div className={(this.state.clickedToDelete) ? 'col-lg-4 col-md-4 col-sm-4 col-xs-4 mainBtn' : 'col-lg-12 col-md-12 col-sm-12 col-xs-12 mainBtn'}>
+                  <button className="controlBtn selectAll clearAll invertSelection" onClick={() => switchControl(this.state.students)}>
+                    <p className={(this.state.alert) ? "" : "hidden"} role="alert"></p>
+                    <p ng-show="selectAll && !invertSelect">select all</p>
+                    <p ng-show="clearSelected && !invertSelect">clear selected</p>
+                    <p ng-show="invertSelect">invert selection</p>
+                  </button>
+                </div>
+                <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 deleteSelectedStudents" className={'IIndaryBtnYes': deleteAppear, 'IIndaryBtnNo': !deleteAppear}>
+                  <button className="controlBtn deleteSelected" onClick={() => deleteSelected()}>
+                    <p>delete selected</p>
+                  </button>
+                </div>
+                <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 startSelectedTests" className={'IIndaryBtnYes': deleteAppear, 'IIndaryBtnNo': !deleteAppear}>
+                  <button className="controlBtn deleteSelected" onClick={() => startSelectedTests(students)}>
+                    <p>start selected tests</p>
+                  </button>
+                </div>
+              </div>
+
+          {
+            Object
+              .keys(this.state.students)
+              .map(key => <Student
+                            key={key}
+                            index={key}
+                            students={this.state.students}
+                            selTests={this.state.selTests}
+                            selStudents={this.state.selStudents}
+                            toggleInvert={this.toggleInvert}
+                            time={this.state.time}
+                            updateStudent={this.updateStudent}
+                            removeStudent={this.removeStudent}
+                          />
+              )
+          }
+          {/* .keys() extracts the keys from an object and pushes them all into an array.  .map() iterates over this array. */}
+
+          {/* <UserPage
+            students={this.state.students}
+            addStudent={this.addStudent}
+            updateStudent={this.updateStudent}
+            removeStudent={this.removeStudent}
+          /> */}
+          </div> {/* END CONTAINER-FLUID MAIN-BODY */}
+          <AddStudentForm
+            students={this.state.students}
+            addStudent={this.addStudent}
+            addHoursAndMinutes={this.addHoursAndMinutes}
+            toggleInvert={this.toggleInvert}
+            alertON={this.alertON}
+            alertOFF={this.alertOFF}
+          />
+        </div>
       </div>
-    )
+      )
+    } else {
+      return(
+        <div className="main-frame">
+          {this.renderHeader()}
+          {
+            Object
+              .keys(this.state.students)
+              .map(key => <Student
+                            key={key}
+                            index={key}
+                            printPage={this.state.printPage}
+                            students={this.state.students}
+                            selTests={this.state.selTests}
+                            selStudents={this.state.selStudents}
+                            toggleInvert={this.toggleInvert}
+                            time={this.state.time}
+                            updateStudent={this.updateStudent}
+                            removeStudent={this.removeStudent}
+                          />
+              )
+          }
+        </div>
+      )
+    }
   }
 }
 

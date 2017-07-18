@@ -54,7 +54,14 @@ export function mountNumberInput() {
 
     });
   }
-}
+
+export function processTime(unprocessedTime, hourOption) {
+    unprocessedTimeObj = new Date(unprocessedTime);
+    unprocessedHour = unprocessedTimeObj.getHours();
+    processedHour = unprocessedHour - hourOption;
+    var processedTime = unprocessedTimeObj.setHours(processedHour);
+    return processedTime;
+  }
 
 export function addHoursAndMinutes(hours, minutes) {
   var timeInMillisecs = (hours * 60 * 60 * 1000) + (minutes * 60 * 1000);
@@ -130,6 +137,6 @@ export function parseTime(timeInMillisecs) {
     hour: hours,
     minute: addZero(minutes),
     second: addZero(seconds),
-    hourMinSec: hours + ":" + addZero(minutes) + ":" + addZero(seconds)
+    hourMinSec: (timeInMillisecs > 0 || typeof timeInMillisecs != "undefined") ? hours + ":" + addZero(minutes) + ":" + addZero(seconds) : "00:00:00"
   };
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { mountNumberInput, addHoursAndMinutes } from '../helper';
+import { mountNumberInput, addHoursAndMinutes, parseTime } from '../helper';
 import $ from 'jquery'
 
 class AddStudentForm extends React.Component {
@@ -26,12 +26,12 @@ class AddStudentForm extends React.Component {
           total: addHoursAndMinutes(this.AtestHour.value, this.AtestMinute.value) * this.extendTime.value || 0,
           startRec: 0,
           startTime: 0,
-          isTimerStart: false,
+          hasTimerStarted: false,
           isTimerPaused: false,
           pausedTime: 0,
           pausedTotal: 0,
-          isTestOver: false,
-          testEndedAt: 0
+          isOver: false,
+          endedAt: 0
         },
         Btest: {
           name: this.BtestName.value,
@@ -41,12 +41,12 @@ class AddStudentForm extends React.Component {
           total: (typeof this.BtestHour === "undefined") ? 0 : addHoursAndMinutes(this.BtestHour.value, this.BtestMinute.value) * this.extendTime.value,
           startRec: 0,
           startTime: 0,
-          isTimerStart: false,
+          hasTimerStarted: false,
           isTimerPaused: false,
           pausedTime: 0,
           pausedTotal: 0,
-          isTestOver: false,
-          testEndedAt: 0
+          isOver: false,
+          endedAt: 0
         },
         Ctest: {
           name: this.CtestName.value,
@@ -56,12 +56,12 @@ class AddStudentForm extends React.Component {
           total: (typeof this.CtestHour === "undefined") ? 0 : addHoursAndMinutes(this.CtestHour.value, this.CtestMinute.value) * this.extendTime.value,
           startRec: 0,
           startTime: 0,
-          isTimerStart: false,
+          hasTimerStarted: false,
           isTimerPaused: false,
           pausedTime: 0,
           pausedTotal: 0,
-          isTestOver: false,
-          testEndedAt: 0
+          isOver: false,
+          endedAt: 0
         },
         Dtest: {
           name: this.DtestName.value,
@@ -71,12 +71,12 @@ class AddStudentForm extends React.Component {
           total: (typeof this.DtestHour === "undefined") ? 0 : addHoursAndMinutes(this.DtestHour.value, this.DtestMinute.value) * this.extendTime.value,
           startRec: 0,
           startTime: 0,
-          isTimerStart: false,
+          hasTimerStarted: false,
           isTimerPaused: false,
           pausedTime: 0,
           pausedTotal: 0,
-          isTestOver: false,
-          testEndedAt: 0
+          isOver: false,
+          endedAt: 0
         }
       },
       isSafeToDelete: false,
@@ -91,12 +91,12 @@ class AddStudentForm extends React.Component {
     //   Atotal: addHoursAndMinutes(this.AtestHour.value, this.AtestMinute.value) * this.extendTime.value || 0,
     //   AstartRec: 0,
     //   AstartTime: 0,
-    //   AisTimerStart: false,
+    //   AhasTimerStarted: false,
     //   AisTimerPaused: false,
     //   ApausedTime: 0,
     //   ApausedTotal: 0,
-    //   AisTestOver: false,
-    //   AtestEndedAt: 0,
+    //   AisOver: false,
+    //   AendedAt: 0,
     //   Bname: this.BtestName.value,
     //   // time: addHoursAndMinutes(this.BtestHour.value, this.BtestMinute.value) || 18000000,
     //   // total: addHoursAndMinutes(this.BtestHour.value, this.BtestMinute.value) * this.extendTime.value || 0,
@@ -104,12 +104,12 @@ class AddStudentForm extends React.Component {
     //   Btotal: (typeof this.BtestHour === "undefined") ? 0 : addHoursAndMinutes(this.BtestHour.value, this.BtestMinute.value) * this.extendTime.value,
     //   BstartRec: 0,
     //   BstartTime: 0,
-    //   BisTimerStart: false,
+    //   BhasTimerStarted: false,
     //   BisTimerPaused: false,
     //   BpausedTime: 0,
     //   BpausedTotal: 0,
-    //   BisTestOver: false,
-    //   BtestEndedAt: 0,
+    //   BisOver: false,
+    //   BendedAt: 0,
     //   Cname: this.CtestName.value,
     //   // time: addHoursAndMinutes(this.CtestHour.value, this.CtestMinute.value) || 18000000,
     //   // total: addHoursAndMinutes(this.CtestHour.value, this.CtestMinute.value) * this.extendTime.value || 0,
@@ -117,12 +117,12 @@ class AddStudentForm extends React.Component {
     //   Ctotal: (typeof this.CtestHour === "undefined") ? 0 : addHoursAndMinutes(this.CtestHour.value, this.CtestMinute.value) * this.extendTime.value,
     //   CstartRec: 0,
     //   CstartTime: 0,
-    //   CisTimerStart: false,
+    //   ChasTimerStarted: false,
     //   CisTimerPaused: false,
     //   CpausedTime: 0,
     //   CpausedTotal: 0,
-    //   CisTestOver: false,
-    //   CtestEndedAt: 0,
+    //   CisOver: false,
+    //   CendedAt: 0,
     //   Dname: this.DtestName.value,
     //   // time: addHoursAndMinutes(this.DtestHour.value, this.DtestMinute.value) || 18000000,
     //   // total: addHoursAndMinutes(this.DtestHour.value, this.DtestMinute.value) * this.extendTime.value || 0,
@@ -130,12 +130,12 @@ class AddStudentForm extends React.Component {
     //   Dtotal: (typeof this.DtestHour === "undefined") ? 0 : addHoursAndMinutes(this.DtestHour.value, this.DtestMinute.value) * this.extendTime.value,
     //   DstartRec: 0,
     //   DstartTime: 0,
-    //   DisTimerStart: false,
+    //   DhasTimerStarted: false,
     //   DisTimerPaused: false,
     //   DpausedTime: 0,
     //   DpausedTotal: 0,
-    //   DisTestOver: false,
-    //   DtestEndedAt: 0,
+    //   DisOver: false,
+    //   DendedAt: 0,
     //   isSafeToDelete: false,
     //   created_at: Date.now().toString()
     // }

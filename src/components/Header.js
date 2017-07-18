@@ -6,7 +6,6 @@ import Landing from './Landing';
 class Header extends React.Component {
   constructor() {
     super();
-    this.logout = this.logout.bind(this);
     this.goToPrintPage = this.goToPrintPage.bind(this);
     this.goToTrackerPage = this.goToTrackerPage.bind(this);
     this.getTeacherName = this.getTeacherName.bind(this);
@@ -28,17 +27,6 @@ class Header extends React.Component {
         this.props.history.replace(`/UserPage/${userID}`);
       }
     });
-  }
-
-  logout() {
-    rebase.app.auth().signout().then(() => {
-      this.setState({uid: null});
-    });
-    if(!this.state.uid) {
-      this.props.location.pathname = `/Landing`;
-      this.props.history.push(`/Landing`);
-      this.props.history.replace(`/Landing`);
-    }
   }
 
   // another way: (from UserPage.js)
@@ -85,6 +73,7 @@ class Header extends React.Component {
           <li className="nav-item">
             {/* <button ng-click="warnClose()" className="menuBtn menu-two col-lg-3 col-md-3 col-sm-3 col-xs-12">
               <p className="linkText">logout</p>
+              {this.props.logout}
             </button> */}
           </li>
         </ul>
