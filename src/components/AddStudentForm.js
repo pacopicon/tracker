@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { mountNumberInput, addHoursAndMinutes, parseTime } from '../helper';
+import { mountNumberInput, addHoursAndMinutes, parseTime } from '../helpers';
 import $ from 'jquery'
 
 class AddStudentForm extends React.Component {
@@ -145,8 +145,9 @@ class AddStudentForm extends React.Component {
       this.props.toggleInvert();
       this.studentForm.reset();
     } else {
-      this.props.alertON(); setState({alert: true});
-      window.setTimeout(this.props.alertOFF(), 5000);
+      this.props.alertON();
+      this.setState({alert: true});
+      setTimeout(() => this.props.alertOFF(), 5000);
     }
 
   }
@@ -170,7 +171,9 @@ class AddStudentForm extends React.Component {
     )
   }
 
-  mountNumberInput();
+  componentDidMount() {
+    mountNumberInput();
+  }
 
   render() {
 

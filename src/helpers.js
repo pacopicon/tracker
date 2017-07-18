@@ -1,5 +1,7 @@
+import $ from 'jquery'
+
 export function mountNumberInput() {
-  return componentDidMount() {
+  // componentDidMount() {
 
     $('<div class="quantity-nav"><div class="quantity-button quantity-up">+</div><div class="quantity-button quantity-down">-</div></div>').insertAfter('.quantity input');
     $('.quantity').each(function() {
@@ -53,14 +55,15 @@ export function mountNumberInput() {
       });
 
     });
-  }
+  // }
+}
 
 export function processTime(unprocessedTime, hourOption) {
-    unprocessedTimeObj = new Date(unprocessedTime);
-    unprocessedHour = unprocessedTimeObj.getHours();
-    processedHour = unprocessedHour - hourOption;
-    var processedTime = unprocessedTimeObj.setHours(processedHour);
-    return processedTime;
+    this.unprocessedTimeObj = new Date(unprocessedTime);
+    this.unprocessedHour = this.unprocessedTimeObj.getHours();
+    this.processedHour = this.unprocessedHour - hourOption;
+    this.processedTime = this.unprocessedTimeObj.setHours(this.processedHour);
+    return this.processedTime;
   }
 
 export function addHoursAndMinutes(hours, minutes) {

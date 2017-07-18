@@ -1,20 +1,20 @@
-import React from 'react';
-import AddStudentForm from './AddStudentForm';
-import PropTypes from 'prop-types';
-import rebase from '../base';
-import firebase from 'firebase';
-import Student from './Student';
-import App from './App';
+// import React from 'react';
+// import AddStudentForm from './AddStudentForm';
+// import PropTypes from 'prop-types';
+// import rebase from '../base';
+// import firebase from 'firebase';
+// import Student from './Student';
+// import App from './App';
 
 
-class UserPage extends React.Component {
+// class UserPage extends React.Component {
 
-  constructor() {
-    super();
-    // this.renderUserPage = this.renderUserPage.bind(this);
-    // this.handleChange = this.handleChange.bind(this);
-    // this.logout = this.logout.bind(this);
-  }
+  // constructor() {
+  //   super();
+  //   this.renderUserPage = this.renderUserPage.bind(this);
+  //   this.handleChange = this.handleChange.bind(this);
+  //   this.logout = this.logout.bind(this);
+  // }
 
   // logout() {
   //   rebase.app.auth().signOut().then(() => {
@@ -73,12 +73,12 @@ class UserPage extends React.Component {
 //   }
 // }
 
-UserPage.propTypes = {
-  // students: PropTypes.object.isRequired,
-  // updateStudent: PropTypes.func,
-  // removeStudent: PropTypes.func,
-  // addStudent: PropTypes.func.isRequired,
-  // loadSamples: PropTypes.func.isRequired,
-};
+// UserPage.propTypes = {
+//   students: PropTypes.object.isRequired,
+//   updateStudent: PropTypes.func,
+//   removeStudent: PropTypes.func,
+//   addStudent: PropTypes.func.isRequired,
+//   loadSamples: PropTypes.func.isRequired,
+// };
 
-export default UserPage;
+// export default UserPage;

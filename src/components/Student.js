@@ -1,20 +1,17 @@
 import React from 'react';
-import { mountNumberInput, addHoursAndMinutes, processTime } from '../helper';
+import { mountNumberInput, addHoursAndMinutes, processTime, parseTime } from '../helpers';
 import PropTypes from 'prop-types';
 // import { } from '../studentcrud';
 
 class Student extends React.Component {
   constructor() {
     super();
-    this.getTeacherName = this.getTeacherName.bind(this);
-    this.renderTest = this.renderTest.bind(this);
     this.renderFormOrData = this.renderFormOrData.bind(this);
     this.renderFormButton = this.renderFormButton.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleHourChange = this.handleHourChange.bind(this);
     this.handleMinuteChange = this.handleMinuteChange.bind(this);
     this.startTimer = this.startTimer.bind(this);
-    this.processTime = this.processTime.bind(this);
     this.timer = this.timer.bind(this);
     this.pauseTimer = this.pauseTimer.bind(this);
     this.resumeTimer = this.resumeTimer.bind(this);
@@ -23,6 +20,10 @@ class Student extends React.Component {
     this.startTime = this.startTime.bind(this);
     this.endTime = this.endTime.bind(this);
     this.testTime = this.testTime.bind(this);
+    this.fullBarStyle = this.fullBarStyle.bind(this);
+    this.standardBaryStyle = this.standardBaryStyle.bind(this);
+    this.extendBarStyle = this.extendBarStyle.bind(this);
+    this.extendZeroBarStyle = this.extendZeroBarStyle.bind(this);
     this.state = {
       addInlineAtest: false,
       addInlineBtest: false,
@@ -50,6 +51,7 @@ class Student extends React.Component {
   }
 
   handleChange(e, key) {
+    const target = e.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const student = this.props.students[key];
     // take a copy of that student and update it with the new data
@@ -68,7 +70,7 @@ class Student extends React.Component {
     const student = this.props.students[key];
     // take a copy of that student and update it with the new data
     this.setState({
-      hour: e.target.value;
+      hour: e.target.value
     });
   }
 
@@ -93,6 +95,7 @@ class Student extends React.Component {
 // BEGIN Student Test TIMER variables and functions
 
   componentDidMount() {
+    const students = this.props.students;
     for (var i = 0; i < this.props.selTests.length; i++) {
       if (students[this.props.key] == this.props.selStudents[i]) {
         this.startTimer(this.props.selStudents[i], this.props.selTests[i]);
@@ -107,10 +110,8 @@ class Student extends React.Component {
       const updatedStudent = {
         ...student,
         [test.hasTimerStarted]: true,
-        [test.startTime]: Date.now(),
-        if (student.pausedTotalOne == 0) {
-          [test.startRec]: Date.now()
-        }
+        [test.startTime]      : Date.now(),
+        [test.startRec]       : (test.pausedTotal == 0) ? Date.now() : 0
       }
       this.props.updateStudent(key, updatedStudent);
     } else {
@@ -118,11 +119,11 @@ class Student extends React.Component {
       return this.timer(key, test);
     }
 
-    componentDidMount() {
+    // componentDidMount() {
       this.timerVar = setInterval(
         () => this.timer(key, test),
         1000);
-    }
+    // }
 
   }
 
@@ -137,14 +138,14 @@ class Student extends React.Component {
     const actualTestTime = totalTime - extension;
 
     if (actualTestTime > 0) {
-      actualExtension = totalTime - actualTestTime;
+      this.actualExtension = totalTime - actualTestTime;
     } else if (actualTestTime <= 0) {
-      actualExtension = totalTime;
+      this.actualExtension = totalTime;
     }
 
     this.setState({
-      bottomBarRatio: extension / (testTime * extendTime);
-      topBarRatio: 1 - bottomBarRatio;
+      bottomBarRatio: extension / (testTime * extendTime),
+      topBarRatio: 1 - this.state.bottomBarRatio
     });
 
     // in case timer has not started yet (test 1) OR: timer has ended
@@ -177,14 +178,9 @@ class Student extends React.Component {
 
       this.setState({
         topBarDividend   : testStartTime + actualTestTime - this.props.time,
+        topBarWidth      : (this.topBarDividend > 0) ? this.topBarDividend / testTime * 100 * this.topBarRatio : 0,
+        bottomBarDividend: (this.topBarDividend > 0) ? extension : testStartTime + totalTime - this.props.time
 
-        if(this.topBarDividend > 0) {
-          topBarWidth      : this.topBarDividend / testTime * 100 * this.topBarRatio,
-          bottomBarDividend: extension
-        } else if(this.topBarDividend <= 0) {
-          topBarWidth      : 0,
-          bottomBarDividend: testStartTime + totalTime - this.props.time
-        }
       });
       // ultimate outputs
       this.setState({
@@ -198,13 +194,8 @@ class Student extends React.Component {
     // timer is paused (test 1)
   } else if (!test.isOver && test.isTimerPaused) {
       this.setState({
-        if(actualTestTime > 0) {
-          topBarWidth: actualTestTime / testTime * 100 * this.topBarRatio,
-          bottomBarDividend: extension
-        } else if(actualTestTime <= 0) {
-          topBarWidth: 0;
-          bottomBarDividend: actualExtension
-        }
+        topBarWidth: (actualTestTime > 0) ? actualTestTime / testTime * 100 * this.topBarRatio : 0,
+        bottomBarDividend: (actualTestTime > 0) ? extension : this.actualExtension
       });
       this.setState({
         bottomBarWidth: this.bottomBarDividend / extension * 100 * this.bottomBarRatio,
@@ -234,9 +225,9 @@ class Student extends React.Component {
     }
     this.props.updateStudent(key, updatedStudent);
 
-    componentWillUnmount() {
+    // componentWillUnmount() {
       clearInterval(this.timerVar);
-    }
+    // }
     this.timer(key, test);
   }
 
@@ -266,9 +257,9 @@ class Student extends React.Component {
     }
     this.props.updateStudent(key, updatedStudent);
 
-    componentWillUnmount() {
+    // componentWillUnmount() {
       clearInterval(this.timerVar);
-    }
+    // }
   }
 
   endTimer(key, test) {
@@ -281,9 +272,9 @@ class Student extends React.Component {
     }
     this.props.updateStudent(key, updatedStudent);
 
-    componentWillUnmount() {
+    // componentWillUnmount() {
       clearInterval(this.timerVar);
-    }
+    // }
   }
 
   startTime(test) {
@@ -324,12 +315,36 @@ class Student extends React.Component {
     }
   }
 
+  componentDidMount() {
+    mountNumberInput();
+  }
 
+  fullBarStyle(key, test) {
+    return {
+      width: (this.timer(key, test).bottom + this.timer(key, test).top) + '%'
+    }
+  }
 
-  mountNumberInput()
+  standardBaryStyle(key, test) {
+    return {
+      width: this.timer(key, test).bottom + '%'
+    }
+  }
 
-  renderInLineFormButton(test.total, addInLineTest) {
-    if(test.total == 0 || !addInLineTest) {
+  extendBarStyle(key, test) {
+    return {
+      width: this.timer(key, test).top + '%'
+    }
+  }
+
+  extendZeroBarStyle() {
+    return {
+      width: 0 + '%'
+    }
+  }
+
+  renderFormButton(testTotal, addInLineTest) {
+    if(testTotal == 0 || !addInLineTest) {
       return (
         <div className="addTest dataButtonsAndBars col-lg-12 col-md-12 col-sm-12 col-xs-12">
           <button>
@@ -343,7 +358,8 @@ class Student extends React.Component {
   // renderInlineForm(key, test) {
   //   const student = this.props.students[key];
   //   if(student.tests.)
-  renderInlineFormOrTestData(key, test, addInLineTest, hideFinishedTest, redHover) {
+  renderFormOrData(key, test, addInLineTest, hideFinishedTest, redHover) {
+    const student = this.props.students[key];
     if(test.total == 0 && addInLineTest) {
       return (
         <div className="inlineForm buttonsAndBars">
@@ -375,7 +391,7 @@ class Student extends React.Component {
                 started:
               </p>
               <p className="dataPoint col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                {startTime(test)}
+                {this.startTime(test)}
               </p>
             </div>
             <div className= "testTimeCell marginLeft marginRight col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -391,7 +407,7 @@ class Student extends React.Component {
                 std. end:
               </p>
               <p className="dataPoint col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                {endTime(key, test, "standard")}
+                {this.endTime(key, test, "standard")}
               </p>
             </div>
             <div className="testTimeCell marginLeft marginRight col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -399,7 +415,7 @@ class Student extends React.Component {
                 ext. end:
               </p>
               <p className="dataPoint col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                {endTime(key, test, "extended")}
+                {this.endTime(key, test, "extended")}
               </p>
             </div>
           </div>
@@ -407,7 +423,7 @@ class Student extends React.Component {
           <div className="buttonsAndBars">
             <div className="testNameCell marginRight marginLeft">
               <div className={"buttonContainer col-lg-12 col-md-12 col-sm-12 col-xs-12" + (!test.hasTimerStarted && !test.isOver) ? "" : "hidden"}>
-                <button className="countBtn" onClick={() => startTimer(key, test)}>
+                <button className="countBtn" onClick={() => this.startTimer(key, test)}>
                   <p className="countBtnText">
                     start {test.name} test
                   </p>
@@ -421,24 +437,24 @@ class Student extends React.Component {
                 </button>
               </div>
               <div className={"buttonContainer col-lg-12 col-md-12 col-sm-12 col-xs-12" + (test.hasTimerStarted && !test.isTimerPaused && !test.isOver) ? "" : "hidden"}>
-                <button className="pauseBtn" onClick={() => pauseTimer(student, test)}>
+                <button className="pauseBtn" onClick={() => this.pauseTimer(student, test)}>
                   <p className="pauseBtnText">
                     pause {test.name} test
                   </p>
                 </button>
               </div>
               <div className={"buttonContainer col-lg-12 col-md-12 col-sm-12 col-xs-12" + (test.hasTimerStarted && test.isTimerPaused && !test.isOver) ? "" : "hidden"}>
-                <button className="resumeBtn col-lg-4 col-md-4 col-sm-4 col-xs-4" onClick={() => resumeTimer(student, test)}>
+                <button className="resumeBtn col-lg-4 col-md-4 col-sm-4 col-xs-4" onClick={() => this.resumeTimer(student, test)}>
                   <p className="resumeBtnText">
                     resume
                   </p>
                 </button>
-                <button className="resetBtn col-lg-4 col-md-4 col-sm-4 col-xs-4" onClick={() => resetTimer(student, test)}>
+                <button className="resetBtn col-lg-4 col-md-4 col-sm-4 col-xs-4" onClick={() => this.resetTimer(student, test)}>
                   <p className="resetBtnText">
                     reset
                   </p>
                 </button>
-                <button className="endBtn col-lg-4 col-md-4 col-sm-4 col-xs-4" onClick={() => endTimer(student, test)}>
+                <button className="endBtn col-lg-4 col-md-4 col-sm-4 col-xs-4" onClick={() => this.endTimer(student, test)}>
                   <p className="endBtnText">
                     end
                   </p>
@@ -448,7 +464,7 @@ class Student extends React.Component {
 {/* BEGIN TEST ONE BARS */}
             <div className="bars col-lg-12 col-md-12 col-sm-12 col-xs-12">
               <div className="progress fullBar">
-                <div className="progress-bar progress-bar-info" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style={width: (timer(key, test).bottom + timer(key, test).top) + '%'}>
+                <div className="progress-bar progress-bar-info" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style={this.fullBarStyle(key, test)}>
                   <p className="barLabel">
                     {/* {timer(key, test).countdown} */}
                     {this.state.countdown}
@@ -456,22 +472,22 @@ class Student extends React.Component {
                 </div>
               </div>
               <div className="progress splitBar"> {/* Begin Bars */}
-                <div className="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style={width: timer(key, test).bottom + '%'}>
-                  <p className={"barLabel" + (timer(key, test).countdown - testTime(key, test, "extended") > 0) ? "" : "hidden"}>
-                    {testTime(key, test, "extended")}
+                <div className="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style={this.standardBaryStyle(key, test)}>
+                  <p className={"barLabel" + (this.timer(key, test).countdown - this.testTime(key, test, "extended") > 0) ? "" : "hidden"}>
+                    {this.testTime(key, test, "extended")}
                   </p>
-                  <p className={"barLabel" + (timer(key, test).countdown - testTime(key, test, "extended") <= 0) ? "" : "hidden"}>
+                  <p className={"barLabel" + (this.timer(key, test).countdown - this.testTime(key, test, "extended") <= 0) ? "" : "hidden"}>
                     {/* {timer(key, test).countdown} */}
                     {this.state.countdown}
                   </p>
                 </div>
-                <div className={"progress-bar progress-bar-success" + (timer(key, test).countdown - testTime(key, test, "extended") > 0) ? "" : "hidden"} role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style={width: timer(key, test).top + '%'}>
+                <div className={"progress-bar progress-bar-success" + (this.timer(key, test).countdown - this.testTime(key, test, "extended") > 0) ? "" : "hidden"} role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style={this.extendBarStyle(key, test)}>
                   <p className="barLabel">
-                    {/* {timer(key, test).countdown - testTime(key, "testOneExtBar")} */}
-                    {this.state.countdown - testTime(key, test, "extendedBar")}
+                    {/* {timer(key, test).countdown - this.testTime(key, "testOneExtBar")} */}
+                    {this.state.countdown - this.testTime(key, test, "extendedBar")}
                   </p>
                 </div>
-                <div className={"progress-bar progress-bar-success" + (timer(key, test).countdown - testTime(key, test, "extended") <= 0) ? "" : "hidden"} role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style={width: 0 + '%'}>
+                <div className={"progress-bar progress-bar-success" + (this.timer(key, test).countdown - this.testTime(key, test, "extended") <= 0) ? "" : "hidden"} role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style={this.extendZeroBarStyle()}>
                 </div>
               </div>
             </div>
@@ -483,8 +499,8 @@ class Student extends React.Component {
 
   render() {
     // const { student, index } = this.props;
-    const key = this.props.key
-    const student = this.props.students[key]
+    const key = this.props.key;
+    const student = this.props.students[key];
     // e.g. const student = this.props.student;
     // e.g. const index = this.props.index;
 
@@ -513,30 +529,30 @@ class Student extends React.Component {
 
   {/* BEGIN A TEST */}
   {/* Plus button */}
-          {renderFormButton(student.tests.Atest.total, this.state.addInlineAtest)}
+          {this.renderFormButton(student.tests.Atest.total, this.state.addInlineAtest)}
   {/* INLINE FORM OR A TEST DATA */}
-          {renderFormOrData(key, student.tests.Atest, this.state.addInlineAtest, this.state.hideFinishedAtest, this.state.redHoverA)}
+          {this.renderFormOrData(key, student.tests.Atest, this.state.addInlineAtest, this.state.hideFinishedAtest, this.state.redHoverA)}
   {/* END A TEST */}
 
   {/* BEGIN A TEST */}
   {/* Plus button */}
-          {renderFormButton(student.tests.Btest.total, this.state.addInlineBtest)}
+          {this.renderFormButton(student.tests.Btest.total, this.state.addInlineBtest)}
   {/* INLINE FORM OR A TEST DATA */}
-          {renderFormOrData(key, student.tests.Btest, this.state.addInlineBtest, this.state.hideFinishedBtest, this.state.redHoverB)}
+          {this.renderFormOrData(key, student.tests.Btest, this.state.addInlineBtest, this.state.hideFinishedBtest, this.state.redHoverB)}
   {/* END A TEST */}
 
   {/* BEGIN A TEST */}
   {/* Plus button */}
-          {renderFormButton(student.tests.Ctest.total, this.state.addInlineCtest)}
+          {this.renderFormButton(student.tests.Ctest.total, this.state.addInlineCtest)}
   {/* INLINE FORM OR A TEST DATA */}
-          {renderFormOrData(key, student.tests.Ctest, this.state.addInlineCtest, this.state.hideFinishedCtest, this.state.redHoverC)}
+          {this.renderFormOrData(key, student.tests.Ctest, this.state.addInlineCtest, this.state.hideFinishedCtest, this.state.redHoverC)}
   {/* END A TEST */}
 
   {/* BEGIN A TEST */}
   {/* Plus button */}
-          {renderFormButton(student.tests.Dtest.total, this.state.addInlineDtest)}
+          {this.renderFormButton(student.tests.Dtest.total, this.state.addInlineDtest)}
   {/* INLINE FORM OR A TEST DATA */}
-          {renderFormOrData(key, student.tests.Dtest, this.state.addInlineDtest, this.state.hideFinishedDtest, this.state.redHoverD)}
+          {this.renderFormOrData(key, student.tests.Dtest, this.state.addInlineDtest, this.state.hideFinishedDtest, this.state.redHoverD)}
   {/* END A TEST */}
 
 
@@ -571,28 +587,28 @@ class Student extends React.Component {
                 <p ng-show="student.testFourName">{student.tests.Dtest.name}</p>
               </td>
               <td class="cell">
-                <p ng-show="student.testOneStartRecord">{startTime(student.tests.Atest)}</p>
-                <p ng-show="student.testTwoStartRecord">{startTime(student.tests.Btest)}</p>
-                <p ng-show="student.testThreeStartRecord">{startTime(student.tests.Ctest)}</p>
-                <p ng-show="student.testFourStartRecord">{startTime(student.tests.Dtest)}</p>
+                <p ng-show="student.testOneStartRecord">{this.startTime(student.tests.Atest)}</p>
+                <p ng-show="student.testTwoStartRecord">{this.startTime(student.tests.Btest)}</p>
+                <p ng-show="student.testThreeStartRecord">{this.startTime(student.tests.Ctest)}</p>
+                <p ng-show="student.testFourStartRecord">{this.startTime(student.tests.Dtest)}</p>
               </td>
               <td class="cell">
-                <p ng-show="student.testOneStartRecord">{endTime(key, student.tests.Atest, "standard")}</p>
-                <p ng-show="student.testTwoStartRecord">{endTime(key, student.tests.Btest, "standard")}</p>
-                <p ng-show="student.testThreeStartRecord">{endTime(key, student.tests.Ctest, "standard")}</p>
-                <p ng-show="student.testFourStartRecord">{endTime(key, student.tests.Dtest, "standard")}</p>
+                <p ng-show="student.testOneStartRecord">{this.endTime(key, student.tests.Atest, "standard")}</p>
+                <p ng-show="student.testTwoStartRecord">{this.endTime(key, student.tests.Btest, "standard")}</p>
+                <p ng-show="student.testThreeStartRecord">{this.endTime(key, student.tests.Ctest, "standard")}</p>
+                <p ng-show="student.testFourStartRecord">{this.endTime(key, student.tests.Dtest, "standard")}</p>
               </td>
               <td class="cell">
-                <p ng-show="student.testOneStartRecord">{endTime(key, student.tests.Atest, "extended")}</p>
-                <p ng-show="student.testTwoStartRecord">{endTime(key, student.tests.Btest, "extended")}</p>
-                <p ng-show="student.testThreeStartRecord">{endTime(key, student.tests.Ctest, "extended")}</p>
-                <p ng-show="student.testFourStartRecord">{endTime(key, student.tests.Dtest, "extended")}</p>
+                <p ng-show="student.testOneStartRecord">{this.endTime(key, student.tests.Atest, "extended")}</p>
+                <p ng-show="student.testTwoStartRecord">{this.endTime(key, student.tests.Btest, "extended")}</p>
+                <p ng-show="student.testThreeStartRecord">{this.endTime(key, student.tests.Ctest, "extended")}</p>
+                <p ng-show="student.testFourStartRecord">{this.endTime(key, student.tests.Dtest, "extended")}</p>
               </td>
               <td class="cell">
-                <p ng-show="student.testOneEndedAt">{endTime(key, student.tests.Atest, "actual")}</p>
-                <p ng-show="student.testTwoEndedAt">{endTime(key, student.tests.Btest, "actual")}</p>
-                <p ng-show="student.testThreeEndedAt">{endTime(key, student.tests.Ctest, "actual")}</p>
-                <p ng-show="student.testFourEndedAt">{endTime(key, student.tests.Dtest, "actual")}</p>
+                <p ng-show="student.testOneEndedAt">{this.endTime(key, student.tests.Atest, "actual")}</p>
+                <p ng-show="student.testTwoEndedAt">{this.endTime(key, student.tests.Btest, "actual")}</p>
+                <p ng-show="student.testThreeEndedAt">{this.endTime(key, student.tests.Ctest, "actual")}</p>
+                <p ng-show="student.testFourEndedAt">{this.endTime(key, student.tests.Dtest, "actual")}</p>
               </td>
               <td class="cell">
                 <p ng-show="student.pausedTotalOne">{parseTime(student.tests.Atest.pausedTotal).hourMinSec}</p>

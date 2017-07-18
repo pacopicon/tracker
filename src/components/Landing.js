@@ -32,9 +32,9 @@ class Landing extends React.Component {
     // this.props.history.push(`/store/${storeId}`);
     // this.props.history.replace(`/store/${storeId}`);
 
-    this.props.location.pathname = `/UserPage/${userID}`;
-    this.props.history.push(`/UserPage/${userID}`);
-    this.props.history.replace(`/UserPage/${userID}`);
+    this.props.location.pathname = `/App/${userID}`;
+    this.props.history.push(`/App/${userID}`);
+    this.props.history.replace(`/App/${userID}`);
   }
 
   componentDidMount() {

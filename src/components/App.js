@@ -4,12 +4,14 @@ import Order from './Order';
 import Landing from './Landing';
 import UserPage from './UserPage';
 import Student from './Student';
+import AddStudentForm from './AddStudentForm';
 import sampleStudentes from '../sample-students.js';
 import rebase from '../base';
 
 class App extends React.Component {
   constructor() {
     super();
+    this.getTeacherName = this.getTeacherName.bind(this);
     this.logout = this.logout.bind(this);
     this.addStudent = this.addStudent.bind(this);
     this.updateStudent = this.updateStudent.bind(this);
@@ -18,17 +20,14 @@ class App extends React.Component {
     this.deleteAllStudents = this.deleteAllStudents.bind(this);
     this.warnClose = this.warnClose.bind(this);
     this.addHoursAndMinutes = this.addHoursAndMinutes.bind(this);
-    this.processTimeInput = this.processTimeInput.bind(this);
     this.toggleInvert = this.toggleInvert.bind(this);
-    this.saveAndToggleInvert = this.saveAndToggleInvert.bind(this);
     this.alertON = this.alertON.bind(this);
     this.alertOFF = this.alertON.bind(this);
-    this.clock = this.clock.bind(this);
+    this.tick = this.tick.bind(this);
     this.dbTimeout = this.dbTimeout.bind(this);
     this.dbTimeErase = this.dbTimeErase.bind(this);
     this.warningRejection = this.warningRejection.bind(this);
     this.startSelectedTests = this.startSelectedTests.bind(this);
-    this.turnOffAlert = this.turnOffAlert.bind(this);
     this.switchControl = this.switchControl.bind(this);
     this.toggleSelectForDelete = this.toggleSelectForDelete.bind(this);
     this.renderHeader = this.renderHeader.bind(this);
@@ -67,6 +66,13 @@ class App extends React.Component {
     rebase.base.removeBinding(this.ref);
   }
 
+  getTeacherName(string) {
+    var string = string.trim();
+    var spaceIndex = string.indexOf(string.match(/\s/));
+    var lastName = string.slice(spaceIndex + 1, string.length);
+    return lastName;
+  }
+
   // componentWillUpdate(nextProps, nextState) {
   //   localStorage.setItem(`order-${this.props.match.params.storeID}`, JSON.stringify(nextState.order));
   // }
@@ -101,13 +107,15 @@ class App extends React.Component {
     this.logout();
   }
 
-  if(!this.state.timeoutStarted) {
-    setTimeout(
-      () => this.dbTimeout(),
-      this.state.waitOption);
-    setTimeout(
-      () => this.dbTimeErase(),
-      this.state.waitOption)
+  componentDidMount() {
+    if(!this.state.timeoutStarted) {
+      setTimeout(
+        () => this.dbTimeout(),
+        this.state.waitOption);
+      setTimeout(
+        () => this.dbTimeErase(),
+        this.state.waitOption)
+    }
   }
 
   warningRejection() {
@@ -130,63 +138,64 @@ class App extends React.Component {
 // BEGIN Student selection functions
 
   toggleInvert() {
-    const unsafeCount = 0;
-    const safeCount = 0;
+    this.unsafeCount = 0;
+    this.safeCount = 0;
 
     Object
       .keys(this.state.students)
       .map(key => {
+        const students = this.state.students;
         if(students[key] & students[key].isSafeToDelete) {
-          safeCount++;
+          this.safeCount++;
         } else if(students[key] && !students[key].isSafeToDelete) {
-          unsafeCount++;
+          this.unsafeCount++;
         }
       });
 
-    setState({
+    this.setState({
       clickedToDelete: false
     });
 
-    if(safeCount > 0) {
-      setState({
+    if(this.safeCount > 0) {
+      this.setState({
         clickedToDelete: true
       });
 
       setTimeout(
-        () => setState({
+        () => this.setState({
           deleteAppear: true
         }),
       1000);
     } else {
-      setState({
+      this.setState({
         deleteAppear: true
       });
 
       setTimeout(
-        () => setState({
+        () => this.setState({
           clickedToDelete: true
         }),
       1000);
     }
     console.log("clickedToDelete: " + this.state.clickedToDelete);
 
-    if (safeCount > 0 && unsafeCount > 1) {
-      setState({
+    if (this.safeCount > 0 && this.unsafeCount > 1) {
+      this.setState({
         invertSelect: true,
         selectAll   : false
       });
-      console.log("safeCount: " + safeCount);
+      console.log("safeCount: " + this.safeCount);
       console.log("invertSelect is" + this.state.invertSelect + "; selectAll is " + this.state.selectAll);
-    } else if (safeCount > 0 && safeCount == Object.keys(this.state.students).length) {
-        setState({
+    } else if (this.safeCount > 0 && this.safeCount == Object.keys(this.state.students).length) {
+        this.setState({
           invertSelect   : false,
           selectAll      : false,
           clearSelected  : true,
-          clickedToDelete: true;
+          clickedToDelete: true
         });
       console.log("invertSelect " + this.state.invertSelect + "; selectAll is " + this.state.selectAll);
-    } else if (safeCount == 0) {
-      setState({
+    } else if (this.safeCount == 0) {
+      this.setState({
         invertSelect   : true,
         selectAll      : true,
         clickedToDelete: false
@@ -201,16 +210,19 @@ class App extends React.Component {
 
 // BEGIN Clock Functions
 
-  clock() {
-    setState({
+  tick() {
+    this.setState({
       time: Date.now()
     });
   }
 
-  setInterval(
-    () => this.clock(),
-    1000
-  );
+  componentDidMount() {
+    this.clock = setInterval(
+      () => this.tick(),
+      1000
+    );
+  }
+
 
 // END Clock Functions
 
@@ -228,6 +240,12 @@ class App extends React.Component {
     // the below is the most advanced syntax, ES6
     this.setState({ students });
     console.log("this.state.students = ", this.state.students);
+    setTimeout(
+      () => this.setState({
+        alert: false
+      }),
+      5000
+    )
   }
 
   updateStudent(key, updatedStudent) {
@@ -258,9 +276,12 @@ class App extends React.Component {
       }),
       1000);
 
+    const students = this.state.students;
+
     Object
-      .keys(this.state.students)
+      .keys(students)
       .map(key => {
+
         if(students[key].isSafeToDelete) {
           students[key] = null;
         }
@@ -273,16 +294,15 @@ class App extends React.Component {
     //     students[i] = null;
     //   }
     // }
-
     this.setState({ students });
 
   }
 
   deleteAllStudents() {
     this.setState({ warn: false });
-
+    const students = this.state.students;
     Object
-      .keys(this.state.students)
+      .keys(students)
       .map(key => {
         students[key] = null;
       });
@@ -292,8 +312,9 @@ class App extends React.Component {
   }
 
   toggleSelectForDelete() {
+    const students = this.state.students;
     Object
-      .keys(this.state.students)
+      .keys(students)
       .map(key => {
         if (!students[key].isSafeToDelete) {
           students[key].isSafeToDelete = true;
@@ -320,7 +341,7 @@ startSelectedTests() {
         .keys(tests)
         .map(key =>{
           if(!tests[key].hasTimerStarted && !tests[key].isOver) {
-            setState({
+            this.setState({
               selTests: this.state.selTests.push(tests[key]),
               selStudents: this.state.selStudents.push(student)
             });
@@ -329,11 +350,14 @@ startSelectedTests() {
 
       }
     });
-    setState({
+    this.setState({
       info: true
     });
     setTimeout(
-      () => turnOffAlert
+      () => this.setState({
+        info: false
+      }),
+      5000
     )
 }
 
@@ -425,20 +449,20 @@ renderHeader() {
   {/*SELECT / DELETE CONTROLS*/}
               <div className={"row formControls marginLeft marginRight" + (Object.keys(this.state.students).length < 2) ? "hidden" : ""} >
                 <div className={(this.state.clickedToDelete) ? 'col-lg-4 col-md-4 col-sm-4 col-xs-4 mainBtn' : 'col-lg-12 col-md-12 col-sm-12 col-xs-12 mainBtn'}>
-                  <button className="controlBtn selectAll clearAll invertSelection" onClick={() => switchControl(this.state.students)}>
+                  <button className="controlBtn selectAll clearAll invertSelection" onClick={() => this.switchControl(this.state.students)}>
                     <p className={(this.state.alert) ? "" : "hidden"} role="alert"></p>
                     <p ng-show="selectAll && !invertSelect">select all</p>
                     <p ng-show="clearSelected && !invertSelect">clear selected</p>
                     <p ng-show="invertSelect">invert selection</p>
                   </button>
                 </div>
-                <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 deleteSelectedStudents" className={'IIndaryBtnYes': deleteAppear, 'IIndaryBtnNo': !deleteAppear}>
-                  <button className="controlBtn deleteSelected" onClick={() => deleteSelected()}>
+                <div className={(this.state.deleteAppear) ? "col-lg-4 col-md-4 col-sm-4 col-xs-4 deleteSelectedStudents IIndaryBtnYes" : "col-lg-4 col-md-4 col-sm-4 col-xs-4 deleteSelectedStudents IIndaryBtnNo"}>
+                  <button className="controlBtn deleteSelected" onClick={() => this.deleteSelected()}>
                     <p>delete selected</p>
                   </button>
                 </div>
-                <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 startSelectedTests" className={'IIndaryBtnYes': deleteAppear, 'IIndaryBtnNo': !deleteAppear}>
-                  <button className="controlBtn deleteSelected" onClick={() => startSelectedTests(students)}>
+                <div className={(this.state.deleteAppear) ? "col-lg-4 col-md-4 col-sm-4 col-xs-4 startSelectedTests IIndaryBtnYes" : "col-lg-4 col-md-4 col-sm-4 col-xs-4 startSelectedTests IIndaryBtnNo"}>
+                  <button className="controlBtn deleteSelected" onClick={() => this.startSelectedTests()}>
                     <p>start selected tests</p>
                   </button>
                 </div>
