@@ -2,7 +2,6 @@ import React from 'react';
 import Header from './Header';
 import Order from './Order';
 import Landing from './Landing';
-import UserPage from './UserPage';
 import Student from './Student';
 import AddStudentForm from './AddStudentForm';
 import sampleStudentes from '../sample-students.js';
@@ -419,115 +418,83 @@ renderHeader() {
 // BEGIN render
 
   render() {
-    if(!this.state.printPage) {
-      return (
-        <div className="main-frame">
-          {this.renderHeader()}
-
-          <div className="list-group">
-            <div className={"alert alert-danger" + (this.state.warn) ? "" : "hidden"} role="alert">
-              <div className="alert-message">Do you wish to erase student list and close session?
-                <div className="yesNoContainer">
-                  <button className="yesBtn" onClick={() => this.logout()}><p>close session</p></button>
-                  <button className="noBtn" onClick={() => this.warningRejection()}><p>not yet</p></button>
-                </div>
+    return (
+      <div className="main-frame">
+        {this.renderHeader()}
+        <div className="list-group">
+          <div className={"alert alert-danger" + (this.state.warn) ? "" : "hidden"} role="alert">
+            <div className="alert-message">Do you wish to erase student list and close session?
+              <div className="yesNoContainer">
+                <button className="yesBtn" onClick={() => this.logout()}><p>close session</p></button>
+                <button className="noBtn" onClick={() => this.warningRejection()}><p>not yet</p></button>
               </div>
             </div>
-            <div className={"alert alert-warning" + (this.state.alert) ? "" : "hidden"} role="alert">
-              <i className="fa fa-exclamation" aria-hidden="true"></i>
-              <i className="fa fa-exclamation" aria-hidden="true"></i>
-              <i className="fa fa-exclamation" aria-hidden="true"></i> oops! At minimum, please enter student name and testing extension multiple.
-              <i className="fa fa-exclamation" aria-hidden="true"></i>
-              <i className="fa fa-exclamation" aria-hidden="true"></i>
-              <i className="fa fa-exclamation" aria-hidden="true"></i>
+          </div>
+          <div className={"alert alert-warning" + (this.state.alert) ? "" : "hidden"} role="alert">
+            <i className="fa fa-exclamation" aria-hidden="true"></i>
+            <i className="fa fa-exclamation" aria-hidden="true"></i>
+            <i className="fa fa-exclamation" aria-hidden="true"></i> oops! At minimum, please enter student name and testing extension multiple.
+            <i className="fa fa-exclamation" aria-hidden="true"></i>
+            <i className="fa fa-exclamation" aria-hidden="true"></i>
+            <i className="fa fa-exclamation" aria-hidden="true"></i>
+          </div>
+
+          <div className={"alert alert-info" + (this.state.info) ? "" : "hidden"} role="alert">There are no tests ready to start at this time.</div>
+
+{/*begin Student Display*/}
+          <div className="container-fluid main-body w3-panel w3-card-2">
+{/*SELECT / DELETE CONTROLS*/}
+            <div className={"row formControls marginLeft marginRight" + (Object.keys(this.state.students).length < 2) ? "hidden" : ""} >
+              <div className={(this.state.clickedToDelete) ? 'col-lg-4 col-md-4 col-sm-4 col-xs-4 mainBtn' : 'col-lg-12 col-md-12 col-sm-12 col-xs-12 mainBtn'}>
+                <button className="controlBtn selectAll clearAll invertSelection" onClick={() => this.switchControl(this.state.students)}>
+                  <p className={(this.state.alert) ? "" : "hidden"} role="alert"></p>
+                  <p ng-show="selectAll && !invertSelect">select all</p>
+                  <p ng-show="clearSelected && !invertSelect">clear selected</p>
+                  <p ng-show="invertSelect">invert selection</p>
+                </button>
+              </div>
+              <div className={(this.state.deleteAppear) ? "col-lg-4 col-md-4 col-sm-4 col-xs-4 deleteSelectedStudents IIndaryBtnYes" : "col-lg-4 col-md-4 col-sm-4 col-xs-4 deleteSelectedStudents IIndaryBtnNo"}>
+                <button className="controlBtn deleteSelected" onClick={() => this.deleteSelected()}>
+                  <p>delete selected</p>
+                </button>
+              </div>
+              <div className={(this.state.deleteAppear) ? "col-lg-4 col-md-4 col-sm-4 col-xs-4 startSelectedTests IIndaryBtnYes" : "col-lg-4 col-md-4 col-sm-4 col-xs-4 startSelectedTests IIndaryBtnNo"}>
+                <button className="controlBtn deleteSelected" onClick={() => this.startSelectedTests()}>
+                  <p>start selected tests</p>
+                </button>
+              </div>
             </div>
 
-            <div className={"alert alert-info" + (this.state.info) ? "" : "hidden"} role="alert">There are no tests ready to start at this time.</div>
-
-  {/*begin Student Display*/}
-            <div className="container-fluid main-body w3-panel w3-card-2">
-  {/*SELECT / DELETE CONTROLS*/}
-              <div className={"row formControls marginLeft marginRight" + (Object.keys(this.state.students).length < 2) ? "hidden" : ""} >
-                <div className={(this.state.clickedToDelete) ? 'col-lg-4 col-md-4 col-sm-4 col-xs-4 mainBtn' : 'col-lg-12 col-md-12 col-sm-12 col-xs-12 mainBtn'}>
-                  <button className="controlBtn selectAll clearAll invertSelection" onClick={() => this.switchControl(this.state.students)}>
-                    <p className={(this.state.alert) ? "" : "hidden"} role="alert"></p>
-                    <p ng-show="selectAll && !invertSelect">select all</p>
-                    <p ng-show="clearSelected && !invertSelect">clear selected</p>
-                    <p ng-show="invertSelect">invert selection</p>
-                  </button>
-                </div>
-                <div className={(this.state.deleteAppear) ? "col-lg-4 col-md-4 col-sm-4 col-xs-4 deleteSelectedStudents IIndaryBtnYes" : "col-lg-4 col-md-4 col-sm-4 col-xs-4 deleteSelectedStudents IIndaryBtnNo"}>
-                  <button className="controlBtn deleteSelected" onClick={() => this.deleteSelected()}>
-                    <p>delete selected</p>
-                  </button>
-                </div>
-                <div className={(this.state.deleteAppear) ? "col-lg-4 col-md-4 col-sm-4 col-xs-4 startSelectedTests IIndaryBtnYes" : "col-lg-4 col-md-4 col-sm-4 col-xs-4 startSelectedTests IIndaryBtnNo"}>
-                  <button className="controlBtn deleteSelected" onClick={() => this.startSelectedTests()}>
-                    <p>start selected tests</p>
-                  </button>
-                </div>
-              </div>
-
-          {
-            Object
-              .keys(this.state.students)
-              .map(key => <Student
-                            key={key}
-                            index={key}
-                            students={this.state.students}
-                            selTests={this.state.selTests}
-                            selStudents={this.state.selStudents}
-                            toggleInvert={this.toggleInvert}
-                            time={this.state.time}
-                            updateStudent={this.updateStudent}
-                            removeStudent={this.removeStudent}
-                          />
-              )
-          }
-          {/* .keys() extracts the keys from an object and pushes them all into an array.  .map() iterates over this array. */}
-
-          {/* <UserPage
-            students={this.state.students}
-            addStudent={this.addStudent}
-            updateStudent={this.updateStudent}
-            removeStudent={this.removeStudent}
-          /> */}
+            <ul className="TrackerPage">{
+              Object
+                .keys(this.state.students)
+                .map(key => <Student
+                              key={key}
+                              index={key}
+                              students={this.state.students}
+                              student={this.state.students[key]}
+                              selTests={this.state.selTests}
+                              selStudents={this.state.selStudents}
+                              toggleInvert={this.toggleInvert}
+                              time={this.state.time}
+                              updateStudent={this.updateStudent}
+                              removeStudent={this.removeStudent}
+                            />)
+            }</ul>
           </div> {/* END CONTAINER-FLUID MAIN-BODY */}
-          <AddStudentForm
-            students={this.state.students}
-            addStudent={this.addStudent}
-            addHoursAndMinutes={this.addHoursAndMinutes}
-            toggleInvert={this.toggleInvert}
-            alertON={this.alertON}
-            alertOFF={this.alertOFF}
-          />
+          <div className={(this.state.printPage) ? "hidden" : ""}>
+            <AddStudentForm
+              students={this.state.students}
+              addStudent={this.addStudent}
+              addHoursAndMinutes={this.addHoursAndMinutes}
+              toggleInvert={this.toggleInvert}
+              alertON={this.alertON}
+              alertOFF={this.alertOFF}
+            />
+          </div>
         </div>
-      </div>
-      )
-    } else {
-      return(
-        <div className="main-frame">
-          {this.renderHeader()}
-          {
-            Object
-              .keys(this.state.students)
-              .map(key => <Student
-                            key={key}
-                            index={key}
-                            printPage={this.state.printPage}
-                            students={this.state.students}
-                            selTests={this.state.selTests}
-                            selStudents={this.state.selStudents}
-                            toggleInvert={this.toggleInvert}
-                            time={this.state.time}
-                            updateStudent={this.updateStudent}
-                            removeStudent={this.removeStudent}
-                          />
-              )
-          }
-        </div>
-      )
-    }
+    </div>
+    )
   }
 }
 

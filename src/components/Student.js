@@ -1,7 +1,6 @@
 import React from 'react';
 import { mountNumberInput, addHoursAndMinutes, processTime, parseTime } from '../helpers';
 import PropTypes from 'prop-types';
-// import { } from '../studentcrud';
 
 class Student extends React.Component {
   constructor() {
@@ -498,9 +497,11 @@ class Student extends React.Component {
   }
 
   render() {
-    // const { student, index } = this.props;
+    const { student, index } = this.props;
     const key = this.props.key;
-    const student = this.props.students[key];
+    // console.log("key = ", key);
+    // const student = this.props.students[key];
+    // console.log("student = ", student);
     // e.g. const student = this.props.student;
     // e.g. const index = this.props.index;
 
