@@ -42,7 +42,7 @@ class App extends React.Component {
       clearSelected: false,
       warn: false,
       alert: false,
-      time: 0,
+      time: new Date(),
       waitOption: 1800000,
       timeoutStarted: false,
       info: false,
@@ -211,7 +211,7 @@ class App extends React.Component {
 
   tick() {
     this.setState({
-      time: Date.now()
+      time: new Date()
     });
   }
 
@@ -220,6 +220,10 @@ class App extends React.Component {
       () => this.tick(),
       1000
     );
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.clock);
   }
 
 
@@ -409,6 +413,7 @@ renderHeader() {
       state={this.state}
       logout={this.logout}
       printPage={this.state.printPage}
+      time={this.state.time}
     />
   )
 }
@@ -447,10 +452,9 @@ renderHeader() {
             <div className={"row formControls marginLeft marginRight" + (Object.keys(this.state.students).length < 2) ? "hidden" : ""} >
               <div className={(this.state.clickedToDelete) ? 'col-lg-4 col-md-4 col-sm-4 col-xs-4 mainBtn' : 'col-lg-12 col-md-12 col-sm-12 col-xs-12 mainBtn'}>
                 <button className="controlBtn selectAll clearAll invertSelection" onClick={() => this.switchControl(this.state.students)}>
-                  <p className={(this.state.alert) ? "" : "hidden"} role="alert"></p>
-                  <p ng-show="selectAll && !invertSelect">select all</p>
-                  <p ng-show="clearSelected && !invertSelect">clear selected</p>
-                  <p ng-show="invertSelect">invert selection</p>
+                  <p className={(this.state.selectAll && !this.state.invertSelect) ? "" : "hidden"} role="alert">select all</p>
+                  <p className={(this.state.clearSelected && !this.state.invertSelect) ? "" : "hidden"} role="alert">clear selected</p>
+                  <p className={(this.state.invertSelect) ? "" : "hidden"} role="alert">invert selection</p>
                 </button>
               </div>
               <div className={(this.state.deleteAppear) ? "col-lg-4 col-md-4 col-sm-4 col-xs-4 deleteSelectedStudents IIndaryBtnYes" : "col-lg-4 col-md-4 col-sm-4 col-xs-4 deleteSelectedStudents IIndaryBtnNo"}>

@@ -63,7 +63,7 @@ class Header extends React.Component {
       <div className="collapse navbar-collapse" id="collapsingNavbar">
         <ul className="nav navbar-nav">
           <li className="nav-item">
-            {/* <b><p className="col-lg-3 col-md-3 col-sm-3 col-xs-12 navHeading">{{time | date: 'short'}}</p></b> */}
+            <b><p className="col-lg-3 col-md-3 col-sm-3 col-xs-12 navHeading">{this.props.time.toLocaleTimeString()}</p></b>
           </li>
           <li className="nav-item">
             {/* <button ui-sref="testDataPrintout" className="menuBtn menu-one col-lg-3 col-md-3 col-sm-3 col-xs-12">

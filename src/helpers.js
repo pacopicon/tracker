@@ -59,11 +59,11 @@ export function mountNumberInput() {
 }
 
 export function processTime(unprocessedTime, hourOption) {
-    this.unprocessedTimeObj = new Date(unprocessedTime);
-    this.unprocessedHour = this.unprocessedTimeObj.getHours();
-    this.processedHour = this.unprocessedHour - hourOption;
-    this.processedTime = this.unprocessedTimeObj.setHours(this.processedHour);
-    return this.processedTime;
+    const unprocessedTimeObj = new Date(unprocessedTime);
+    const unprocessedHour = unprocessedTimeObj.getHours();
+    const processedHour = unprocessedHour - hourOption;
+    const processedTime = unprocessedTimeObj.setHours(processedHour);
+    return processedTime;
   }
 
 export function addHoursAndMinutes(hours, minutes) {
