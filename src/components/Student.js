@@ -13,7 +13,7 @@ class Student extends React.Component {
     this.handleMinuteChange = this.handleMinuteChange.bind(this);
     this.handleInlineToggle = this.handleInlineToggle.bind(this);
     this.startTimer = this.startTimer.bind(this);
-    this.timerSwitch = this.timerSwitch.bind(this);
+    this.relay = this.relay.bind(this);
     this.timer = this.timer.bind(this);
     this.pauseTimer = this.pauseTimer.bind(this);
     this.resumeTimer = this.resumeTimer.bind(this);
@@ -55,7 +55,7 @@ class Student extends React.Component {
   handleChange(e, key) {
     const target = e.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    const { student } = this.props;;
+    const { student } = this.props;
     // take a copy of that student and update it with the new data
     const updatedStudent = {
       ...student,
@@ -75,7 +75,7 @@ class Student extends React.Component {
   }
 
   handleHourChange(e, key, test) {
-    const { student } = this.props;;
+    const { student } = this.props;
     // take a copy of that student and update it with the new data
     this.setState({
       hour: e.target.value
@@ -83,7 +83,7 @@ class Student extends React.Component {
   }
 
   handleMinuteChange(e, key, test) {
-    const { student } = this.props;;
+    const { student } = this.props;
     // take a copy of that student and update it with the new data
     const hoursAndMinutes = addHoursAndMinutes(this.state.hour, e.target.value);
     const updatedStudent = {
@@ -115,10 +115,10 @@ class Student extends React.Component {
     }
   }
 
-  timerSwitch(test, boolean) {
+  relay(value, boolean) {
     return {
-      isOn: boolean,
-      test: test
+      boolean: boolean,
+      value: value
     }
   }
 
@@ -138,7 +138,7 @@ class Student extends React.Component {
       return this.timer(key, test);
     }
 
-    this.timerSwitch(test, true)
+    this.relay(test, true);
 
   }
 
@@ -232,48 +232,79 @@ class Student extends React.Component {
   }
 
   pauseTimer(key, test) {
-    const { student } = this.props;;
-    const updatedStudent = {
-      ...student,
-      [test.isTimerPaused]: true,
-      [test.total]: (test.startTime + test.total) - Date.now(),
-      [test.startTime]: 0,
-      [test.pausedTime]: Date.now()
-
-    }
-    this.props.updateStudent(key, updatedStudent);
-
-    // componentWillUnmount() {
-      clearInterval(this.timerVar);
+    // const { student } = this.props;
+    // const updatedStudent = {
+    //   ...student,
+    //   [test.isTimerPaused]: true,
+    //   [test.total]: (test.startTime + test.total) - Date.now(),
+    //   [test.startTime]: 0,
+    //   [test.pausedTime]: Date.now()
+    //
     // }
+    // this.props.updateStudent(key, updatedStudent);
+
+    this.setState((prevState, props) => {
+      test.isTimerPaused: true,
+      test.total: (prevState.student.tests.test.total + test.startTme) - Date.now(),
+      test.startTime: 0,
+      test.pausedTime: Date.now()
+    }));
+
+    this.relay(test, false);
+
     this.timer(key, test);
   }
 
-  resumeTimer(key, test) {
-    const { student } = this.props;;
-    const updatedStudent = {
-      ...student,
-      [test.isTimerPaused]: false,
-      [test.pausedTotal]: test.pausedTotal + Date.now() - test.pausedTime
+  // In case you need to refactor above function:
 
-    }
-    this.props.updateStudent(key, updatedStudent);
+  // this.props.updateStudent(key, updatedStudent) =
+
+  // updateStudent(key, updatedStudent) {
+  //   const students = {...this.state.students};
+  //   students[key] = updatedStudent;
+  //   this.setState({ fishes })
+  // }
+
+  resumeTimer(key, test) {
+    // const { student } = this.props;
+    // const updatedStudent = {
+    //   ...student,
+    //   [test.isTimerPaused]: false,
+    //   [test.pausedTotal]: test.pausedTotal + Date.now() - test.pausedTime
+    //
+    // }
+    // this.props.updateStudent(key, updatedStudent);
+
+    this.setState((prevState, props) => {
+      test.isTimerPaused: false,
+      test.pausedTotal: prevState.student.tests.test.pausedTotal + Date.now() - prevState.student.tests.test.pausedTime,
+      test.startTime: 0,
+      test.pausedTime: Date.now()
+    }));
+
     this.startTimer(key, test)
   }
 
   resetTimer(key, test) {
-    const { student } = this.props;;
-    const updatedStudent = {
-      ...student,
-      [test.isTimerPaused]: false,
-      [test.total]: test.time * student.extendTime,
-      [test.pausedTime]: 0,
-      [test.pausedTotal]: 0,
-      [test.startTime]: 0,
-      [test.hasTimerStarted]: false
+    // const { student } = this.props;
+    // const updatedStudent = {
+    //   ...student,
+    //   [test.isTimerPaused]: false,
+    //   [test.total]: test.time * student.extendTime,
+    //   [test.pausedTime]: 0,
+    //   [test.pausedTotal]: 0,
+    //   [test.startTime]: 0,
+    //   [test.hasTimerStarted]: false
+    //
+    // }
+    // this.props.updateStudent(key, updatedStudent);
 
-    }
-    this.props.updateStudent(key, updatedStudent);
+    this.setState((prevState, props) => {
+      test.isTimerPaused: false,
+      test.pausedTotal: prevState.student.tests.test.pausedTotal + Date.now() - prevState.student.tests.test.pausedTime,
+      test.startTime: 0,
+      test.pausedTime: Date.now()
+    }));
 
     // componentWillUnmount() {
       clearInterval(this.timerVar);
@@ -281,18 +312,21 @@ class Student extends React.Component {
   }
 
   endTimer(key, test) {
-    const { student } = this.props;;
-    const updatedStudent = {
-      ...student,
-      [test.isTestOneOver]: true,
-      [test.endedAt]: Date.now(),
-
-    }
-    this.props.updateStudent(key, updatedStudent);
-
-    // componentWillUnmount() {
-      clearInterval(this.timerVar);
+    // const { student } = this.props;
+    // const updatedStudent = {
+    //   ...student,
+    //   [test.isTestOneOver]: true,
+    //   [test.endedAt]: Date.now(),
+    //
     // }
+    // this.props.updateStudent(key, updatedStudent);
+
+    this.setState({
+      test.isTestOneOver: true,
+      test.endedAt: Date.now()
+    });
+
+    clearInterval(this.timerVar);
   }
 
   startTime(test) {
@@ -304,7 +338,7 @@ class Student extends React.Component {
   };
 
   endTime(key, test, option) {
-    const { student } = this.props;;
+    const { student } = this.props;
     if (test.startRec == 0) {
       return "00:00:00";
     } else if (test.startRec > 0) {
@@ -319,7 +353,7 @@ class Student extends React.Component {
   }
 
   testTime(key, test, option) {
-    const { student } = this.props;;
+    const { student } = this.props;
     const testExtension = (test.time * student.extendTime) - test.time;
     const total = test.time * student.extendTime;
     if (option == "standard") {
@@ -333,21 +367,40 @@ class Student extends React.Component {
     }
   }
 
-  // componentWillUpdate(newProps,newState){
-  //   if(!newState.show){
-  //       $(ReactDOM.findDOMNode(this.refs.inlineForm)).css({'display':'initial'});
-  //   } else{
-  //     $(ReactDOM.findDOMNode(this.refs.inlineForm)).css({'display':'none'});;
-  //   }
-  // }
-  //
-  // componentDidUpdate(oldProps,oldState){
-  //   if(this.state.show){
-  //       $(ReactDOM.findDOMNode(this.refs.elem)).css({'display':'initial'});
-  //   }else{
-  //     $(ReactDOM.findDOMNode(this.refs.elem)).css({'display':'none'});;
-  //   }
-  // }
+  componentWillUpdate(newProps,newState){
+    const { student } = this.props;
+    if(!newState.show){
+        $(ReactDOM.findDOMNode(this.refs.inlineForm)).css({'display':'initial'});
+    } else{
+      $(ReactDOM.findDOMNode(this.refs.inlineForm)).css({'display':'none'});
+    }
+
+    if(student.isSafeToDelete){
+      $(ReactDOM.findDOMNode(this.refs.safeDeleteHighlight)).css({'padding-left': '1em',
+        'transition': 'all 1s ease-in-out'});
+    } else{
+      $(ReactDOM.findDOMNode(this.refs.safeDeleteHighlight)).css({'padding-left': '0',
+      'transition': 'all 1s ease-in-out'});
+    }
+
+
+  }
+
+  componentDidUpdate(oldProps,oldState){
+    if(this.state.show){
+        $(ReactDOM.findDOMNode(this.refs.elem)).css({'display':'initial'});
+    }else{
+      $(ReactDOM.findDOMNode(this.refs.elem)).css({'display':'none'});
+    }
+
+    if(!student.isSafeToDelete){
+      $(ReactDOM.findDOMNode(this.refs.safeDeleteHighlight)).css({'padding-left': '1em',
+        'transition': 'all 1s ease-in-out'});
+    } else{
+      $(ReactDOM.findDOMNode(this.refs.safeDeleteHighlight)).css({'padding-left': '0',
+      'transition': 'all 1s ease-in-out'});
+    }
+  }
 
   componentDidMount() {
     mountNumberInput();
@@ -357,17 +410,19 @@ class Student extends React.Component {
     const { student } = this.props;
     // The above = const student = this.props.students[key]
 
-    if(this.timerSwitch().isOn) {
+    if(this.relay().isOn) {
       this.timerVar = setInterval(
-        () => this.timer(key, this.timerSwitch().test),
+        () => this.timer(key, this.relay().test),
         1000
       );
-    } else if(!this.timerSwitch().isOn) {
-      clearInterval(this.timeVar);
     }
 
+  }
 
-
+  componentWillUnmount() {
+    if(!this.relay().isOn) {
+      clearInterval(this.timeVar);
+    }
   }
 
   fullBarStyle(key, test) {
@@ -407,13 +462,13 @@ class Student extends React.Component {
   }
 
   // renderInlineForm(key, test) {
-  //   const { student } = this.props;;
+  //   const { student } = this.props;
   //   if(student.tests.)
   renderFormOrData(key, test, addInLineTest, hideFinishedTest, redHover) {
     const { student } = this.props;
     if(test.total == 0 && addInLineTest) {
       return (
-        <div className="inlineForm buttonsAndBars" ref="inlineForm">
+        <div className="inlineForm buttonsAndBars">
           <div className="inlineNameForm col-lg-6 col-md-6 col-sm-6 col-xs-6">
             <input type="text" className="form-control testNameInput" value={test.name} placeholder="test name" onChange={(e) => this.handleChange(e, key)}/>
           </div>
@@ -431,7 +486,8 @@ class Student extends React.Component {
     } else if(test.total > 0 && !addInLineTest && !hideFinishedTest) {
       // TEST ONE DATA
       return (
-        <div className={"dataButtonsAndBars col-lg-12 col-md-12 col-sm-12 col-xs-12" + (student.isSafeToDelete) ? "deleteHighlight" : ""} onMouseOver={() => this.changeState(redHover, true)} onMouseLeave={() => this.changeState(redHover, false)}>
+        // <div className={"dataButtonsAndBars col-lg-12 col-md-12 col-sm-12 col-xs-12" + (student.isSafeToDelete) ? "deleteHighlight" : ""} onMouseOver={() => this.changeState(redHover, true)} onMouseLeave={() => this.changeState(redHover, false)}>
+        <div className="dataButtonsAndBars col-lg-12 col-md-12 col-sm-12 col-xs-12" ref="safeDeleteHighlight" onMouseOver={() => this.changeState(redHover, true)} onMouseLeave={() => this.changeState(redHover, false)}>
           <div className="testTimeData">
 {/* test hide */}
             <div className={"hideTest col-lg-1 col-md-1 col-sm-1 col-xs-1" + (redHover && test.isOver) ? "hidden" : ""}>
@@ -552,7 +608,7 @@ class Student extends React.Component {
     const { student, index, key } = this.props;
     // const key = this.props.key;
     // console.log("key = ", key);
-    // const { student } = this.props;;
+    // const { student } = this.props;
     // console.log("student = ", student);
     // e.g. const student = this.props.student;
     // e.g. const index = this.props.index;

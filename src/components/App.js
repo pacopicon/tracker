@@ -473,6 +473,7 @@ renderHeader() {
               Object
                 .keys(this.state.students)
                 .map(key => <Student
+                              printPage={this.state.printPage}
                               key={key}
                               index={key}
                               students={this.state.students}
