@@ -505,6 +505,7 @@ class Student extends React.Component {
   }
 
   renderFormButton(key) {
+    const testTotal =
     if(testTotal == 0 || !this.state.addInLineTest) {
       return (
         <div className="addTest dataButtonsAndBars col-lg-12 col-md-12 col-sm-12 col-xs-12">
