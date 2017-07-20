@@ -46,8 +46,8 @@ class App extends React.Component {
       waitOption: 1800000,
       timeoutStarted: false,
       info: false,
-      selStudents: [],
-      selTests: [],
+      selectedStudents: [],
+      selectedTests: [],
       selectAll: true,
       invertSelect: false,
 
@@ -345,8 +345,8 @@ startSelectedTests() {
         .map(key =>{
           if(!tests[key].hasTimerStarted && !tests[key].isOver) {
             this.setState({
-              selTests: this.state.selTests.push(tests[key]),
-              selStudents: this.state.selStudents.push(student)
+              selectedTests: this.state.selectedTests.push(tests[key]),
+              selectedStudents: this.state.selectedStudents.push(student)
             });
           }
         });
@@ -469,8 +469,8 @@ renderHeader() {
               </div>
             </div>
 
-            <ul className="TrackerPage">{
-              Object
+            <ul className="TrackerPage">
+              {Object
                 .keys(this.state.students)
                 .map(key => <Student
                               printPage={this.state.printPage}
@@ -478,26 +478,28 @@ renderHeader() {
                               index={key}
                               students={this.state.students}
                               student={this.state.students[key]}
-                              selTests={this.state.selTests}
-                              selStudents={this.state.selStudents}
+                              selectedTests={this.state.selectedTests}
+                              selectedStudents={this.state.selectedStudents}
                               toggleInvert={this.toggleInvert}
                               time={this.state.time}
                               updateStudent={this.updateStudent}
                               removeStudent={this.removeStudent}
-                            />)
-            }</ul>
-          </div> {/* END CONTAINER-FLUID MAIN-BODY */}
-          <div className={(this.state.printPage) ? "hidden" : ""}>
-            <AddStudentForm
-              students={this.state.students}
-              addStudent={this.addStudent}
-              addHoursAndMinutes={this.addHoursAndMinutes}
-              toggleInvert={this.toggleInvert}
-              alertON={this.alertON}
-              alertOFF={this.alertOFF}
-            />
-          </div>
+                            />
+                )
+              }
+          </ul>
+        </div> {/* END CONTAINER-FLUID MAIN-BODY */}
+        <div className={(this.state.printPage) ? "hidden" : ""}>
+          <AddStudentForm
+            students={this.state.students}
+            addStudent={this.addStudent}
+            addHoursAndMinutes={this.addHoursAndMinutes}
+            toggleInvert={this.toggleInvert}
+            alertON={this.alertON}
+            alertOFF={this.alertOFF}
+          />
         </div>
+      </div>
     </div>
     )
   }

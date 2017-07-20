@@ -1,62 +1,60 @@
-import $ from 'jquery'
+import $ from 'jquery';
 
-export function mountNumberInput() {
-  // componentDidMount() {
-
-    $('<div class="quantity-nav"><div class="quantity-button quantity-up">+</div><div class="quantity-button quantity-down">-</div></div>').insertAfter('.quantity input');
-    $('.quantity').each(function() {
-      var spinner = $(this),
-        input = spinner.find('input[type="number"]'),
-        btnUp = spinner.find('.quantity-up'),
-        btnDown = spinner.find('.quantity-down'),
-        min = input.attr('min'),
-        max = input.attr('max'),
-        step = input.attr('step');
-
-      btnUp.click(function() {
-        var oldValue = parseFloat(input.val());
-        if (oldValue >= max) {
-          // if(oldValue < 10) {
-            // var newVal = '0' + min;
-            var newVal = min;
-          // } else {
-            // var newVal = min;
-          // }
-        } else {
-          // if(oldValue < 10 && oldValue != step) {
-          if(oldValue == 0 && step == 5) {
-            var newVal = '0' + (oldValue + 1 * step);
-          } else {
-            var newVal = oldValue + 1 * step;
-          }
-        }
-        spinner.find("input").val(newVal);
-        spinner.find("input").trigger("change");
-      });
-
-      btnDown.click(function() {
-        var oldValue = parseFloat(input.val());
-        if (oldValue <= min) {
-          // if(oldValue < 10) {
-            // var newVal = '0' + max;
-          // } else {
-            var newVal = max;
-          // }
-        } else {
-          // if(oldValue < 10) {
-          if((oldValue == 10 || oldValue == 5) && step == 5) {
-            var newVal = '0' + (oldValue - 1 * step);
-          } else {
-            var newVal = oldValue - 1 * step;
-          }
-        }
-        spinner.find("input").val(newVal);
-        spinner.find("input").trigger("change");
-      });
-
-    });
-  // }
-}
+// export function mountNumberInput() {
+//
+//     $('<div class="quantity-nav"><div class="quantity-button quantity-up">+</div><div class="quantity-button quantity-down">-</div></div>').insertAfter('.quantity input');
+//     $('.quantity').each(function() {
+//       var spinner = $(this),
+//         input = spinner.find('input[type="number"]'),
+//         btnUp = spinner.find('.quantity-up'),
+//         btnDown = spinner.find('.quantity-down'),
+//         min = input.attr('min'),
+//         max = input.attr('max'),
+//         step = input.attr('step');
+//
+//       btnUp.click(function() {
+//         var oldValue = parseFloat(input.val());
+//         if (oldValue >= max) {
+//           // if(oldValue < 10) {
+//             // var newVal = '0' + min;
+//             var newVal = min;
+//           // } else {
+//             // var newVal = min;
+//           // }
+//         } else {
+//           // if(oldValue < 10 && oldValue != step) {
+//           if(oldValue == 0 && step == 5) {
+//             var newVal = '0' + (oldValue + 1 * step);
+//           } else {
+//             var newVal = oldValue + 1 * step;
+//           }
+//         }
+//         spinner.find("input").val(newVal);
+//         spinner.find("input").trigger("change");
+//       });
+//
+//       btnDown.click(function() {
+//         var oldValue = parseFloat(input.val());
+//         if (oldValue <= min) {
+//           // if(oldValue < 10) {
+//             // var newVal = '0' + max;
+//           // } else {
+//             var newVal = max;
+//           // }
+//         } else {
+//           // if(oldValue < 10) {
+//           if((oldValue == 10 || oldValue == 5) && step == 5) {
+//             var newVal = '0' + (oldValue - 1 * step);
+//           } else {
+//             var newVal = oldValue - 1 * step;
+//           }
+//         }
+//         spinner.find("input").val(newVal);
+//         spinner.find("input").trigger("change");
+//       });
+//
+//     });
+// }
 
 export function processTime(unprocessedTime, hourOption) {
     const unprocessedTimeObj = new Date(unprocessedTime);
