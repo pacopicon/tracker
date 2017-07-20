@@ -355,7 +355,14 @@ class Test extends React.Component {
   }
 
   componentDidMount() {
-    // mountNumberInput();
+    this.numberInput = setTimeout(
+      () => mountNumberInput(),
+      0
+    );
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.numberInput);
   }
 
   fullBarStyle(studentKey, test) {

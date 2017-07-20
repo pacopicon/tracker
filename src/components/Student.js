@@ -7,9 +7,9 @@ import PropTypes from 'prop-types';
 class Student extends React.Component {
   constructor() {
     super();
-    // this.handleChange = this.handleChange.bind(this);
-    this.handleInput = this.handleInput.bind(this);
-    this.handleCheckbox = this.handleCheckbox.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    // this.handleInput = this.handleInput.bind(this);
+    // this.handleCheckbox = this.handleCheckbox.bind(this);
     this.handleHourChange = this.handleHourChange.bind(this);
     this.handleMinuteChange = this.handleMinuteChange.bind(this);
     this.startTime = this.startTime.bind(this);
@@ -21,41 +21,43 @@ class Student extends React.Component {
     }
   }
 
-  // handleChange(e, key) {
-  //   const target = e.target;
-  //   const value = target.type === 'checkbox' ? target.checked : target.value;
+  handleChange(e, key) {
+    const target = e.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const { student } = this.props;
+    // take a copy of that student and update it with the new data
+    const updatedStudent = {
+      ...student,
+      [e.target.name]: value
+    }
+    this.props.updateStudent(key, updatedStudent);
+
+    if(target.type === 'checkbox') {
+      this.props.toggleInvert();
+    }
+  }
+
+  // handleInput(e, key) {
   //   const { student } = this.props;
-  //   // take a copy of that student and update it with the new data
   //   const updatedStudent = {
   //     ...student,
-  //     [e.target.name]: value
+  //     [e.target.name]: e.target.value
+  //   }
+  //   // const updateStudent = Object.assign({}, student)
+  //   this.props.updateStudent(key, updatedStudent);
+  //   this.props.toggleInvert();
+  // }
+  //
+  // handleCheckbox(e, key) {
+  //   console.log("e.target.checked = " + e.target.checked + ". e.target.name = " + e.target.name)
+  //   const { student } = this.props;
+  //   const updatedStudent = {
+  //     ...student,
+  //     [e.target.name]: e.target.checked
   //   }
   //   this.props.updateStudent(key, updatedStudent);
-  //
-  //   if(target.type === 'checkbox') {
-  //     this.props.toggleInvert();
-  //   }
+  //   this.props.toggleInvert();
   // }
-
-  handleInput(e, key) {
-    const { student } = this.props;
-    const updatedStudent = {
-      ...student,
-      [e.target.name]: e.target.value
-    }
-    this.props.updateStudent(key, updatedStudent);
-    this.props.toggleInvert();
-  }
-
-  handleCheckbox(e, key) {
-    const { student } = this.props;
-    const updatedStudent = {
-      ...student,
-      [e.target.name]: e.target.value
-    }
-    this.props.updateStudent(key, updatedStudent);
-    this.props.toggleInvert();
-  }
 
   // updateStudent(key, updatedStudent) {
   //   const students = {...this.state.students};
@@ -117,7 +119,7 @@ class Student extends React.Component {
   // updateStudent(key, updatedStudent) {
   //   const students = {...this.state.students};
   //   students[key] = updatedStudent;
-  //   this.setState({ fishes })
+  //   this.setState({ students })
   // }
 
   startTime(test) {
@@ -258,7 +260,8 @@ class Student extends React.Component {
           <div className="student col-lg-12 col-md-12 col-sm-12 col-xs-12">
   {/* STUDENT: checkbox, name, extend-time*/}
             <div className="checkboxIndexName marginRight marginLeft col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <input type="checkbox" className="checkbox" checked={student.isSafeToDelete} onChange={(e) => this.handleCheckbox(e, key)}/>
+              {/* <input type="checkbox" className="checkbox" name="isSafeToDelete" checked={student.isSafeToDelete} onChange={(e) => this.handleCheckbox(e, key)}/> */}
+              <input type="checkbox" className="checkbox" name="isSafeToDelete" checked={student.isSafeToDelete} onChange={(e) => this.handleChange(e, key)}/>
               <div className="indexAndNameCell">
                 <p className="indexAndName">
                   {student.order + 1}. {student.name} ({student.extendTime}) {student.isSafeToDelete}
