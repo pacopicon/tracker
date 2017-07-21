@@ -21,6 +21,7 @@ class AddStudentForm extends React.Component {
       extendTime: this.extendTime.value,
       tests: {
         Atest: {
+          id: Math.random() * 10000000000000000,
           name: this.AtestName.value,
           time: addHoursAndMinutes(this.AtestHour.value, this.AtestMinute.value) || 18000000,
           total: addHoursAndMinutes(this.AtestHour.value, this.AtestMinute.value) * this.extendTime.value || 0,
@@ -34,6 +35,7 @@ class AddStudentForm extends React.Component {
           endedAt: 0
         },
         Btest: {
+          id: Math.random() * 10000000000000000,
           name: this.BtestName.value,
           // time: addHoursAndMinutes(this.BtestHour.value, this.BtestMinute.value) || 18000000,
           // total: addHoursAndMinutes(this.BtestHour.value, this.BtestMinute.value) * this.extendTime.value || 0,
@@ -49,6 +51,7 @@ class AddStudentForm extends React.Component {
           endedAt: 0
         },
         Ctest: {
+          id: Math.random() * 10000000000000000,
           name: this.CtestName.value,
           // time: addHoursAndMinutes(this.CtestHour.value, this.CtestMinute.value) || 18000000,
           // total: addHoursAndMinutes(this.CtestHour.value, this.CtestMinute.value) * this.extendTime.value || 0,
@@ -64,6 +67,7 @@ class AddStudentForm extends React.Component {
           endedAt: 0
         },
         Dtest: {
+          id: Math.random() * 10000000000000000,
           name: this.DtestName.value,
           // time: addHoursAndMinutes(this.DtestHour.value, this.DtestMinute.value) || 18000000,
           // total: addHoursAndMinutes(this.DtestHour.value, this.DtestMinute.value) * this.extendTime.value || 0,

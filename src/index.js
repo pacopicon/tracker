@@ -2,9 +2,10 @@ import React from 'react';
 import { render } from 'react-dom';
 // import { BrowserRouter, Match, Miss } from 'react-router';
 // import { BrowserRouter, matchPath, Miss } from 'react-router-dom';
-import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
+// import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import rebase from './base';
+// import rebase from './base';
 // import 'bootstrap/dist/css/bootstrap.css';
 
 

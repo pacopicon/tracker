@@ -1,5 +1,4 @@
 import React from 'react'; // always need this in every module, along with everything else you need to import
-import { getFunName } from '../helpers';
 import firebase from 'firebase';
 import { database } from 'firebase';
 import rebase from '../base';
@@ -124,7 +123,7 @@ class Landing extends React.Component {
     return (
       <section>
         <div className="hero-content">
-            <img className="pencilPic" src={big} />
+            <img className="pencilPic" src={big} alt=""/>
         </div>
 
 {/* BEGIN oAuth LOGIN */}

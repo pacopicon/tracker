@@ -1,7 +1,7 @@
 import React from 'react';
 import rebase from '../base';
 import PropTypes from 'prop-types';
-import Landing from './Landing';
+// import Landing from './Landing';
 
 class Header extends React.Component {
   constructor() {
@@ -12,9 +12,9 @@ class Header extends React.Component {
   }
 
   getTeacherName(string) {
-    var string = string.trim();
-    var spaceIndex = string.indexOf(string.match(/\s/));
-    var lastName = string.slice(spaceIndex + 1, string.length);
+    var str = string.trim();
+    var spaceIndex = str.indexOf(str.match(/\s/));
+    var lastName = str.slice(spaceIndex + 1, str.length);
     return lastName;
   }
 

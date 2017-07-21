@@ -1,10 +1,8 @@
 import React from 'react';
 import Header from './Header';
-import Order from './Order';
-import Landing from './Landing';
+// import Landing from './Landing';
 import Student from './Student';
 import AddStudentForm from './AddStudentForm';
-import sampleStudentes from '../sample-students.js';
 import rebase from '../base';
 
 class App extends React.Component {
@@ -35,8 +33,8 @@ class App extends React.Component {
     this.state = {
       printPage: false,
       students: {},
-      alert: false,
       selectAll: true,
+      invertSelect: false,
       clickedToDelete: false,
       deleteAppear: false,
       clearSelected: false,
@@ -47,11 +45,34 @@ class App extends React.Component {
       timeoutStarted: false,
       info: false,
       selectedStudents: [],
-      selectedTests: [],
-      selectAll: true,
-      invertSelect: false,
+      selectedTests: []
 
     };
+  }
+
+  // BEGIN lifecycle hooks AND clock functions
+
+  tick() {
+    this.setState({
+      time: new Date()
+    });
+  }
+
+  componentDidMount() {
+
+    this.clock = setInterval(
+      () => this.tick(),
+      1000
+    );
+
+    if(!this.state.timeoutStarted) {
+      setTimeout(
+        () => this.dbTimeout(),
+        this.state.waitOption);
+      setTimeout(
+        () => this.dbTimeErase(),
+        this.state.waitOption)
+    }
   }
 
   componentWillMount() {
@@ -62,13 +83,17 @@ class App extends React.Component {
   }
 
   componentWillUnmount() {
+    clearInterval(this.clock);
+
     rebase.base.removeBinding(this.ref);
   }
 
+  // END lifecycle hooks AND clock functions
+
   getTeacherName(string) {
-    var string = string.trim();
-    var spaceIndex = string.indexOf(string.match(/\s/));
-    var lastName = string.slice(spaceIndex + 1, string.length);
+    var str = string.trim();
+    var spaceIndex = str.indexOf(str.match(/\s/));
+    var lastName = str.slice(spaceIndex + 1, str.length);
     return lastName;
   }
 
@@ -104,17 +129,6 @@ class App extends React.Component {
 
   dbTimeErase() {
     this.logout();
-  }
-
-  componentDidMount() {
-    if(!this.state.timeoutStarted) {
-      setTimeout(
-        () => this.dbTimeout(),
-        this.state.waitOption);
-      setTimeout(
-        () => this.dbTimeErase(),
-        this.state.waitOption)
-    }
   }
 
   warningRejection() {
@@ -185,7 +199,7 @@ class App extends React.Component {
       });
       console.log("safeCount: " + this.safeCount);
       console.log("invertSelect is" + this.state.invertSelect + "; selectAll is " + this.state.selectAll);
-    } else if (this.safeCount > 0 && this.safeCount == Object.keys(this.state.students).length) {
+    } else if (this.safeCount > 0 && this.safeCount === Object.keys(this.state.students).length) {
         this.setState({
           invertSelect   : false,
           selectAll      : false,
@@ -193,7 +207,7 @@ class App extends React.Component {
           clickedToDelete: true
         });
       console.log("invertSelect " + this.state.invertSelect + "; selectAll is " + this.state.selectAll);
-    } else if (this.safeCount == 0) {
+    } else if (this.safeCount === 0) {
       this.setState({
         invertSelect   : true,
         selectAll      : true,
@@ -207,28 +221,6 @@ class App extends React.Component {
 
 // END Student selection functions
 
-// BEGIN Clock Functions
-
-  tick() {
-    this.setState({
-      time: new Date()
-    });
-  }
-
-  componentDidMount() {
-    this.clock = setInterval(
-      () => this.tick(),
-      1000
-    );
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.clock);
-  }
-
-
-// END Clock Functions
-
 // BEGIN Student CRUD functions
 
   addStudent(student) {
@@ -237,6 +229,10 @@ class App extends React.Component {
     // add in our new student
     const timestamp = Date.now();
     students[`student-${timestamp}`] = student;
+    student.tests[`Atest`] = student.tests.Atest;
+    student.tests[`Btest`] = student.tests.Btest;
+    student.tests[`Ctest`] = student.tests.Ctest;
+    student.tests[`Dtest`] = student.tests.Dtest;
     // you can do this: this.state.students.student1 = student;
     // set state
     // this is more standard, grabbing the state and updating it: this.setState({ students: students})
