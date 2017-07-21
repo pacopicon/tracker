@@ -7,8 +7,7 @@ import PropTypes from 'prop-types';
 class Test extends React.Component {
   constructor() {
     super();
-    // this.renderFormButton = this.renderFormButton.bind(this);
-    this.changeState = this.changeState.bind(this);
+    this.handleToggle = this.handleToggle.bind(this);
     this.startTimer = this.startTimer.bind(this);
     this.timer = this.timer.bind(this);
     this.pauseTimer = this.pauseTimer.bind(this);
@@ -56,7 +55,7 @@ class Test extends React.Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    const { student, students, studentKey, key, test } = this.props;
+    const { student, students, studentKey, test } = this.props;
 
     if(this.state.startTest) {
       this.timerVar = setInterval(
@@ -66,7 +65,7 @@ class Test extends React.Component {
     }
 
 
-    // if(nextProps.student.isSafeToDelete && test.total > 0 && !this.state.addInLineTest && !this.state.hideFinishedTest){
+    // if(nextProps.student.isSafeToDelete && test.total > 0 && !this.state.addInlinetest && !this.state.hideFinishedTest){
     // if(nextProps.student.isSafeToDelete){
     //   // $(ReactDOM.findDOMNode(this.refs.safeDeleteHighlighft)).css({'padding-left': '1em',
     //   //   'transition': 'all 1s ease-in-out'});
@@ -120,7 +119,7 @@ class Test extends React.Component {
   }
 
   componentDidUpdate(oldProps,oldState){
-    const { student, students, studentKey, key, test } = this.props;
+    const { student, students, studentKey, test } = this.props;
 
     // if(!student.isSafeToDelete){
     //   ReactDOM.findDOMNode(this.refs.safeDeleteHighlight).css({'padding-left': '1em',
@@ -168,53 +167,56 @@ class Test extends React.Component {
 
 // BEGIN click handlers
 
-changeState(key, value) {
+handleToggle(e, boolean) {
   this.setState({
-      key: value
+    [e.target.name]: e.target.value
   });
+  console.log("e.target.name = " + e.target.name)
+  console.log("e.target.value = " + e.target.value)
+  console.log("this.state.addInlinetest = " + this.state.addInlinetest)
 }
 
-handleChange(e, key) {
-  const target = e.target;
-  const value = target.type === 'checkbox' ? target.checked : target.value;
-  const { student } = this.props;
-  // take a copy of that student and update it with the new data
-  const updatedStudent = {
-    ...student,
-    [e.target.name]: value
-  }
-  this.props.updateStudent(key, updatedStudent);
+// handleChange(e, key) {
+//   const target = e.target;
+//   const value = target.type === 'checkbox' ? target.checked : target.value;
+//   const { student } = this.props;
+//   // take a copy of that student and update it with the new data
+//   const updatedStudent = {
+//     ...student,
+//     [e.target.name]: value
+//   }
+//   this.props.updateStudent(key, updatedStudent);
+//
+//   if(target.type === 'checkbox') {
+//     this.props.toggleInvert();
+//   }
+// }
 
-  if(target.type === 'checkbox') {
-    this.props.toggleInvert();
-  }
-}
-
-  handleHourChange(e, test) {
-    const { student } = this.props;
-    // take a copy of that student and update it with the new data
-    this.setState({
-      hour: e.target.value
-    });
-  }
-
-  handleMinuteChange(e, key, test) {
-    const { student } = this.props;
-    // take a copy of that student and update it with the new data
-    const hoursAndMinutes = addHoursAndMinutes(this.state.hour, e.target.value);
-    const updatedStudent = {
-      ...student,
-      [e.target.name]: hoursAndMinutes,
-      [test.total]: hoursAndMinutes * student.extendTime
-    }
-
-    this.props.updateStudent(key, updatedStudent);
-
-    // reset hour state for other inline number inputs to use
-    this.setState({
-      hour: 0
-    });
-  }
+  // handleHourChange(e, test) {
+  //   const { student } = this.props;
+  //   // take a copy of that student and update it with the new data
+  //   this.setState({
+  //     hour: e.target.value
+  //   });
+  // }
+  //
+  // handleMinuteChange(e, key, test) {
+  //   const { student } = this.props;
+  //   // take a copy of that student and update it with the new data
+  //   const hoursAndMinutes = addHoursAndMinutes(this.state.hour, e.target.value);
+  //   const updatedStudent = {
+  //     ...student,
+  //     [e.target.name]: hoursAndMinutes,
+  //     [test.total]: hoursAndMinutes * student.extendTime
+  //   }
+  //
+  //   this.props.updateStudent(key, updatedStudent);
+  //
+  //   // reset hour state for other inline number inputs to use
+  //   this.setState({
+  //     hour: 0
+  //   });
+  // }
 
   relay(value, boolean) {
     return {
@@ -462,17 +464,23 @@ handleChange(e, key) {
 
     // The console.logs above contain defined variables
 
-    if(test.total == 0 || !this.state.addInLineTest) {
+
+
+    if(test.total == 0 && !this.state.addInlinetest) {
       return (
-        <li key={test.id} className="addTest dataButtonsAndBars col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div key={test.id} className="addTest dataButtonsAndBars col-lg-12 col-md-12 col-sm-12 col-xs-12">
           <div>
-            <i className="fa fa-plus" aria-hidden="true" onClick={() => this.changeState(this.state.addInLineTest, true)}></i>
+            {/* <i className="fa fa-plus" aria-hidden="true" onClick={() => this.changeState(this.state.addInlinetest, true)}></i> */}
+            {/* <i className="fa fa-plus" aria-hidden="true" name="addInlinetest" value={this.state.addInlinetest} onClick={(e) => this.handleToggle(e, true)}><button></button></i> */}
+            {/* <i className="fa fa-plus" aria-hidden="true"><button name="addInlinetest" value={this.state.addInlinetest} onClick={(e) => this.handleToggle(e, true)}></button></i> */}
+            {/* <button className="fa fa-plus" aria-hidden="true" name="addInlinetest" value={this.state.addInlinetest} onClick={(e) => this.handleToggle(e, true)}></button> */}
+            <button className= "addInlinetestBtn" name="addInlinetest" value={this.state.addInlinetest} onClick={(e) => this.handleToggle(e, true)}><i className="fa fa-plus" aria-hidden="true"></i></button>
           </div>
-        </li>
+        </div>
       )
-    } else if(test.total = 0 && this.state.addInLineTest) {
+    } else if(test.total == 0 && this.state.addInlinetest) {
       return (
-        <li key={test.id} className="inlineForm buttonsAndBars">
+        <div key={test.id} className="inlineForm buttonsAndBars">
           <div className="inlineNameForm col-lg-6 col-md-6 col-sm-6 col-xs-6">
             <input type="text" className="form-control testNameInput" value={test.name} placeholder="test name" onChange={(e) => this.props.handleChange(e, studentKey)}/>
           </div>
@@ -484,13 +492,13 @@ handleChange(e, key) {
               <input type="number" min="00" max="55" step="5" value="00" onChange={(e) => this.props.handleMinuteChange(e, studentKey, test)}/>
             </div>
           </div>
-          <button type="submit" type="button" className="addTestBtn col-lg-1 col-md-1 col-sm-1 col-xs-1" onClick={() => this.changeState(this.state.addInLineTest, false)}><i className="fa fa-check checkAdd" aria-hidden="true"></i></button>
-        </li>
+          <button type="submit" type="button" className="addTestBtn col-lg-1 col-md-1 col-sm-1 col-xs-1" onClick={() => this.changeState(this.state.addInlinetest, false)}><i className="fa fa-check checkAdd" aria-hidden="true"></i></button>
+        </div>
       )
-    } else if(test.total > 0 && !this.state.addInLineTest && !this.state.hideFinishedTest) {
+    } else if(test.total > 0 && !this.state.addInlinetest && !this.state.hideFinishedTest) {
       // TEST ONE DATA
       return (
-        <li key={test.id} className="dataButtonsAndBars col-lg-12 col-md-12 col-sm-12 col-xs-12" ref="safeDeleteHighlight" onMouseOver={() => this.changeState(this.state.redHover, true)} onMouseLeave={() => this.changeState(this.state.redHover, false)}>
+        <div key={test.id} className="dataButtonsAndBars col-lg-12 col-md-12 col-sm-12 col-xs-12" ref="safeDeleteHighlight" onMouseOver={() => this.changeState(this.state.redHover, true)} onMouseLeave={() => this.changeState(this.state.redHover, false)}>
         {/* <div className={"dataButtonsAndBars col-lg-12 col-md-12 col-sm-12 col-xs-12" + (student.isSafeToDelete) ? "deleteHighlight" : ""} onMouseOver={() => this.changeState(this.state.redHover, true)} onMouseLeave={() => this.changeState(this.state.redHover, false)}> */}
           <div className="testTimeData">
 {/* test hide */}
@@ -610,7 +618,7 @@ handleChange(e, key) {
               </div>
             </div>
           </div>
-        </li>
+        </div>
       )
     }
   } // end of renderTests

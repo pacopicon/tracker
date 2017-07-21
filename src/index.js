@@ -14,6 +14,7 @@ import './css/main.min.css';
 import './css/user.min.css';
 import './css/navbar.min.css';
 import './css/testData.min.css';
+import './css/testData.min.css';
 import App from './components/App';
 import Landing from './components/Landing';
 import NotFound from './components/NotFound';
