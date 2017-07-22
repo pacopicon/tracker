@@ -21,6 +21,11 @@ class App extends React.Component {
     this.displayWarning = this.displayWarning.bind(this);
     this.displayAlert = this.displayAlert.bind(this);
     this.displayInfo = this.displayInfo.bind(this);
+    this.displayFormControls = this.displayFormControls.bind(this);
+    this.renderClickedToDelete = this.renderClickedToDelete.bind(this);
+    this.renderSwitchControlButton = this.renderSwitchControlButton.bind(this);
+    this.displayControlButtons = this.displayControlButtons.bind(this);
+
     this.alertON = this.alertON.bind(this);
     this.alertOFF = this.alertON.bind(this);
     this.tick = this.tick.bind(this);
@@ -38,7 +43,7 @@ class App extends React.Component {
       printPage: false,
       students: {},
       selectAll: true,
-      invertSelect: false,
+      invertSelected: false,
       clickedToDelete: false,
       deleteAppear: false,
       clearSelected: false,
@@ -49,8 +54,8 @@ class App extends React.Component {
       timeoutStarted: false,
       info: false,
       selectedStudents: [],
-      selectedTests: []
-
+      selectedTests: [],
+      areThereEnoughStudents: false
     };
   }
 
@@ -68,6 +73,10 @@ class App extends React.Component {
       () => this.tick(),
       1000
     );
+
+    this.setState({
+      areThereEnoughStudents: Object.keys(this.state.students).length < 2
+    });
 
     if(!this.state.timeoutStarted) {
       setTimeout(
@@ -201,6 +210,73 @@ class App extends React.Component {
     }
   }
 
+  displayControlButtons() {
+    if(this.state.selectAll && !this.state.invertSelected) {
+      return (
+        <p role="alert">select all</p>
+      )
+    } else if(this.state.clearSelected && !this.state.invertSelected) {
+      return (
+        <p role="alert">clear selected</p>
+      )
+    } else if(this.state.invertSelected) {
+      return (
+        <p className={(this.state.invertSelected) ? "" : "hidden"} role="alert">invert selection</p>
+      )
+    }
+  }
+
+  renderSwitchControlButton() {
+    return (
+      <button className="controlBtn selectAll clearAll invertSelection" onClick={() => this.switchControl(this.state.students)}>
+        {this.displayControlButtons()}
+      </button>
+    )
+  }
+
+  renderClickedToDelete() {
+    if(this.state.clickedToDelete) {
+      return (
+        <div className='col-lg-4 col-md-4 col-sm-4 col-xs-4 mainBtn'>
+          {this.renderSwitchControlButton()}
+        </div>
+      )
+    } else {
+      return (
+        <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12 mainBtn'>
+          {this.renderSwitchControlButton()}
+        </div>
+      )
+    }
+  }
+
+  displayFormControls() {
+    // if(Object.keys(this.state.students).length < 2) {
+    if(this.state.areThereEnoughStudents) {
+      return (
+        <div className="row formControls marginLeft marginRight">
+          <div className={(this.state.clickedToDelete) ? 'col-lg-4 col-md-4 col-sm-4 col-xs-4 mainBtn' : 'col-lg-12 col-md-12 col-sm-12 col-xs-12 mainBtn'}>
+            <button className="controlBtn selectAll clearAll invertSelection" onClick={() => this.switchControl(this.state.students)}>
+              <p className={(this.state.selectAll && !this.state.invertSelected) ? "" : "hidden"} role="alert">select all</p>
+              <p className={(this.state.clearSelected && !this.state.invertSelected) ? "" : "hidden"} role="alert">clear selected</p>
+              <p className={(this.state.invertSelected) ? "" : "hidden"} role="alert">invert selection</p>
+            </button>
+          </div>
+          <div className={(this.state.deleteAppear) ? "col-lg-4 col-md-4 col-sm-4 col-xs-4 deleteSelectedStudents IIndaryBtnYes" : "col-lg-4 col-md-4 col-sm-4 col-xs-4 deleteSelectedStudents IIndaryBtnNo"}>
+            <button className="controlBtn deleteSelected" onClick={() => this.deleteSelected()}>
+              <p>delete selected</p>
+            </button>
+          </div>
+          <div className={(this.state.deleteAppear) ? "col-lg-4 col-md-4 col-sm-4 col-xs-4 startSelectedTests IIndaryBtnYes" : "col-lg-4 col-md-4 col-sm-4 col-xs-4 startSelectedTests IIndaryBtnNo"}>
+            <button className="controlBtn deleteSelected" onClick={() => this.startSelectedTests()}>
+              <p>start selected tests</p>
+            </button>
+          </div>
+        </div>
+      )
+    }
+  }
+
   alertON() {
     this.setState({ alert: true});
   }
@@ -257,26 +333,26 @@ class App extends React.Component {
 
     if (this.safeCount > 0 && this.unsafeCount > 1) {
       this.setState({
-        invertSelect: true,
+        invertSelected: true,
         selectAll   : false
       });
       console.log("safeCount: " + this.safeCount);
-      console.log("invertSelect is" + this.state.invertSelect + "; selectAll is " + this.state.selectAll);
+      console.log("invertSelected is" + this.state.invertSelected + "; selectAll is " + this.state.selectAll);
     } else if (this.safeCount > 0 && this.safeCount === Object.keys(this.state.students).length) {
         this.setState({
-          invertSelect   : false,
+          invertSelected   : false,
           selectAll      : false,
           clearSelected  : true,
           clickedToDelete: true
         });
-      console.log("invertSelect " + this.state.invertSelect + "; selectAll is " + this.state.selectAll);
+      console.log("invertSelected " + this.state.invertSelected + "; selectAll is " + this.state.selectAll);
     } else if (this.safeCount === 0) {
       this.setState({
-        invertSelect   : true,
+        invertSelected   : true,
         selectAll      : true,
         clickedToDelete: false
       });
-      console.log("invertSelect " + this.state.invertSelect + " is false; selectAll is " + this.state.selectAll);
+      console.log("invertSelected " + this.state.invertSelected + " is false; selectAll is " + this.state.selectAll);
     }
   }
 
@@ -424,11 +500,11 @@ startSelectedTests() {
 }
 
 switchControl() {
-  if (this.state.selectAll && !this.state.invertSelect) {
+  if (this.state.selectAll && !this.state.invertSelected) {
     this.toggleSelectForDelete();
     this.setState({
         selectAll: false,
-        invertSelect: false,
+        invertSelected: false,
         clickedToDelete: true
     });
     setTimeout(
@@ -460,7 +536,7 @@ switchControl() {
       1000
     );
 
-  } else if (this.state.invertSelect) {
+  } else if (this.state.invertSelected) {
     this.toggleSelectForDelete();
   }
 }
@@ -486,54 +562,15 @@ renderHeader() {
       <div className="main-frame">
         {this.renderHeader()}
         <div className="list-group">
-          {/* <div className={"alert alert-danger" + (!this.state.warn) ? "hidden" : ""} role="alert"> */}
-          {/* <div className={"alert alert-danger" + (this.state.warn) ? "" : "hidden"} role="alert"> */}
-            {/* <div className={this.getStyle()} role="alert"> */}
-          {/* <div className="alert alert-danger" role="alert">
-            <div className="alert-message">Do you wish to erase student list and close session?
-              <div className="yesNoContainer">
-                <button className="yesBtn" onClick={() => this.logout()}><p>close session</p></button>
-                <button className="noBtn" onClick={() => this.warningRejection()}><p>not yet</p></button>
-              </div>
-            </div>
-          </div> */}
           {this.displayWarning()}
-          {/* <div className={"alert alert-warning" + (this.state.alert) ? "" : "hidden"} role="alert">
-            <i className="fa fa-exclamation" aria-hidden="true"></i>
-            <i className="fa fa-exclamation" aria-hidden="true"></i>
-            <i className="fa fa-exclamation" aria-hidden="true"></i> oops! At minimum, please enter student name and testing extension multiple.
-            <i className="fa fa-exclamation" aria-hidden="true"></i>
-            <i className="fa fa-exclamation" aria-hidden="true"></i>
-            <i className="fa fa-exclamation" aria-hidden="true"></i>
-          </div> */}
           {this.displayAlert()}
-
           {/* <div className={"alert alert-info" + (this.state.info) ? "" : "hidden"} role="alert">There are no tests ready to start at this time.</div> */}
           {this.displayInfo()}
 
 {/*begin Student Display*/}
           <div className="container-fluid main-body w3-panel w3-card-2">
 {/*SELECT / DELETE CONTROLS*/}
-            <div className={"row formControls marginLeft marginRight" + (Object.keys(this.state.students).length < 2) ? "hidden" : ""} >
-              <div className={(this.state.clickedToDelete) ? 'col-lg-4 col-md-4 col-sm-4 col-xs-4 mainBtn' : 'col-lg-12 col-md-12 col-sm-12 col-xs-12 mainBtn'}>
-                <button className="controlBtn selectAll clearAll invertSelection" onClick={() => this.switchControl(this.state.students)}>
-                  <p className={(this.state.selectAll && !this.state.invertSelect) ? "" : "hidden"} role="alert">select all</p>
-                  <p className={(this.state.clearSelected && !this.state.invertSelect) ? "" : "hidden"} role="alert">clear selected</p>
-                  <p className={(this.state.invertSelect) ? "" : "hidden"} role="alert">invert selection</p>
-                </button>
-              </div>
-              <div className={(this.state.deleteAppear) ? "col-lg-4 col-md-4 col-sm-4 col-xs-4 deleteSelectedStudents IIndaryBtnYes" : "col-lg-4 col-md-4 col-sm-4 col-xs-4 deleteSelectedStudents IIndaryBtnNo"}>
-                <button className="controlBtn deleteSelected" onClick={() => this.deleteSelected()}>
-                  <p>delete selected</p>
-                </button>
-              </div>
-              <div className={(this.state.deleteAppear) ? "col-lg-4 col-md-4 col-sm-4 col-xs-4 startSelectedTests IIndaryBtnYes" : "col-lg-4 col-md-4 col-sm-4 col-xs-4 startSelectedTests IIndaryBtnNo"}>
-                <button className="controlBtn deleteSelected" onClick={() => this.startSelectedTests()}>
-                  <p>start selected tests</p>
-                </button>
-              </div>
-            </div>
-
+            {this.displayFormControls()}
             <ul className="TrackerPage">
               {Object
                 .keys(this.state.students)
