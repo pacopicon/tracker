@@ -18,6 +18,9 @@ class App extends React.Component {
     this.warnClose = this.warnClose.bind(this);
     this.addHoursAndMinutes = this.addHoursAndMinutes.bind(this);
     this.toggleInvert = this.toggleInvert.bind(this);
+    this.displayWarning = this.displayWarning.bind(this);
+    this.displayAlert = this.displayAlert.bind(this);
+    this.displayInfo = this.displayInfo.bind(this);
     this.alertON = this.alertON.bind(this);
     this.alertOFF = this.alertON.bind(this);
     this.tick = this.tick.bind(this);
@@ -28,6 +31,7 @@ class App extends React.Component {
     this.switchControl = this.switchControl.bind(this);
     this.toggleSelectForDelete = this.toggleSelectForDelete.bind(this);
     this.renderHeader = this.renderHeader.bind(this);
+    // this.getStyle = this.getStyle.bind(this);
 
     // getinitialState
     this.state = {
@@ -73,6 +77,12 @@ class App extends React.Component {
         () => this.dbTimeErase(),
         this.state.waitOption)
     }
+
+    // if(!this.state.uid) {
+    //   this.props.location.pathname = `/`;
+    //   this.props.history.push(`/`);
+    //   this.props.history.replace(`/`);
+    // }
   }
 
   componentWillMount() {
@@ -105,12 +115,18 @@ class App extends React.Component {
 
   logout() {
     rebase.app.auth().signout().then(() => {
-      this.setState({uid: null});
+      // this.setState({uid: null});
+      // this.props.location.pathname = `/`;
+      // this.props.history.push(`/`);
+      // this.props.history.replace(`/`);
+      console.log('signed out');
+    }, error => {
+      console.error("sign out error", error)
     });
     if(!this.state.uid) {
-      this.props.location.pathname = `/Landing`;
-      this.props.history.push(`/Landing`);
-      this.props.history.replace(`/Landing`);
+      this.props.location.pathname = `/`;
+      this.props.history.push(`/`);
+      this.props.history.replace(`/`);
     }
   }
 
@@ -136,6 +152,53 @@ class App extends React.Component {
                     waitOption    : this.state.waitOption + 1800000,
                     timeoutStarted: false
     });
+    console.log("this.state.warn = " + this.state.warn);
+    console.log("this.state.waitOption = " + this.state.waitOption);
+    console.log("this.state.timeoutStarted = " + this.state.timeoutStarted);
+  }
+
+  // getStyle() {
+  //  return {
+  //   display: this.state.warn ? '' : 'hidden'
+  //  }
+  // }
+
+  displayWarning() {
+    if(this.state.warn) {
+      return (
+        <div className="alert alert-danger" role="alert">
+          <div className="alert-message">Do you wish to erase student list and close session?
+            <div className="yesNoContainer">
+              <button className="yesBtn" onClick={() => this.logout()}><p>close session</p></button>
+              <button className="noBtn" onClick={() => this.warningRejection()}><p>not yet</p></button>
+            </div>
+          </div>
+        </div>
+      )
+    }
+  }
+
+  displayAlert() {
+    if(this.state.alert) {
+      return (
+        <div className="alert alert-warning" role="alert">
+          <i className="fa fa-exclamation" aria-hidden="true"></i>
+          <i className="fa fa-exclamation" aria-hidden="true"></i>
+          <i className="fa fa-exclamation" aria-hidden="true"></i> oops! At minimum, please enter student name and testing extension multiple.
+          <i className="fa fa-exclamation" aria-hidden="true"></i>
+          <i className="fa fa-exclamation" aria-hidden="true"></i>
+          <i className="fa fa-exclamation" aria-hidden="true"></i>
+        </div>
+      )
+    }
+  }
+
+  displayInfo() {
+    if(this.state.info) {
+      return (
+        <div className="alert alert-info" role="alert">There are no tests ready to start at this time.</div>
+      )
+    }
   }
 
   alertON() {
@@ -423,24 +486,30 @@ renderHeader() {
       <div className="main-frame">
         {this.renderHeader()}
         <div className="list-group">
-          <div className={"alert alert-danger" + (this.state.warn) ? "" : "hidden"} role="alert">
+          {/* <div className={"alert alert-danger" + (!this.state.warn) ? "hidden" : ""} role="alert"> */}
+          {/* <div className={"alert alert-danger" + (this.state.warn) ? "" : "hidden"} role="alert"> */}
+            {/* <div className={this.getStyle()} role="alert"> */}
+          {/* <div className="alert alert-danger" role="alert">
             <div className="alert-message">Do you wish to erase student list and close session?
               <div className="yesNoContainer">
                 <button className="yesBtn" onClick={() => this.logout()}><p>close session</p></button>
                 <button className="noBtn" onClick={() => this.warningRejection()}><p>not yet</p></button>
               </div>
             </div>
-          </div>
-          <div className={"alert alert-warning" + (this.state.alert) ? "" : "hidden"} role="alert">
+          </div> */}
+          {this.displayWarning()}
+          {/* <div className={"alert alert-warning" + (this.state.alert) ? "" : "hidden"} role="alert">
             <i className="fa fa-exclamation" aria-hidden="true"></i>
             <i className="fa fa-exclamation" aria-hidden="true"></i>
             <i className="fa fa-exclamation" aria-hidden="true"></i> oops! At minimum, please enter student name and testing extension multiple.
             <i className="fa fa-exclamation" aria-hidden="true"></i>
             <i className="fa fa-exclamation" aria-hidden="true"></i>
             <i className="fa fa-exclamation" aria-hidden="true"></i>
-          </div>
+          </div> */}
+          {this.displayAlert()}
 
-          <div className={"alert alert-info" + (this.state.info) ? "" : "hidden"} role="alert">There are no tests ready to start at this time.</div>
+          {/* <div className={"alert alert-info" + (this.state.info) ? "" : "hidden"} role="alert">There are no tests ready to start at this time.</div> */}
+          {this.displayInfo()}
 
 {/*begin Student Display*/}
           <div className="container-fluid main-body w3-panel w3-card-2">

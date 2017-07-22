@@ -473,8 +473,8 @@ handleToggle(e, boolean) {
             {/* <i className="fa fa-plus" aria-hidden="true" onClick={() => this.changeState(this.state.addInlinetest, true)}></i> */}
             {/* <i className="fa fa-plus" aria-hidden="true" name="addInlinetest" value={this.state.addInlinetest} onClick={(e) => this.handleToggle(e, true)}><button></button></i> */}
             {/* <i className="fa fa-plus" aria-hidden="true"><button name="addInlinetest" value={this.state.addInlinetest} onClick={(e) => this.handleToggle(e, true)}></button></i> */}
-            {/* <button className="fa fa-plus" aria-hidden="true" name="addInlinetest" value={this.state.addInlinetest} onClick={(e) => this.handleToggle(e, true)}></button> */}
-            <button className= "addInlinetestBtn" name="addInlinetest" value={this.state.addInlinetest} onClick={(e) => this.handleToggle(e, true)}><i className="fa fa-plus" aria-hidden="true"></i></button>
+            <button className="fa fa-plus addInlinetestBtn" aria-hidden="true" name="addInlinetest" value={this.state.addInlinetest} onClick={(e) => this.handleToggle(e, true)}></button>
+            {/* <button className= "addInlinetestBtn" name="addInlinetest" value={this.state.addInlinetest} onClick={(e) => this.handleToggle(e, true)}><i className="fa fa-plus" aria-hidden="true"></i></button> */}
           </div>
         </div>
       )
@@ -498,14 +498,16 @@ handleToggle(e, boolean) {
     } else if(test.total > 0 && !this.state.addInlinetest && !this.state.hideFinishedTest) {
       // TEST ONE DATA
       return (
-        <div key={test.id} className="dataButtonsAndBars col-lg-12 col-md-12 col-sm-12 col-xs-12" ref="safeDeleteHighlight" onMouseOver={() => this.changeState(this.state.redHover, true)} onMouseLeave={() => this.changeState(this.state.redHover, false)}>
+        // <div key={test.id} className="dataButtonsAndBars col-lg-12 col-md-12 col-sm-12 col-xs-12" ref="safeDeleteHighlight" onMouseOver={() => this.changeState(this.state.redHover, true)} onMouseLeave={() => this.changeState(this.state.redHover, false)}>
+        <div key={test.id} className="dataButtonsAndBars col-lg-12 col-md-12 col-sm-12 col-xs-12" ref="safeDeleteHighlight" name="redHover" value="this.state.redhover" onMouseOver={(e) => this.handleToggle(e, true)} onMouseLeave={(e) => this.handleToggle(e, false)}>
         {/* <div className={"dataButtonsAndBars col-lg-12 col-md-12 col-sm-12 col-xs-12" + (student.isSafeToDelete) ? "deleteHighlight" : ""} onMouseOver={() => this.changeState(this.state.redHover, true)} onMouseLeave={() => this.changeState(this.state.redHover, false)}> */}
           <div className="testTimeData">
 {/* test hide */}
             <div className="hideTest col-lg-1 col-md-1 col-sm-1 col-xs-1" ref = "redHover">
             {/* <div className={"hideTest col-lg-1 col-md-1 col-sm-1 col-xs-1" + (this.state.redHover && test.isOver) ? "hidden" : ""}> */}
               <div>
-                <i className="fa fa-minus" aria-hidden="true" onClick={() => this.changeState(this.state.hideFinishedTest, true)}></i>
+                {/* <i className="fa fa-minus" aria-hidden="true" onClick={() => this.changeState(this.state.hideFinishedTest, true)}></i> */}
+                <button className="hideFinishedTestBtn" name="hideFinishedTest" value="this.state.hideFinishedTest" onClick={(e) => this.handleToggle(e, true)}><i className="fa fa-minus" aria-hidden="true"></i></button>
               </div>
             </div>
             <div className="testTimeCell marginLeft marginRight col-lg-12 col-md-12 col-sm-12 col-xs-12">
