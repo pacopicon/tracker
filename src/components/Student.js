@@ -1,6 +1,7 @@
 import React from 'react';
 import Test from './Test';
 import ReactDOM from 'react-dom';
+import classnames from 'classnames';
 import { mountNumberInput, addHoursAndMinutes, processTime, parseTime } from '../helpers';
 // import { addHoursAndMinutes, processTime, parseTime } from '../helpers';
 import PropTypes from 'prop-types';
@@ -721,6 +722,7 @@ class Student extends React.Component {
                         handleChange={this.handleChange}
                         handleHourChange={this.handleHourChange}
                         handleMinuteChange={this.handleMinuteChange}
+                        updateStudent={this.props.updateStudent}
                         startTime={this.startTime}
                         endTime={this.endTime}
                         testTime={this.testTime}

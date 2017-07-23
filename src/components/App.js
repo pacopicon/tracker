@@ -2,6 +2,7 @@ import React from 'react';
 import Header from './Header';
 // import Landing from './Landing';
 import Student from './Student';
+import classnames from 'classnames';
 import AddStudentForm from './AddStudentForm';
 import rebase from '../base';
 
