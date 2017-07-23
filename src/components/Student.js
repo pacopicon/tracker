@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 class Student extends React.Component {
   constructor() {
     super();
+    this.displayDeleteBtn = this.displayDeleteBtn.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleHourChange = this.handleHourChange.bind(this);
     this.handleMinuteChange = this.handleMinuteChange.bind(this);
@@ -23,10 +24,10 @@ class Student extends React.Component {
     this.resumeTimer = this.resumeTimer.bind(this);
     this.resetTimer = this.resetTimer.bind(this);
     this.endTimer = this.endTimer.bind(this);
-    this.fullBarStyle = this.fullBarStyle.bind(this);
-    this.standardBarStyle = this.standardBarStyle.bind(this);
-    this.extendBarStyle = this.extendBarStyle.bind(this);
-    this.extendZeroBarStyle = this.extendZeroBarStyle.bind(this);
+    // this.fullBarStyle = this.fullBarStyle.bind(this);
+    // this.standardBarStyle = this.standardBarStyle.bind(this);
+    // this.extendBarStyle = this.extendBarStyle.bind(this);
+    // this.extendZeroBarStyle = this.extendZeroBarStyle.bind(this);
     this.state = {
       printPage: false,
       hour: 0,
@@ -480,29 +481,29 @@ class Student extends React.Component {
 
   // BEGIN Test Display Functions
 
-  fullBarStyle(studentKey, test) {
-    return {
-      width: this.state.bottomBarWidth + this.state.topBarWidth + '%'
-    }
-  }
-
-  standardBarStyle(studentKey, test) {
-    return {
-      width: this.state.bottomBarWidth + '%'
-    }
-  }
-
-  extendBarStyle(studentKey, test) {
-    return {
-      width: this.state.topBarWidth + '%'
-    }
-  }
-
-  extendZeroBarStyle() {
-    return {
-      width: 0 + '%'
-    }
-  }
+  // fullBarStyle(studentKey, test) {
+  //   return {
+  //     width: this.state.bottomBarWidth + this.state.topBarWidth + '%'
+  //   }
+  // }
+  //
+  // standardBarStyle(studentKey, test) {
+  //   return {
+  //     width: this.state.bottomBarWidth + '%'
+  //   }
+  // }
+  //
+  // extendBarStyle(studentKey, test) {
+  //   return {
+  //     width: this.state.topBarWidth + '%'
+  //   }
+  // }
+  //
+  // extendZeroBarStyle() {
+  //   return {
+  //     width: 0 + '%'
+  //   }
+  // }
 
 //   renderTests(testKey, studentKey) {
 //     const { student } = this.props
@@ -664,6 +665,16 @@ class Student extends React.Component {
 
   // END Test Display Functions
 
+  // BEGIN Render functions
+
+  displayDeleteBtn(studentKey) {
+    if(!this.props.student.isSafeToDelete) {
+      return(
+        <button className="fa fa-times deleteBtn" onClick={() => this.props.removeStudent(studentKey)}></button>
+      )
+    }
+  }
+
   renderTests() {
   // renderTestRender(studentKey) {
     // for (var key in this.props.students.tests) {
@@ -748,9 +759,7 @@ class Student extends React.Component {
                   {student.order + 1}. {student.name} ({student.extendTime}) {student.isSafeToDelete}
                 </p>
   {/*delete*/}
-                <button onClick={() => this.props.removeStudent(studentKey)}>
-                  <i className={"fa fa-times deleteBtn" + (student.isSafeToDelete) ? "" : "hidden"}></i>
-                </button>
+                {this.displayDeleteBtn(studentKey)}
               </div>
             </div>
           </div>
@@ -759,7 +768,7 @@ class Student extends React.Component {
   {/* BEGIN TESTS */}
           {/* {Object.keys(this.props.student.tests).map(this.renderTests())} */}
           {/* <ul>{this.renderTestRender(studentKey)}</ul> */}
-          <ul className="tests">{this.renderTests()}</ul>
+          <ul className="StudentTestWrapper">{this.renderTests()}</ul>
   {/* END TESTS */}
 
         </div>
@@ -829,7 +838,9 @@ class Student extends React.Component {
     }
 
   }
+  // END Render functions
 }
+
 
 Student.propTypes = {
   student: PropTypes.object.isRequired,

@@ -16,6 +16,8 @@
 // Index:
 // I - clock ---- l.
 
+// @import "landing.sass"
+
 section
   height: 200%
   background-color: $bgColor
@@ -183,24 +185,6 @@ button
 
 // Begin CSS for student Display and Student data
 
-.studentDisplay
-  display: table-row
-  width: 100%
-  margin-left: 0.5em
-  min-height: 2em
-
-.student
-  float: left
-  padding-left: 0
-  padding-right: 0.5em
-  height: 1.2em
-  padding-top: -0.5em
-
-.checkboxIndexName
-  height: 1em
-  white-space: normal
-  float: left
-
 .hidden
   display: none
 
@@ -212,8 +196,27 @@ button
   margin-left: 0
   padding-left: 0
 
+.studentDisplay
+  display: table-row
+  width: 100%
+  margin-left: 0.5em
+  min-height: 2em
+
+.student
+  float: left
+  padding-left: 0
+  padding-right: 0.5em
+  height: 2em
+  padding-top: -0.5em
+
+.checkboxIndexName
+  height: 2em
+  white-space: normal
+  float: left
+
 .indexAndNameCell
   min-width: 5em
+  height: 1.5em
 
 .indexAndNameCell
   p
@@ -222,10 +225,15 @@ button
 
 .checkbox
   float: left
+  width: 1em
   top: 2px
+  padding: 0
+  margin-top: 0
+  height: 1em
 
 .indexAndName
   text-align: left
+  line-height: 1.5em
   height: 1.5em
   padding: 0
   float: left
@@ -239,9 +247,11 @@ button
   padding-top: 0.2em
   float: left
   font-size: 1em
-  width: 1em
+  width: 1.5em
   margin: 0
   color: $darkNavy
+  background-color: $bgColor
+  border-style: none
   text-align: center
   transition: all 0.5s ease-in-out
   &:hover
@@ -252,273 +262,7 @@ button
 
 // End CSS for student
 
-// Begin CSS for Test Data
-
-.dataButtonsAndBars
-   padding-left: 0
-   padding-right: 0
-   min-height: 0
-   transition: all 1s ease-in-out
-
-.deleteHighlight
-  padding-left: 1em
-  transition: all 1s ease-in-out
-
-hr
-  margin: 0
-  width: 148% - $barWidth
-  max-width: 17.5em
-  border-top: 1px solid $darkNavy
-
-.addTest
-  width: 3em
-  height: 1em
-  i
-    font-size: 1em
-
-.addTestBottom
-  left: 7em
-  width: 3em
-  height: 1em
-  i
-    font-size: 2em
-
-.fa
-  color: $darkNavy
-
-.fa-plus, .fa-minus
-  transition: all 0.5s ease-in-out
-  cursor: pointer
-  &:hover
-    padding-left: 0.1em
-    color: $bsBlue
-    transition: all 0.5s ease-in-out
-
-.testTimeData
-  border-radius: 0.5em
-  width: 100% - $barWidth
-  padding-right: 0
-  float: left
-  padding-bottom: 0.2em
-  p
-    font-size: 0.7em
-    line-height: 1.3em
-    color: $darkNavy
-    padding-left: 0.1em
-
-.hideTest
-  padding: 0
-
-.testTimeCell
-  height: 100%
-
-.dataPoint, .dataPointLabel
-  margin-top: 0.35em
-  margin-bottom: 0
-  padding-bottom: 0
-  text-align: left
-  padding-left: 0
-  padding-right: 0
-
-// End CSS for Test Data
-
-// Begin CSS for Test Buttons
-
-.buttonsAndBars
-  width: $barWidth
-  float: right
-
-.testNameCell
-  height: 100%
-
-.buttonContainer
-  padding-left: 0
-  padding-right: 0
-  padding-bottom: 0.3em
-  p
-    line-height: 1em
-
-.countBtn
-  border-radius: 0.5em
-  min-height: $btnHeight
-  font-size: 1em
-  background-color: $bgColor
-  width: 100%
-  border: 2.5px solid $green
-  color: $green
-  cursor: pointer
-  p
-    margin: 0
-  &:hover
-    background-color: $green
-    color: $bgColor
-    transition: all 0.2s ease-in-out
-
-.pauseBtn
-  @extend .countBtn
-  border: 2.5px solid $bsYellow
-  color: $bsYellow
-  cursor: pointer
-  &:hover
-    transition: all 0.2s ease-in-out
-    background-color: $bsYellow
-    color: $bgColor
-
-.grayCell
-  @extend .countBtn
-  border: 2.5px solid $darkNavy
-  color: $darkNavy
-  cursor: not-allowed
-  &:hover
-    transition: all 0.2s ease-in-out
-    background-color: $darkNavy
-    color: $bgColor
-
-.redBtn
-  @extend .countBtn
-  border: 2.5px solid $bsRed
-  color: $bsRed
-  cursor: not-allowed
-  &:hover
-    transition: all 0.2s ease-in-out
-    background-color: $bsRed
-    color: $bgColor
-
-.redText
-  color: $bsRed
-
-.fa-minus
-  float: left
-  cursor: pointer
-  &:hover
-    padding-left: 0.1em
-    color: $bsRed
-    transition: all 0.5s ease-in-out
-
-.resumeBtn, .resetBtn, .endBtn
-  border-radius: 0.5em
-  background-color: $bgColor
-  height: $btnHeight
-  padding-bottom: 1em
-  cursor: pointer
-  &:hover
-    transition: all 0.2s ease-in-out
-    color: $bgColor
-    background-color: $green
-
-.resetBtn
-  color: $bsYellow
-  border-top: 2.5px solid $bsYellow
-  border-bottom: 2.5px solid $bsYellow
-  border-top-right-radius: 0
-  border-bottom-right-radius: 0
-  border-top-left-radius: 0
-  border-bottom-left-radius: 0
-  border-right: $bgColor
-  border-left: $bgColor
-
-  &:hover
-    color: $bgColor
-    background-color: $bsYellow
-
-.endBtn
-  border: 2.5px solid $bsRed
-  color: $bsRed
-  float: right
-  border-top: 2.5px solid $bsRed
-  border-bottom: 2.5px solid $bsRed
-  border-right: 2.5px solid $bsRed
-  border-top-left-radius: 0
-  border-bottom-left-radius: 0
-  border-left: $bgColor
-
-  &:hover
-    transition: all 0.2s ease-in-out
-    color: $bgColor
-    background-color: $bsRed
-
-.resumeBtn
-  border-top: 2.5px solid $green
-  border-left: 2.5px solid $green
-  border-bottom: 2.5px solid $green
-  border-top-right-radius: 0
-  border-bottom-right-radius: 0
-  border-right: $bgColor
-  color: $green
-  float: left
-
-// End CSS for Test Buttons
-
-// Begin in-line Form CSS
-
-.addTestBtn
-  width: 1em
-  position: relative
-  &:hover
-    background-color: $bsBlue
-    i
-      color: $bgColor
-
-.checkAdd
-  color: $bsBlue
-  position: absolute
-  margin: 0
-  top: 5px
-  bottom: 0
-  right: 0
-  left: 0
-
-.addStudentBtn, .addTestBtn
-  width: 100%
-  min-width: 4em
-
-.inlineForm
-  padding: 0
-
-.inlineNameForm, .inlineTestTimeForm
-  padding-left: 3.75px
-  padding-right: 3.75px
-  width: 15%
-
-.inlineTestTimeForm
-  width: 5%
-
-/* End in-line Form CSS */
-
-/* Begin CSS for Bars */
-
-.bars
-  height: 2.8em
-  padding-left: 0
-  padding-right: 0
-  // margin-bottom: 0.5em
-
-.progress
-  height: 1.25em
-
-.progress-bar
-  p
-    font-size: 1.5em
-
-.fullBar
-  margin-bottom: 0
-  padding-bottom: 0
-  border-top-left-radius: 0.5em
-  border-top-right-radius: 0.5em
-  border-bottom-left-radius: 0em
-  border-bottom-right-radius: 0em
-
-.splitBar
-  border-top-left-radius: 0em
-  border-top-right-radius: 0em
-  border-bottom-left-radius: 0.5em
-  border-bottom-right-radius: 0.5em
-  // margin-bottom: 0.5em
-
-.barLabel
-  line-height: 1.3em
-  height: 100%
-  color: $bgColor
+@import test.sass
 
 /* Begin CSS for FORM */
 
@@ -542,7 +286,7 @@ hr
   @media only screen and (max-width : 844px)
     margin-bottom: 7.5px
 
-.nameForm, .extendForm, input, select, .hour, .minute, .quantity input, .form-control
+.nameForm, .extendForm, .nameInput, .extendInput, .testNameInput, .hourInput, .minuteInput, .hour, .minute, .form-control
   height: 42px !important
 
 .nameForm
@@ -571,6 +315,7 @@ input
 
 .testTimeForm
   @extend .nameForm
+  min-width: 6em
 
 .testNameForm
   float: left
@@ -672,9 +417,11 @@ input[type=number]
   padding-bottom: 10em
 
 .addStudentBtn
-  margin-top: 20em
+  margin-top: 1em
   border-radius: 1em
   min-height: 2em
+  width: 100%
+  min-width: 4em
   border: 2.5px solid $bsBlue
   color: $bsBlue
   background-color: $bgColor

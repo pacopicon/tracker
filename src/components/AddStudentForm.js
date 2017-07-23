@@ -218,10 +218,10 @@ class AddStudentForm extends React.Component {
               </div>
               <div className="testTimeForm smallWidthMargin col-lg-6 col-md-6 col-sm-6 col-xs-6">
                 <div className="quantity">
-                  <input type="number" min="0" max="6" step="1" defaultValue="0" ref={(input) => this.AtestHour = input}/>
+                  <input className="hourInput" type="number" min="0" max="6" step="1" defaultValue="0" ref={(input) => this.AtestHour = input}/>
                 </div>
                 <div className="quantity">
-                  <input type="number" min="00" max="55" step="5" defaultValue="00" ref={(input) => this.AtestMinute = input}/>
+                  <input className="minuteInput" type="number" min="00" max="55" step="5" defaultValue="00" ref={(input) => this.AtestMinute = input}/>
                 </div>
               </div>
             </div>

@@ -109,6 +109,111 @@ class App extends React.Component {
 
   // END lifecycle hooks AND clock functions
 
+  // BEGIN Student CRUD functions
+
+    addStudent(student) {
+      // update our state
+      const students = {...this.state.students};
+      // add in our new student
+      const timestamp = Date.now();
+      students[`student-${timestamp}`] = student;
+      student.tests[`Atest`] = student.tests.Atest;
+      student.tests[`Btest`] = student.tests.Btest;
+      student.tests[`Ctest`] = student.tests.Ctest;
+      student.tests[`Dtest`] = student.tests.Dtest;
+      // you can do this: this.state.students.student1 = student;
+      // set state
+      // this is more standard, grabbing the state and updating it: this.setState({ students: students})
+      // the below is the most advanced syntax, ES6
+      this.setState({ students });
+      console.log("this.state.students = ", this.state.students);
+      setTimeout(
+        () => this.setState({
+          alert: false
+        }),
+        5000
+      )
+    }
+
+    updateStudent(key, updatedStudent) {
+      const students = {...this.state.students};
+      students[key] = updatedStudent;
+      this.setState({ students });
+      // alternative syntax for the above: this.setState({students: students})
+    }
+
+    removeStudent(key) {
+      const students = {...this.state.students};
+      students[key] = null;
+      this.setState({ students });
+      this.setState({ selectAll       : true,
+                      clickedToDelete : false,
+                      deleteAppear    : false
+      });
+      console.log("student has been removed");
+    }
+
+    deleteSelected() {
+      this.setState({ clearSelected   : false,
+                      deleteAppear    : false
+      });
+      setTimeout(
+        () => this.setState({ selectAll       : true,
+                              clickedToDelete : false
+        }),
+        1000);
+
+      const students = this.state.students;
+
+      Object
+        .keys(students)
+        .map(key => {
+
+          if(students[key].isSafeToDelete) {
+            students[key] = null;
+          }
+        });
+
+      // const students = Object.keys(this.state.students);
+      //
+      // for (var i = 0; i < students.length; i++) {
+      //   if (students[i].isSafeToDelete) {
+      //     students[i] = null;
+      //   }
+      // }
+      this.setState({ students });
+
+    }
+
+    deleteAllStudents() {
+      this.setState({ warn: false });
+      const students = this.state.students;
+      Object
+        .keys(students)
+        .map(key => {
+          students[key] = null;
+        });
+
+      this.setState({ students });
+
+    }
+
+    toggleSelectForDelete() {
+      const students = this.state.students;
+      Object
+        .keys(students)
+        .map(key => {
+          if (!students[key].isSafeToDelete) {
+            students[key].isSafeToDelete = true;
+          } else if (students[key].isSafeToDelete) {
+            students[key].isSafeToDelete = false;
+          }
+          this.updateStudent(key, students[key]);
+        });
+    }
+
+  // END Student CRUD functions
+
   getTeacherName(string) {
     var str = string.trim();
     var spaceIndex = str.indexOf(str.match(/\s/));
@@ -144,6 +249,58 @@ class App extends React.Component {
     return timeInMillisecs;
   }
 
+// END Functions to be distributed to various Children
+
+// BEGIN (collective) students functions
+
+startSelectedTests() {
+  const students = {...this.state.students};
+  Object
+    .keys(this.state.students)
+    .map(key => {
+      const student = students[key];
+      if (student.isSafeToDelete) {
+        const tests = student.tests;
+        Object
+        .keys(tests)
+        .map(key =>{
+          if(!tests[key].hasTimerStarted && !tests[key].isOver) {
+            this.setState({
+              selectedTests: this.state.selectedTests.push(tests[key]),
+              selectedStudents: this.state.selectedStudents.push(student)
+            });
+          }
+        });
+
+      }
+    });
+    this.setState({
+      info: true
+    });
+    setTimeout(
+      () => this.setState({
+        info: false
+      }),
+      5000
+    )
+}
+
+renderHeader() {
+  return (
+    <Header
+      age="5000"
+      state={this.state}
+      logout={this.logout}
+      printPage={this.state.printPage}
+      time={this.state.time}
+    />
+  )
+}
+
+// END (collective) students functions
+
+// BEGIN General Students' alert displays and selection functionality
+
   warnClose() {
     this.setState({ warn: true });
   }
@@ -166,11 +323,13 @@ class App extends React.Component {
     console.log("this.state.timeoutStarted = " + this.state.timeoutStarted);
   }
 
-  // getStyle() {
-  //  return {
-  //   display: this.state.warn ? '' : 'hidden'
-  //  }
-  // }
+  alertON() {
+    this.setState({ alert: true});
+  }
+
+  alertOFF() {
+    this.setState({ alert: false});
+  }
 
   displayWarning() {
     if(this.state.warn) {
@@ -209,85 +368,6 @@ class App extends React.Component {
       )
     }
   }
-
-  displayControlButtons() {
-    if(this.state.selectAll && !this.state.invertSelected) {
-      return (
-        <p role="alert">select all</p>
-      )
-    } else if(this.state.clearSelected && !this.state.invertSelected) {
-      return (
-        <p role="alert">clear selected</p>
-      )
-    } else if(this.state.invertSelected) {
-      return (
-        <p className={(this.state.invertSelected) ? "" : "hidden"} role="alert">invert selection</p>
-      )
-    }
-  }
-
-  renderSwitchControlButton() {
-    return (
-      <button className="controlBtn selectAll clearAll invertSelection" onClick={() => this.switchControl(this.state.students)}>
-        {this.displayControlButtons()}
-      </button>
-    )
-  }
-
-  renderClickedToDelete() {
-    if(this.state.clickedToDelete) {
-      return (
-        <div className='col-lg-4 col-md-4 col-sm-4 col-xs-4 mainBtn'>
-          {this.renderSwitchControlButton()}
-        </div>
-      )
-    } else {
-      return (
-        <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12 mainBtn'>
-          {this.renderSwitchControlButton()}
-        </div>
-      )
-    }
-  }
-
-  displayFormControls() {
-    // if(Object.keys(this.state.students).length < 2) {
-    if(this.state.areThereEnoughStudents) {
-      return (
-        <div className="row formControls marginLeft marginRight">
-          <div className={(this.state.clickedToDelete) ? 'col-lg-4 col-md-4 col-sm-4 col-xs-4 mainBtn' : 'col-lg-12 col-md-12 col-sm-12 col-xs-12 mainBtn'}>
-            <button className="controlBtn selectAll clearAll invertSelection" onClick={() => this.switchControl(this.state.students)}>
-              <p className={(this.state.selectAll && !this.state.invertSelected) ? "" : "hidden"} role="alert">select all</p>
-              <p className={(this.state.clearSelected && !this.state.invertSelected) ? "" : "hidden"} role="alert">clear selected</p>
-              <p className={(this.state.invertSelected) ? "" : "hidden"} role="alert">invert selection</p>
-            </button>
-          </div>
-          <div className={(this.state.deleteAppear) ? "col-lg-4 col-md-4 col-sm-4 col-xs-4 deleteSelectedStudents IIndaryBtnYes" : "col-lg-4 col-md-4 col-sm-4 col-xs-4 deleteSelectedStudents IIndaryBtnNo"}>
-            <button className="controlBtn deleteSelected" onClick={() => this.deleteSelected()}>
-              <p>delete selected</p>
-            </button>
-          </div>
-          <div className={(this.state.deleteAppear) ? "col-lg-4 col-md-4 col-sm-4 col-xs-4 startSelectedTests IIndaryBtnYes" : "col-lg-4 col-md-4 col-sm-4 col-xs-4 startSelectedTests IIndaryBtnNo"}>
-            <button className="controlBtn deleteSelected" onClick={() => this.startSelectedTests()}>
-              <p>start selected tests</p>
-            </button>
-          </div>
-        </div>
-      )
-    }
-  }
-
-  alertON() {
-    this.setState({ alert: true});
-  }
-
-  alertOFF() {
-    this.setState({ alert: false});
-  }
-
-// END Functions to be distributed to various Children
-
-// BEGIN Student selection functions
 
   toggleInvert() {
     this.unsafeCount = 0;
@@ -356,204 +436,116 @@ class App extends React.Component {
     }
   }
 
+  displayControlButtons() {
+    if(this.state.selectAll && !this.state.invertSelected) {
+      return (
+        <p role="alert">select all</p>
+      )
+    } else if(this.state.clearSelected && !this.state.invertSelected) {
+      return (
+        <p role="alert">clear selected</p>
+      )
+    } else if(this.state.invertSelected) {
+      return (
+        <p className={(this.state.invertSelected) ? "" : "hidden"} role="alert">invert selection</p>
+      )
+    }
+  }
 
-
-// END Student selection functions
-
-// BEGIN Student CRUD functions
-
-  addStudent(student) {
-    // update our state
-    const students = {...this.state.students};
-    // add in our new student
-    const timestamp = Date.now();
-    students[`student-${timestamp}`] = student;
-    student.tests[`Atest`] = student.tests.Atest;
-    student.tests[`Btest`] = student.tests.Btest;
-    student.tests[`Ctest`] = student.tests.Ctest;
-    student.tests[`Dtest`] = student.tests.Dtest;
-    // you can do this: this.state.students.student1 = student;
-    // set state
-    // this is more standard, grabbing the state and updating it: this.setState({ students: students})
-    // the below is the most advanced syntax, ES6
-    this.setState({ students });
-    console.log("this.state.students = ", this.state.students);
-    setTimeout(
-      () => this.setState({
-        alert: false
-      }),
-      5000
+  renderSwitchControlButton() {
+    return (
+      <button className="controlBtn selectAll clearAll invertSelection" onClick={() => this.switchControl(this.state.students)}>
+        {this.displayControlButtons()}
+      </button>
     )
   }
 
-  updateStudent(key, updatedStudent) {
-    const students = {...this.state.students};
-    students[key] = updatedStudent;
-    this.setState({ students });
-    // alternative syntax for the above: this.setState({students: students})
+  renderClickedToDelete() {
+    if(this.state.clickedToDelete) {
+      return (
+        <div className='col-lg-4 col-md-4 col-sm-4 col-xs-4 mainBtn'>
+          {this.renderSwitchControlButton()}
+        </div>
+      )
+    } else {
+      return (
+        <div className='col-lg-12 col-md-12 col-sm-12 col-xs-12 mainBtn'>
+          {this.renderSwitchControlButton()}
+        </div>
+      )
+    }
   }
 
-  removeStudent(key) {
-    const students = {...this.state.students};
-    students[key] = null;
-    this.setState({ students });
-    this.setState({ selectAll       : true,
-                    clickedToDelete : false,
-                    deleteAppear    : false
-    });
-    console.log("student has been removed");
-  }
-
-  deleteSelected() {
-    this.setState({ clearSelected   : false,
-                    deleteAppear    : false
-    });
-    setTimeout(
-      () => this.setState({ selectAll       : true,
-                            clickedToDelete : false
-      }),
-      1000);
-
-    const students = this.state.students;
-
-    Object
-      .keys(students)
-      .map(key => {
-
-        if(students[key].isSafeToDelete) {
-          students[key] = null;
-        }
+  switchControl() {
+    if (this.state.selectAll && !this.state.invertSelected) {
+      this.toggleSelectForDelete();
+      this.setState({
+          selectAll: false,
+          invertSelected: false,
+          clickedToDelete: true
       });
+      setTimeout(
+        () => this.setState({
+          clearSelected: true}),
+        1000
+      );
+      setTimeout(
+        () => this.setState({
+          deleteAppear: true}),
+        1000
+      );
 
-    // const students = Object.keys(this.state.students);
-    //
-    // for (var i = 0; i < students.length; i++) {
-    //   if (students[i].isSafeToDelete) {
-    //     students[i] = null;
-    //   }
-    // }
-    this.setState({ students });
+    } else if (this.state.clearSelected) {
 
-  }
-
-  deleteAllStudents() {
-    this.setState({ warn: false });
-    const students = this.state.students;
-    Object
-      .keys(students)
-      .map(key => {
-        students[key] = null;
+      this.toggleSelectForDelete();
+      this.setState({
+        clearSelected: false,
+        deleteAppear: false
       });
+      setTimeout(
+        () => this.setState({
+          selectAll: true}),
+        1000
+      );
+      setTimeout(
+        () => this.setState({
+          clickedToDelete: false}),
+        1000
+      );
 
-    this.setState({ students });
-
+    } else if (this.state.invertSelected) {
+      this.toggleSelectForDelete();
+    }
   }
 
-  toggleSelectForDelete() {
-    const students = this.state.students;
-    Object
-      .keys(students)
-      .map(key => {
-        if (!students[key].isSafeToDelete) {
-          students[key].isSafeToDelete = true;
-        } else if (students[key].isSafeToDelete) {
-          students[key].isSafeToDelete = false;
-        }
-        this.updateStudent(key, students[key]);
-      });
+  displayFormControls() {
+    // if(Object.keys(this.state.students).length < 2) {
+    if(this.state.areThereEnoughStudents) {
+      return (
+        <div className="row formControls marginLeft marginRight">
+          <div className={(this.state.clickedToDelete) ? 'col-lg-4 col-md-4 col-sm-4 col-xs-4 mainBtn' : 'col-lg-12 col-md-12 col-sm-12 col-xs-12 mainBtn'}>
+            <button className="controlBtn selectAll clearAll invertSelection" onClick={() => this.switchControl(this.state.students)}>
+              <p className={(this.state.selectAll && !this.state.invertSelected) ? "" : "hidden"} role="alert">select all</p>
+              <p className={(this.state.clearSelected && !this.state.invertSelected) ? "" : "hidden"} role="alert">clear selected</p>
+              <p className={(this.state.invertSelected) ? "" : "hidden"} role="alert">invert selection</p>
+            </button>
+          </div>
+          <div className={(this.state.deleteAppear) ? "col-lg-4 col-md-4 col-sm-4 col-xs-4 deleteSelectedStudents IIndaryBtnYes" : "col-lg-4 col-md-4 col-sm-4 col-xs-4 deleteSelectedStudents IIndaryBtnNo"}>
+            <button className="controlBtn deleteSelected" onClick={() => this.deleteSelected()}>
+              <p>delete selected</p>
+            </button>
+          </div>
+          <div className={(this.state.deleteAppear) ? "col-lg-4 col-md-4 col-sm-4 col-xs-4 startSelectedTests IIndaryBtnYes" : "col-lg-4 col-md-4 col-sm-4 col-xs-4 startSelectedTests IIndaryBtnNo"}>
+            <button className="controlBtn deleteSelected" onClick={() => this.startSelectedTests()}>
+              <p>start selected tests</p>
+            </button>
+          </div>
+        </div>
+      )
+    }
   }
 
-// END Student CRUD functions
-
-// BEGIN (collective) students functions
-
-startSelectedTests() {
-  const students = {...this.state.students};
-  Object
-    .keys(this.state.students)
-    .map(key => {
-      const student = students[key];
-      if (student.isSafeToDelete) {
-        const tests = student.tests;
-        Object
-        .keys(tests)
-        .map(key =>{
-          if(!tests[key].hasTimerStarted && !tests[key].isOver) {
-            this.setState({
-              selectedTests: this.state.selectedTests.push(tests[key]),
-              selectedStudents: this.state.selectedStudents.push(student)
-            });
-          }
-        });
-
-      }
-    });
-    this.setState({
-      info: true
-    });
-    setTimeout(
-      () => this.setState({
-        info: false
-      }),
-      5000
-    )
-}
-
-switchControl() {
-  if (this.state.selectAll && !this.state.invertSelected) {
-    this.toggleSelectForDelete();
-    this.setState({
-        selectAll: false,
-        invertSelected: false,
-        clickedToDelete: true
-    });
-    setTimeout(
-      () => this.setState({
-        clearSelected: true}),
-      1000
-    );
-    setTimeout(
-      () => this.setState({
-        deleteAppear: true}),
-      1000
-    );
-
-  } else if (this.state.clearSelected) {
-
-    this.toggleSelectForDelete();
-    this.setState({
-      clearSelected: false,
-      deleteAppear: false
-    });
-    setTimeout(
-      () => this.setState({
-        selectAll: true}),
-      1000
-    );
-    setTimeout(
-      () => this.setState({
-        clickedToDelete: false}),
-      1000
-    );
-
-  } else if (this.state.invertSelected) {
-    this.toggleSelectForDelete();
-  }
-}
-
-renderHeader() {
-  return (
-    <Header
-      age="5000"
-      state={this.state}
-      logout={this.logout}
-      printPage={this.state.printPage}
-      time={this.state.time}
-    />
-  )
-}
-
-// END (collective) students functions
+// END General Students' alert displays and selection functionality
 
 // BEGIN render
 

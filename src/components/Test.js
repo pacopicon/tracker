@@ -64,6 +64,10 @@ class Test extends React.Component {
       );
     }
 
+    this.numberInput = setTimeout(
+      () => mountNumberInput(),
+      0
+    );
 
     // if(nextProps.student.isSafeToDelete && test.total > 0 && !this.state.addInlinetest && !this.state.hideFinishedTest){
     // if(nextProps.student.isSafeToDelete){
@@ -173,7 +177,7 @@ handleToggle(e, boolean) {
   });
   console.log("e.target.name = " + e.target.name)
   console.log("e.target.value = " + e.target.value)
-  console.log("this.state.addInlinetest = " + this.state.addInlinetest)
+  console.log("e.target.name = " + e.target.name + " (value = " + e.target.value + ")")
 }
 
 // handleChange(e, key) {
@@ -470,11 +474,7 @@ handleToggle(e, boolean) {
       return (
         <div key={test.id} className="addTest dataButtonsAndBars col-lg-12 col-md-12 col-sm-12 col-xs-12">
           <div>
-            {/* <i className="fa fa-plus" aria-hidden="true" onClick={() => this.changeState(this.state.addInlinetest, true)}></i> */}
-            {/* <i className="fa fa-plus" aria-hidden="true" name="addInlinetest" value={this.state.addInlinetest} onClick={(e) => this.handleToggle(e, true)}><button></button></i> */}
-            {/* <i className="fa fa-plus" aria-hidden="true"><button name="addInlinetest" value={this.state.addInlinetest} onClick={(e) => this.handleToggle(e, true)}></button></i> */}
             <button className="fa fa-plus addInlinetestBtn" aria-hidden="true" name="addInlinetest" value={this.state.addInlinetest} onClick={(e) => this.handleToggle(e, true)}></button>
-            {/* <button className= "addInlinetestBtn" name="addInlinetest" value={this.state.addInlinetest} onClick={(e) => this.handleToggle(e, true)}><i className="fa fa-plus" aria-hidden="true"></i></button> */}
           </div>
         </div>
       )
@@ -486,13 +486,21 @@ handleToggle(e, boolean) {
           </div>
           <div className="inlineTestTimeForm col-lg-6 col-md-6 col-sm-6 col-xs-6">
             <div className="quantity">
-              <input type="number" min="0" max="6" step="1" value="0" onChange={(e) => this.props.handleHourChange(e, test)}/>
+              <input className="hourInput" type="number" min="0" max="6" step="1" value="0" onChange={(e) => this.props.handleHourChange(e, test)}/>
             </div>
             <div className="quantity">
-              <input type="number" min="00" max="55" step="5" value="00" onChange={(e) => this.props.handleMinuteChange(e, studentKey, test)}/>
+              <input className="minuteInput" type="number" min="00" max="55" step="5" value="00" onChange={(e) => this.props.handleMinuteChange(e, studentKey, test)}/>
             </div>
           </div>
-          <button type="submit" type="button" className="addTestBtn col-lg-1 col-md-1 col-sm-1 col-xs-1" onClick={() => this.changeState(this.state.addInlinetest, false)}><i className="fa fa-check checkAdd" aria-hidden="true"></i></button>
+          {/* <div className="testTimeForm smallWidthMargin col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <div className="quantity">
+              <input className="hourInput" type="number" min="0" max="6" step="1" defaultValue="0" ref={(input) => this.AtestHour = input}/>
+            </div>
+            <div className="quantity">
+              <input className="minuteInput" type="number" min="00" max="55" step="5" defaultValue="00" ref={(input) => this.AtestMinute = input}/>
+            </div>
+          </div> */}
+          <button type="submit" type="button" aria-hidden="true" className="fa fa-check checkAdd addTestBtn col-lg-1 col-md-1 col-sm-1 col-xs-1" name="addInlinetest" value="this.state.addInlinetest" onClick={(e) => this.handleToggle(e, false)}></button>
         </div>
       )
     } else if(test.total > 0 && !this.state.addInlinetest && !this.state.hideFinishedTest) {
@@ -507,7 +515,7 @@ handleToggle(e, boolean) {
             {/* <div className={"hideTest col-lg-1 col-md-1 col-sm-1 col-xs-1" + (this.state.redHover && test.isOver) ? "hidden" : ""}> */}
               <div>
                 {/* <i className="fa fa-minus" aria-hidden="true" onClick={() => this.changeState(this.state.hideFinishedTest, true)}></i> */}
-                <button className="hideFinishedTestBtn" name="hideFinishedTest" value="this.state.hideFinishedTest" onClick={(e) => this.handleToggle(e, true)}><i className="fa fa-minus" aria-hidden="true"></i></button>
+                <button className="fa fa-minus hideFinishedTestBtn" aria-hidden="true" name="hideFinishedTest" value="this.state.hideFinishedTest" onClick={(e) => this.handleToggle(e, true)}></button>
               </div>
             </div>
             <div className="testTimeCell marginLeft marginRight col-lg-12 col-md-12 col-sm-12 col-xs-12">
