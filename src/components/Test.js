@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 class Test extends React.Component {
   constructor() {
     super();
-    this.handleToggle = this.handleToggle.bind(this);
+    // this.handleToggle = this.handleToggle.bind(this);
     this.startTimer = this.startTimer.bind(this);
     this.renderButton = this.renderButton.bind(this);
     this.renderBarText = this.renderBarText.bind(this);
@@ -34,8 +34,15 @@ class Test extends React.Component {
       topBarWidth: 0,
       bottomBarWidth: 0,
       countdown: 0,
-      dueTime: 0
+      dueTime: 0,
+      time: new Date()
     }
+  }
+
+  tick() {
+    this.setState({
+      time: new Date()
+    });
   }
 
 // BEGIN Lifecycle Hooks
@@ -43,13 +50,20 @@ class Test extends React.Component {
   componentDidMount() {
 
     const { student, students, studentKey } = this.props;
+
+    // this.clock = setInterval(
+    //   () => this.tick(),
+    //   1000
+    // );
     // const students = this.props.students;
     // const studentKey = index;
 
-    this.numberInput = setTimeout(
-      () => mountNumberInput(),
-      0
-    );
+    // this.numberInput = setTimeout(
+    //   () => mountNumberInput(),
+    //   0
+    // );
+
+    mountNumberInput();
 
     for (var i = 0; i < this.props.selectedTests.length; i++) {
       if (students[this.props.studentKey] == this.props.selectedStudents[i]) {
@@ -68,12 +82,12 @@ class Test extends React.Component {
       );
     }
 
+    mountNumberInput();
+
     // this.numberInput = setTimeout(
     //   () => mountNumberInput(),
     //   0
     // );
-
-
 
     // if(nextProps.student.isSafeToDelete && test.total > 0 && !this.state.addInlinetest && !this.state.hideFinishedTest){
     // if(nextProps.student.isSafeToDelete){
@@ -85,92 +99,16 @@ class Test extends React.Component {
     //   ReactDOM.findDOMNode(this.refs.safeDeleteHighlight).css({'padding-left': '0',
     //   'transition': 'all 1s ease-in-out'});
     // }
-    //
-    //
-    //
-    // if(nextState.redHover && nextProps.test.isOver){
-    //   ReactDOM.findDOMNode(this.refs.redHover).css({'display': 'hidden'});
-    // } else {
-    //   ReactDOM.findDOMNode(this.refs.redHover).css({'display': 'initial'});
-    // }
-    //
-    // if(!nextProps.test.hasTimerStarted && !nextProps.test.isOver){
-    //   ReactDOM.findDOMNode(this.refs.hideStartButton).css({'display': 'hidden'});
-    // } else {
-    //   ReactDOM.findDOMNode(this.refs.hideStartButton).css({'display': 'initial'});
-    // }
-    //
-    // if(nextProps.test.isOver && nextProps.test.total > 0){
-    //   ReactDOM.findDOMNode(this.refs.hideTestOver).css({'display': 'hidden'});
-    // } else {
-    //   ReactDOM.findDOMNode(this.refs.hideTestOver).css({'display': 'initial'});
-    // }
-    //
-    // if(nextProps.test.hasTimerStarted && !nextProps.test.isTimerPaused && !nextProps.test.isOver){
-    //   ReactDOM.findDOMNode(this.refs.hidePause).css({'display': 'hidden'});
-    // } else {
-    //   ReactDOM.findDOMNode(this.refs.hidePause).css({'display': 'initial'});
-    // }
-    //
-    // if(nextProps.test.hasTimerStarted && nextProps.test.isTimerPaused && !nextProps.test.isOver){
-    //   ReactDOM.findDOMNode(this.refs.hideResume).css({'display': 'hidden'});
-    // } else {
-    //   ReactDOM.findDOMNode(this.refs.hideResume).css({'display': 'initial'});
-    // }
 
   }
 
   componentWillUnmount() {
     clearTimeout(this.numberInput);
+    clearInterval(this.clock);
 
     if(!this.state.startTest) {
       clearInterval(this.timeVar);
     }
-  }
-
-  componentDidUpdate(oldProps,oldState){
-    const { student, students, studentKey, test } = this.props;
-
-    // if(!student.isSafeToDelete){
-    //   ReactDOM.findDOMNode(this.refs.safeDeleteHighlight).css({'padding-left': '1em',
-    //     'transition': 'all 1s ease-in-out'});
-    // } else {
-    //   ReactDOM.findDOMNode(this.refs.safeDeleteHighlight).css({'padding-left': '0',
-    //   'transition': 'all 1s ease-in-out'});
-    // }
-
-
-
-    // if(!this.state.redHover || !test.isOver){
-    //   ReactDOM.findDOMNode(this.refs.redHover).css({'display': 'hidden'});
-    // } else {
-    //   ReactDOM.findDOMNode(this.refs.redHover).css({'display': 'initial'});
-    // }
-    //
-    // if(test.hasTimerStarted || test.isOver){
-    //   ReactDOM.findDOMNode(this.refs.hideStartButton).css({'display': 'hidden'});
-    // } else {
-    //   ReactDOM.findDOMNode(this.refs.hideStartButton).css({'display': 'initial'});
-    // }
-    //
-    // if(!test.isOver || !test.total > 0){
-    //   ReactDOM.findDOMNode(this.refs.hideTestOver).css({'display': 'hidden'});
-    // } else {
-    //   ReactDOM.findDOMNode(this.refs.hideTestOver).css({'display': 'initial'});
-    // }
-    //
-    // if(!test.hasTimerStarted || test.isTimerPaused || test.isOver){
-    //   ReactDOM.findDOMNode(this.refs.hidePause).css({'display': 'hidden'});
-    // } else {
-    //   ReactDOM.findDOMNode(this.refs.hidePause).css({'display': 'initial'});
-    // }
-    //
-    // if(!test.hasTimerStarted || !test.isTimerPaused || test.isOver){
-    //   ReactDOM.findDOMNode(this.refs.hideResume).css({'display': 'hidden'});
-    // } else {
-    //   ReactDOM.findDOMNode(this.refs.hideResume).css({'display': 'initial'});
-    // }
-
   }
 
 //  END Lifecycle Hooks
@@ -470,8 +408,8 @@ handleToggle(e, boolean) {
 
     if(!test.hasTimerStarted && !test.isOver) {
       return (
-        <div className="buttonContainer col-lg-12 col-md-12 col-sm-12 col-xs-12">
-          {/* <div className={"buttonContainer col-lg-12 col-md-12 col-sm-12 col-xs-12" + () ? "" : "hidden"}> */}
+        <div className="buttonContainer col-xs-12">
+          {/* <div className={"buttonContainer col-xs-12" + () ? "" : "hidden"}> */}
           <button className="countBtn" onClick={() => this.startTimer(studentKey, test)}>
             <p className="countBtnText">
               start {test.name} test
@@ -481,8 +419,8 @@ handleToggle(e, boolean) {
       )
     } else if(test.isOver && test.total > 0) {
       return (
-        <div className="buttonContainer col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        {/* <div className={"buttonContainer col-lg-12 col-md-12 col-sm-12 col-xs-12" + () ? "" : "hidden"}> */}
+        <div className="buttonContainer col-xs-12">
+        {/* <div className={"buttonContainer col-xs-12" + () ? "" : "hidden"}> */}
           <button className="redBtn">
             <p className="countBtnText">
               {test.name} test is over
@@ -492,8 +430,8 @@ handleToggle(e, boolean) {
       )
     } else if(test.hasTimerStarted && !test.isTimerPaused && !test.isOver) {
       return (
-        <div className="buttonContainer col-lg-12 col-md-12 col-sm-12 col-xs-12">
-          {/* <div className={"buttonContainer col-lg-12 col-md-12 col-sm-12 col-xs-12" + () ? "" : "hidden"}> */}
+        <div className="buttonContainer col-xs-12">
+          {/* <div className={"buttonContainer col-xs-12" + () ? "" : "hidden"}> */}
           <button className="pauseBtn" onClick={() => this.pauseTimer(studentKey, test)}>
             <p className="pauseBtnText">
               pause {test.name} test
@@ -503,8 +441,8 @@ handleToggle(e, boolean) {
       )
     } else if(test.hasTimerStarted && test.isTimerPaused && !test.isOver) {
       return (
-        <div className="buttonContainer col-lg-12 col-md-12 col-sm-12 col-xs-12">
-          {/* <div className={"buttonContainer col-lg-12 col-md-12 col-sm-12 col-xs-12" + () ? "" : "hidden"}> */}
+        <div className="buttonContainer col-xs-12">
+          {/* <div className={"buttonContainer col-xs-12" + () ? "" : "hidden"}> */}
           <button className="resumeBtn col-lg-4 col-md-4 col-sm-4 col-xs-4" onClick={() => this.resumeTimer(studentKey, test)}>
             <p className="resumeBtnText">
               resume
@@ -574,113 +512,114 @@ handleToggle(e, boolean) {
 
 
 
-    if(test.total == 0 && !this.state.addInlinetest) {
-      return (
-        <div key={test.id} className="addTest dataButtonsAndBars col-lg-12 col-md-12 col-sm-12 col-xs-12">
-          <div>
-            <button className="fa fa-plus addInlinetestBtn" aria-hidden="true" name="addInlinetest" value={this.state.addInlinetest} onClick={(e) => this.handleToggle(e, true)}></button>
-          </div>
-        </div>
-      )
-    } else if(test.total == 0 && this.state.addInlinetest) {
-      return (
-        <div key={test.id} className="inlineForm buttonsAndBars">
-          <div className="inlineNameForm col-lg-6 col-md-6 col-sm-6 col-xs-6">
-            <input type="text" className="form-control testNameInput" value={test.name} placeholder="test name" onChange={(e) => this.props.handleChange(e, studentKey)}/>
-          </div>
-          <div className="inlineTestTimeForm col-lg-6 col-md-6 col-sm-6 col-xs-6">
-            <div className="quantity">
-              <input className="hourInput" type="number" min="0" max="6" step="1" value="0" onChange={(e) => this.props.handleHourChange(e, test)}/>
-            </div>
-            <div className="quantity">
-              <input className="minuteInput" type="number" min="00" max="55" step="5" value="00" onChange={(e) => this.props.handleMinuteChange(e, studentKey, test)}/>
-            </div>
-          </div>
-          {/* <div className="testTimeForm smallWidthMargin col-lg-6 col-md-6 col-sm-6 col-xs-6">
-            <div className="quantity">
-              <input className="hourInput" type="number" min="0" max="6" step="1" defaultValue="0" ref={(input) => this.AtestHour = input}/>
-            </div>
-            <div className="quantity">
-              <input className="minuteInput" type="number" min="00" max="55" step="5" defaultValue="00" ref={(input) => this.AtestMinute = input}/>
-            </div>
-          </div> */}
-          <button type="submit" type="button" aria-hidden="true" className="fa fa-check checkAdd addTestBtn col-lg-1 col-md-1 col-sm-1 col-xs-1" name="addInlinetest" value="this.state.addInlinetest" onClick={(e) => this.handleToggle(e, false)}></button>
-        </div>
-      )
-    } else if(test.total > 0 && !this.state.addInlinetest && !this.state.hideFinishedTest) {
-      // TEST ONE DATA
-      return (
-        // <div key={test.id} className="dataButtonsAndBars col-lg-12 col-md-12 col-sm-12 col-xs-12" ref="safeDeleteHighlight" onMouseOver={() => this.changeState(this.state.redHover, true)} onMouseLeave={() => this.changeState(this.state.redHover, false)}>
-        <div key={test.id} className="dataButtonsAndBars col-lg-12 col-md-12 col-sm-12 col-xs-12" ref="safeDeleteHighlight" name="redHover" value="this.state.redhover" onMouseOver={(e) => this.handleToggle(e, true)} onMouseLeave={(e) => this.handleToggle(e, false)}>
-        {/* <div className={"dataButtonsAndBars col-lg-12 col-md-12 col-sm-12 col-xs-12" + (student.isSafeToDelete) ? "deleteHighlight" : ""} onMouseOver={() => this.changeState(this.state.redHover, true)} onMouseLeave={() => this.changeState(this.state.redHover, false)}> */}
-          <div className="testTimeData">
-{/* test hide */}
-            <div className="hideTest col-lg-1 col-md-1 col-sm-1 col-xs-1" ref = "redHover">
-            {/* <div className={"hideTest col-lg-1 col-md-1 col-sm-1 col-xs-1" + (this.state.redHover && test.isOver) ? "hidden" : ""}> */}
-              <div>
-                {/* <i className="fa fa-minus" aria-hidden="true" onClick={() => this.changeState(this.state.hideFinishedTest, true)}></i> */}
-                <button className="fa fa-minus hideFinishedTestBtn" aria-hidden="true" name="hideFinishedTest" value="this.state.hideFinishedTest" onClick={(e) => this.handleToggle(e, true)}></button>
-              </div>
-            </div>
-            <div className="testTimeCell marginLeft marginRight col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <p className="dataPointLabel col-lg-5 col-md-5 col-sm-5 col-xs-12">
-                started:
-              </p>
-              <p className="dataPoint col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                {this.props.startTime(test)}
-              </p>
-            </div>
-            <div className= "testTimeCell marginLeft marginRight col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <p className="dataPointLabel col-lg-5 col-md-5 col-sm-5 col-xs-12">
-                paused:
-              </p>
-              <p className="dataPoint col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                {parseTime(test.pausedTotal).hourMinSec}
-              </p>
-            </div>
-            <div className="testTimeCell marginLeft marginRight col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <p className="dataPointLabel col-lg-5 col-md-5 col-sm-5 col-xs-12">
-                std. end:
-              </p>
-              <p className="dataPoint col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                {this.props.endTime(test, "standard")}
-              </p>
-            </div>
-            <div className="testTimeCell marginLeft marginRight col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <p className="dataPointLabel col-lg-5 col-md-5 col-sm-5 col-xs-12">
-                ext. end:
-              </p>
-              <p className="dataPoint col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                {this.props.endTime(test, "extended")}
-              </p>
-            </div>
-          </div>
-{/* TEST ONE NAME */}
-          <div className="buttonsAndBars">
-            <div className="testNameCell marginRight marginLeft">
-              {this.renderButton()}
-            </div>
-{/* BEGIN TEST ONE BARS */}
-            <div className="bars col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <div className="progress fullBar">
-                <div className="progress-bar progress-bar-info" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style={this.fullBarStyle(studentKey, test)}>
-                  <p className="barLabel">
-                    {/* {timer(studentKey, test).countdown} */}
-                    {this.state.countdown}
-                  </p>
-                </div>
-              </div>
-              <div className="progress splitBar"> {/* Begin Bars */}
-                <div className="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style={this.standardBarStyle(studentKey, test)}>
-                  {this.renderBarText()}
-                </div>
-                {this.renderBars()}
-              </div>
-            </div>
-          </div>
-        </div>
-      )
-    }
+//     if(test.total == 0 && !this.state.addInlinetest) {
+//       return (
+//         <div key={test.id} className="addTest dataButtonsAndBars col-xs-12">
+//           <div>
+//             <button className="fa fa-plus addInlinetestBtn" aria-hidden="true" name="addInlinetest" value={this.state.addInlinetest} onClick={(e) => this.handleToggle(e, true)}></button>
+//           </div>
+//         </div>
+//       )
+//     } else if(test.total == 0 && this.state.addInlinetest) {
+//       return (
+//         <div key={test.id} className="inlineForm buttonsAndBars">
+//           <div className="inlineNameForm col-lg-6 col-md-6 col-sm-6 col-xs-6">
+//             <input type="text" className="form-control testNameInput" value={test.name} placeholder="test name" onChange={(e) => this.props.handleChange(e, studentKey)}/>
+//           </div>
+//           <div className="inlineTestTimeForm col-lg-6 col-md-6 col-sm-6 col-xs-6">
+//             <div className="quantity">
+//               <input className="hourInput" type="number" min="0" max="6" step="1" value="0" onChange={(e) => this.props.handleHourChange(e, test)}/>
+//             </div>
+//             <div className="quantity">
+//               <input className="minuteInput" type="number" min="00" max="55" step="5" value="00" onChange={(e) => this.props.handleMinuteChange(e, studentKey, test)}/>
+//             </div>
+//           </div>
+//           {/* <div className="testTimeForm smallWidthMargin col-lg-6 col-md-6 col-sm-6 col-xs-6">
+//             <div className="quantity">
+//               <input className="hourInput" type="number" min="0" max="6" step="1" defaultValue="0" ref={(input) => this.AtestHour = input}/>
+//             </div>
+//             <div className="quantity">
+//               <input className="minuteInput" type="number" min="00" max="55" step="5" defaultValue="00" ref={(input) => this.AtestMinute = input}/>
+//             </div>
+//           </div> */}
+//           <button type="submit" type="button" aria-hidden="true" className="fa fa-check checkAdd addTestBtn col-lg-1 col-md-1 col-sm-1 col-xs-1" name="addInlinetest" value="this.state.addInlinetest" onClick={(e) => this.handleToggle(e, false)}></button>
+//         </div>
+//       )
+//     } else if(test.total > 0 && !this.state.addInlinetest && !this.state.hideFinishedTest) {
+//       // TEST ONE DATA
+//       return (
+//         <div key={test.id} className="dataButtonsAndBars col-xs-12">
+//         {/* <div key={test.id} className="dataButtonsAndBars col-xs-12" ref="safeDeleteHighlight" name="redHover" value="this.state.redhover" onMouseOver={(e) => this.handleToggle(e, true)} onMouseLeave={(e) => this.handleToggle(e, false)}> */}
+//         {/* <div className={"dataButtonsAndBars col-xs-12" + (student.isSafeToDelete) ? "deleteHighlight" : ""} onMouseOver={() => this.changeState(this.state.redHover, true)} onMouseLeave={() => this.changeState(this.state.redHover, false)}> */}
+//           <div className="testTimeData">
+// {/* test hide */}
+//             {/* <div className="hideTest col-lg-1 col-md-1 col-sm-1 col-xs-1"> */}
+//             {/* <div className="hideTest col-lg-1 col-md-1 col-sm-1 col-xs-1" ref = "redHover"> */}
+//             {/* <div className={"hideTest col-lg-1 col-md-1 col-sm-1 col-xs-1" + (this.state.redHover && test.isOver) ? "hidden" : ""}> */}
+//               {/* <div> */}
+//                 {/* <i className="fa fa-minus" aria-hidden="true" onClick={() => this.changeState(this.state.hideFinishedTest, true)}></i> */}
+//                 {/* <button className="fa fa-minus hideFinishedTestBtn" aria-hidden="true" name="hideFinishedTest" value="this.state.hideFinishedTest" onClick={(e) => this.handleToggle(e, true)}></button> */}
+//               {/* </div> */}
+//             {/* </div> */}
+//             <div className="testTimeCell marginLeft marginRight col-xs-12">
+//               <p className="dataPointLabel col-lg-5 col-md-5 col-sm-5 col-xs-12">
+//                 started:
+//               </p>
+//               <p className="dataPoint col-lg-7 col-md-7 col-sm-7 col-xs-12">
+//                 {this.props.startTime(test)}
+//               </p>
+//             </div>
+//             <div className= "testTimeCell marginLeft marginRight col-xs-12">
+//               <p className="dataPointLabel col-lg-5 col-md-5 col-sm-5 col-xs-12">
+//                 paused:
+//               </p>
+//               <p className="dataPoint col-lg-6 col-md-6 col-sm-6 col-xs-6">
+//                 {parseTime(test.pausedTotal).hourMinSec}
+//               </p>
+//             </div>
+//             <div className="testTimeCell marginLeft marginRight col-xs-12">
+//               <p className="dataPointLabel col-lg-5 col-md-5 col-sm-5 col-xs-12">
+//                 std. end:
+//               </p>
+//               <p className="dataPoint col-lg-7 col-md-7 col-sm-7 col-xs-12">
+//                 {this.props.endTime(test, "standard")}
+//               </p>
+//             </div>
+//             <div className="testTimeCell marginLeft marginRight col-xs-12">
+//               <p className="dataPointLabel col-lg-5 col-md-5 col-sm-5 col-xs-12">
+//                 ext. end:
+//               </p>
+//               <p className="dataPoint col-lg-6 col-md-6 col-sm-6 col-xs-6">
+//                 {this.props.endTime(test, "extended")}
+//               </p>
+//             </div>
+//           </div>
+// {/* TEST ONE NAME */}
+//           <div className="buttonsAndBars">
+//             <div className="testNameCell marginRight marginLeft">
+//               {this.renderButton()}
+//             </div>
+// {/* BEGIN TEST ONE BARS */}
+//             <div className="bars col-xs-12">
+//               <div className="progress fullBar">
+//                 <div className="progress-bar progress-bar-info" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style={this.fullBarStyle(studentKey, test)}>
+//                   <p className="barLabel">
+//                     {/* {timer(studentKey, test).countdown} */}
+//                     {this.state.countdown}
+//                   </p>
+//                 </div>
+//               </div>
+//               <div className="progress splitBar"> {/* Begin Bars */}
+//                 <div className="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style={this.standardBarStyle(studentKey, test)}>
+//                   {this.renderBarText()}
+//                 </div>
+//                 {this.renderBars()}
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//       )
+//     }
   } // end of renderTests
 
 } // end of Test class

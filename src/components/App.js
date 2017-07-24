@@ -1,7 +1,8 @@
 import React from 'react';
 import Header from './Header';
 // import Landing from './Landing';
-import Student from './Student';
+// import Student from './Student';
+import Students from './Students';
 import classnames from 'classnames';
 import AddStudentForm from './AddStudentForm';
 import rebase from '../base';
@@ -50,13 +51,13 @@ class App extends React.Component {
       clearSelected: false,
       warn: false,
       alert: false,
-      time: new Date(),
       waitOption: 1800000,
       timeoutStarted: false,
       info: false,
       selectedStudents: [],
       selectedTests: [],
-      areThereEnoughStudents: false
+      areThereEnoughStudents: false,
+      time: new Date()
     };
   }
 
@@ -68,12 +69,19 @@ class App extends React.Component {
     });
   }
 
+  componentWillUpdate(nextProps, nextState) {
+    // this.clock = setInterval(
+    //   () => this.tick(),
+    //   1000
+    // );
+  }
+
   componentDidMount() {
 
-    this.clock = setInterval(
-      () => this.tick(),
-      1000
-    );
+    // this.clock = setInterval(
+    //   () => this.tick(),
+    //   1000
+    // );
 
     this.setState({
       areThereEnoughStudents: Object.keys(this.state.students).length < 2
@@ -95,17 +103,17 @@ class App extends React.Component {
     // }
   }
 
+  componentWillUnmount() {
+    clearInterval(this.clock);
+
+    rebase.base.removeBinding(this.ref);
+  }
+
   componentWillMount() {
     this.ref = rebase.base.syncState(`${this.props.match.params.userID}/students`, {
       context: this,
       state: 'students'
     });
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.clock);
-
-    rebase.base.removeBinding(this.ref);
   }
 
   // END lifecycle hooks AND clock functions
@@ -293,7 +301,6 @@ renderHeader() {
       state={this.state}
       logout={this.logout}
       printPage={this.state.printPage}
-      time={this.state.time}
     />
   )
 }
@@ -554,6 +561,7 @@ renderHeader() {
     return (
       <div className="main-frame">
         {this.renderHeader()}
+        {/* {this.state.time.toLocaleTimeString()} */}
         <div className="list-group">
           {this.displayWarning()}
           {this.displayAlert()}
@@ -564,7 +572,7 @@ renderHeader() {
           <div className="container-fluid main-body w3-panel w3-card-2">
 {/*SELECT / DELETE CONTROLS*/}
             {this.displayFormControls()}
-            <ul className="TrackerPage">
+            {/* <ul className="TrackerPage">
               {Object
                 .keys(this.state.students)
                 .map(key => <Student
@@ -582,7 +590,21 @@ renderHeader() {
                             />
                 )
               }
-          </ul>
+          </ul> */}
+          <div>
+            <Students
+              printPage={this.state.printPage}
+              // key={key}
+              // index={key}
+              students={this.state.students}
+              // student={this.state.students[key]}
+              selectedTests={this.state.selectedTests}
+              selectedStudents={this.state.selectedStudents}
+              toggleInvert={this.toggleInvert}
+              updateStudent={this.updateStudent}
+              removeStudent={this.removeStudent}
+            />
+          </div>
         </div> {/* END CONTAINER-FLUID MAIN-BODY */}
         <div className={(this.state.printPage) ? "hidden" : ""}>
           <AddStudentForm

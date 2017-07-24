@@ -17,6 +17,7 @@ class AddStudentForm extends React.Component {
 
     const student = {
       order: Object.keys(this.props.students).length,
+      id: Math.random() * 10000000000000000,
       name: this.name.value,
       extendTime: this.extendTime.value,
       tests: {
@@ -87,63 +88,6 @@ class AddStudentForm extends React.Component {
       created_at: Date.now().toString()
     }
 
-    // const student = {
-    //   name: this.name.value,
-    //   extendTime: this.extendTime.value,
-    //   Aname: this.AtestName.value,
-    //   Atime: addHoursAndMinutes(this.AtestHour.value, this.AtestMinute.value) || 18000000,
-    //   Atotal: addHoursAndMinutes(this.AtestHour.value, this.AtestMinute.value) * this.extendTime.value || 0,
-    //   AstartRec: 0,
-    //   AstartTime: 0,
-    //   AhasTimerStarted: false,
-    //   AisTimerPaused: false,
-    //   ApausedTime: 0,
-    //   ApausedTotal: 0,
-    //   AisOver: false,
-    //   AendedAt: 0,
-    //   Bname: this.BtestName.value,
-    //   // time: addHoursAndMinutes(this.BtestHour.value, this.BtestMinute.value) || 18000000,
-    //   // total: addHoursAndMinutes(this.BtestHour.value, this.BtestMinute.value) * this.extendTime.value || 0,
-    //   Btime: (typeof this.BtestHour === "undefined") ? 18000000 : addHoursAndMinutes(this.BtestHour.value, this.BtestMinute.value),
-    //   Btotal: (typeof this.BtestHour === "undefined") ? 0 : addHoursAndMinutes(this.BtestHour.value, this.BtestMinute.value) * this.extendTime.value,
-    //   BstartRec: 0,
-    //   BstartTime: 0,
-    //   BhasTimerStarted: false,
-    //   BisTimerPaused: false,
-    //   BpausedTime: 0,
-    //   BpausedTotal: 0,
-    //   BisOver: false,
-    //   BendedAt: 0,
-    //   Cname: this.CtestName.value,
-    //   // time: addHoursAndMinutes(this.CtestHour.value, this.CtestMinute.value) || 18000000,
-    //   // total: addHoursAndMinutes(this.CtestHour.value, this.CtestMinute.value) * this.extendTime.value || 0,
-    //   Ctime: (typeof this.CtestHour === "undefined") ? 18000000 : addHoursAndMinutes(this.CtestHour.value, this.CtestMinute.value),
-    //   Ctotal: (typeof this.CtestHour === "undefined") ? 0 : addHoursAndMinutes(this.CtestHour.value, this.CtestMinute.value) * this.extendTime.value,
-    //   CstartRec: 0,
-    //   CstartTime: 0,
-    //   ChasTimerStarted: false,
-    //   CisTimerPaused: false,
-    //   CpausedTime: 0,
-    //   CpausedTotal: 0,
-    //   CisOver: false,
-    //   CendedAt: 0,
-    //   Dname: this.DtestName.value,
-    //   // time: addHoursAndMinutes(this.DtestHour.value, this.DtestMinute.value) || 18000000,
-    //   // total: addHoursAndMinutes(this.DtestHour.value, this.DtestMinute.value) * this.extendTime.value || 0,
-    //   Dtime: (typeof this.DtestHour === "undefined") ? 18000000 : addHoursAndMinutes(this.DtestHour.value, this.DtestMinute.value),
-    //   Dtotal: (typeof this.DtestHour === "undefined") ? 0 : addHoursAndMinutes(this.DtestHour.value, this.DtestMinute.value) * this.extendTime.value,
-    //   DstartRec: 0,
-    //   DstartTime: 0,
-    //   DhasTimerStarted: false,
-    //   DisTimerPaused: false,
-    //   DpausedTime: 0,
-    //   DpausedTotal: 0,
-    //   DisOver: false,
-    //   DendedAt: 0,
-    //   isSafeToDelete: false,
-    //   created_at: Date.now().toString()
-    // }
-
     if(this.name.value, this.extendTime.value) {
       this.props.addStudent(student);
       this.props.toggleInvert();
@@ -157,11 +101,80 @@ class AddStudentForm extends React.Component {
   }
 
   componentDidMount() {
-    this.numberInput = setTimeout(
-      () => mountNumberInput(),
-      0
-    );
+    // this.numberInput = setTimeout(
+    //   () => mountNumberInput(),
+    //   0
+    // );
+
+    mountNumberInput();
+
+      // $('<div class="quantity-nav"><div class="quantity-button quantity-up">+</div><div class="quantity-button quantity-down">-</div></div>').insertAfter('.quantity input');
+      // $('.quantity').each(function() {
+      //   var spinner = $(this),
+      //     input = spinner.find('input[type="number"]'),
+      //     btnUp = spinner.find('.quantity-up'),
+      //     btnDown = spinner.find('.quantity-down'),
+      //     min = input.attr('min'),
+      //     max = input.attr('max'),
+      //     step = input.attr('step');
+      //
+      //   btnUp.click(function() {
+      //     var oldValue = parseFloat(input.val());
+      //     if (oldValue >= max) {
+      //       // if(oldValue < 10) {
+      //         // var newVal = '0' + min;
+      //         var newVal = min;
+      //       // } else {
+      //         // var newVal = min;
+      //       // }
+      //     } else {
+      //       // if(oldValue < 10 && oldValue != step) {
+      //       if(oldValue == 0 && step == 5) {
+      //         var newVal = '0' + (oldValue + 1 * step);
+      //       } else {
+      //         var newVal = oldValue + 1 * step;
+      //       }
+      //     }
+      //     spinner.find("input").val(newVal);
+      //     spinner.find("input").trigger("change");
+      //   });
+      //
+      //   btnDown.click(function() {
+      //     var oldValue = parseFloat(input.val());
+      //     if (oldValue <= min) {
+      //       // if(oldValue < 10) {
+      //         // var newVal = '0' + max;
+      //       // } else {
+      //         var newVal = max;
+      //       // }
+      //     } else {
+      //       // if(oldValue < 10) {
+      //       if((oldValue == 10 || oldValue == 5) && step == 5) {
+      //         var newVal = '0' + (oldValue - 1 * step);
+      //       } else {
+      //         var newVal = oldValue - 1 * step;
+      //       }
+      //     }
+      //     spinner.find("input").val(newVal);
+      //     spinner.find("input").trigger("change");
+      //   });
+      //
+      // });
   }
+
+  componentWillUpdate(nextProps, nextState) {
+    // this.numberInput = setTimeout(
+    //   () => mountNumberInput(),
+    //   0
+    // );
+
+    mountNumberInput();
+  }
+
+  componentDidUpdate(oldProps,oldState){
+      mountNumberInput();
+  }
+
 
   componentWillUnmount() {
     clearTimeout(this.numberInput);

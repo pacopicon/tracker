@@ -1,6 +1,7 @@
 import React from 'react';
 import rebase from '../base';
 import PropTypes from 'prop-types';
+import Clock from './Clock';
 // import Landing from './Landing';
 
 class Header extends React.Component {
@@ -9,6 +10,26 @@ class Header extends React.Component {
     this.goToPrintPage = this.goToPrintPage.bind(this);
     this.goToTrackerPage = this.goToTrackerPage.bind(this);
     this.getTeacherName = this.getTeacherName.bind(this);
+    this.state = {
+      time: new Date()
+    }
+  }
+
+  tick() {
+    this.setState({
+      time: new Date()
+    });
+  }
+
+  componentDidMount() {
+    this.clock = setInterval(
+      () => this.tick(),
+      1000
+    );
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.clock);
   }
 
   getTeacherName(string) {
@@ -63,7 +84,9 @@ class Header extends React.Component {
       <div className="collapse navbar-collapse" id="collapsingNavbar">
         <ul className="nav navbar-nav">
           <li className="nav-item">
-            <b><p className="col-lg-3 col-md-3 col-sm-3 col-xs-12 navHeading">{this.props.time.toLocaleTimeString()}</p></b>
+            {/* <b><p className="col-sm-3 col-xs-12 navHeading">{this.state.time.toLocaleTimeString()}</p></b> */}
+            {/* <b><p className="col-lg-3 col-md-3 col-sm-3 col-xs-12 navHeading">{this.props.time.toLocaleTimeString()}</p></b> */}
+            <Clock/>
           </li>
           <li className="nav-item">
             {/* <button ui-sref="testDataPrintout" className="menuBtn menu-one col-lg-3 col-md-3 col-sm-3 col-xs-12">

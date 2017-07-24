@@ -17,7 +17,6 @@ class Student extends React.Component {
     this.endTime = this.endTime.bind(this);
     this.testTime = this.testTime.bind(this);
     this.renderTests = this.renderTests.bind(this);
-    // this.renderTestRender = this.renderTestRender.bind(this);
     this.changeState = this.changeState.bind(this);
     this.startTimer = this.startTimer.bind(this);
     this.timer = this.timer.bind(this);
@@ -25,10 +24,6 @@ class Student extends React.Component {
     this.resumeTimer = this.resumeTimer.bind(this);
     this.resetTimer = this.resetTimer.bind(this);
     this.endTimer = this.endTimer.bind(this);
-    // this.fullBarStyle = this.fullBarStyle.bind(this);
-    // this.standardBarStyle = this.standardBarStyle.bind(this);
-    // this.extendBarStyle = this.extendBarStyle.bind(this);
-    // this.extendZeroBarStyle = this.extendZeroBarStyle.bind(this);
     this.state = {
       printPage: false,
       hour: 0,
@@ -43,7 +38,7 @@ class Student extends React.Component {
       topBarWidth: 0,
       bottomBarWidth: 0,
       countdown: 0,
-      dueTime: 0
+      dueTime: 0,
     }
   }
 
@@ -54,11 +49,6 @@ class Student extends React.Component {
     const { student, index } = this.props;
     const students = this.props.students;
     const studentKey = index;
-
-    this.numberInput = setTimeout(
-      () => mountNumberInput(),
-      0
-    );
 
     for (var i = 0; i < this.props.selectedTests.length; i++) {
       if (students[this.props.studentKey] == this.props.selectedStudents[i]) {
@@ -78,58 +68,9 @@ class Student extends React.Component {
         1000
       );
     }
-
-
-
-
-    // if(nextProps.student.isSafeToDelete && test.total > 0 && !this.state.addInLineTest && !this.state.hideFinishedTest){
-    // if(nextProps.student.isSafeToDelete){
-    //   // $(ReactDOM.findDOMNode(this.refs.safeDeleteHighlighft)).css({'padding-left': '1em',
-    //   //   'transition': 'all 1s ease-in-out'});
-    //   ReactDOM.findDOMNode(this.refs.safeDeleteHighlighft).css({'padding-left': '1em',
-    //     'transition': 'all 1s ease-in-out'});
-    // } else {
-    //   ReactDOM.findDOMNode(this.refs.safeDeleteHighlight).css({'padding-left': '0',
-    //   'transition': 'all 1s ease-in-out'});
-    // }
-    //
-    //
-    //
-    // if(nextState.redHover && nextProps.test.isOver){
-    //   ReactDOM.findDOMNode(this.refs.redHover).css({'display': 'hidden'});
-    // } else {
-    //   ReactDOM.findDOMNode(this.refs.redHover).css({'display': 'initial'});
-    // }
-    //
-    // if(!nextProps.test.hasTimerStarted && !nextProps.test.isOver){
-    //   ReactDOM.findDOMNode(this.refs.hideStartButton).css({'display': 'hidden'});
-    // } else {
-    //   ReactDOM.findDOMNode(this.refs.hideStartButton).css({'display': 'initial'});
-    // }
-    //
-    // if(nextProps.test.isOver && nextProps.test.total > 0){
-    //   ReactDOM.findDOMNode(this.refs.hideTestOver).css({'display': 'hidden'});
-    // } else {
-    //   ReactDOM.findDOMNode(this.refs.hideTestOver).css({'display': 'initial'});
-    // }
-    //
-    // if(nextProps.test.hasTimerStarted && !nextProps.test.isTimerPaused && !nextProps.test.isOver){
-    //   ReactDOM.findDOMNode(this.refs.hidePause).css({'display': 'hidden'});
-    // } else {
-    //   ReactDOM.findDOMNode(this.refs.hidePause).css({'display': 'initial'});
-    // }
-    //
-    // if(nextProps.test.hasTimerStarted && nextProps.test.isTimerPaused && !nextProps.test.isOver){
-    //   ReactDOM.findDOMNode(this.refs.hideResume).css({'display': 'hidden'});
-    // } else {
-    //   ReactDOM.findDOMNode(this.refs.hideResume).css({'display': 'initial'});
-    // }
-
   }
 
   componentWillUnmount() {
-
-    clearTimeout(this.numberInput);
 
     if(!this.state.startTest) {
       clearInterval(this.timeVar);
@@ -137,60 +78,10 @@ class Student extends React.Component {
 
   }
 
-  componentDidUpdate(oldProps,oldState){
-    const { student, test } = this.props;
-
-    // if(!student.isSafeToDelete){
-    //   ReactDOM.findDOMNode(this.refs.safeDeleteHighlight).css({'padding-left': '1em',
-    //     'transition': 'all 1s ease-in-out'});
-    // } else {
-    //   ReactDOM.findDOMNode(this.refs.safeDeleteHighlight).css({'padding-left': '0',
-    //   'transition': 'all 1s ease-in-out'});
-    // }
-
-
-
-    // if(!this.state.redHover || !test.isOver){
-    //   ReactDOM.findDOMNode(this.refs.redHover).css({'display': 'hidden'});
-    // } else {
-    //   ReactDOM.findDOMNode(this.refs.redHover).css({'display': 'initial'});
-    // }
-    //
-    // if(test.hasTimerStarted || test.isOver){
-    //   ReactDOM.findDOMNode(this.refs.hideStartButton).css({'display': 'hidden'});
-    // } else {
-    //   ReactDOM.findDOMNode(this.refs.hideStartButton).css({'display': 'initial'});
-    // }
-    //
-    // if(!test.isOver || !test.total > 0){
-    //   ReactDOM.findDOMNode(this.refs.hideTestOver).css({'display': 'hidden'});
-    // } else {
-    //   ReactDOM.findDOMNode(this.refs.hideTestOver).css({'display': 'initial'});
-    // }
-    //
-    // if(!test.hasTimerStarted || test.isTimerPaused || test.isOver){
-    //   ReactDOM.findDOMNode(this.refs.hidePause).css({'display': 'hidden'});
-    // } else {
-    //   ReactDOM.findDOMNode(this.refs.hidePause).css({'display': 'initial'});
-    // }
-    //
-    // if(!test.hasTimerStarted || !test.isTimerPaused || test.isOver){
-    //   ReactDOM.findDOMNode(this.refs.hideResume).css({'display': 'hidden'});
-    // } else {
-    //   ReactDOM.findDOMNode(this.refs.hideResume).css({'display': 'initial'});
-    // }
-
-  }
 
 //  END Lifecycle Hooks
 
 // BEGIN click handlers
-
-  changeState(key, value) {
-    this.setState({
-        key: value
-    });
-  }
 
   handleChange(e, key) {
     const target = e.target;
@@ -232,13 +123,6 @@ class Student extends React.Component {
     this.setState({
       hour: 0
     });
-  }
-
-  relay(value, boolean) {
-    return {
-      boolean: boolean,
-      value: value
-    }
   }
 
 // END click handlers
@@ -480,192 +364,6 @@ class Student extends React.Component {
 
   // END Student Test TIMER variables and functions
 
-  // BEGIN Test Display Functions
-
-  // fullBarStyle(studentKey, test) {
-  //   return {
-  //     width: this.state.bottomBarWidth + this.state.topBarWidth + '%'
-  //   }
-  // }
-  //
-  // standardBarStyle(studentKey, test) {
-  //   return {
-  //     width: this.state.bottomBarWidth + '%'
-  //   }
-  // }
-  //
-  // extendBarStyle(studentKey, test) {
-  //   return {
-  //     width: this.state.topBarWidth + '%'
-  //   }
-  // }
-  //
-  // extendZeroBarStyle() {
-  //   return {
-  //     width: 0 + '%'
-  //   }
-  // }
-
-//   renderTests(testKey, studentKey) {
-//     const { student } = this.props
-//     const testTotal = student.tests[testKey].testTotal
-//
-//     if(testTotal == 0 || !this.state.addInLineTest) {
-//       return (
-//         <li key={student.tests[testKey].id} className="addTest dataButtonsAndBars col-lg-12 col-md-12 col-sm-12 col-xs-12">
-//           <div>
-//             <i className="fa fa-plus" aria-hidden="true" onClick={() => this.changeState(this.state.addInLineTest, true)}></i>
-//           </div>
-//         </li>
-//       )
-//     } else if(test.total = 0 && this.state.addInLineTest) {
-//       return (
-//         <li key={student.tests[testKey].id} className="inlineForm buttonsAndBars">
-//           <div className="inlineNameForm col-lg-6 col-md-6 col-sm-6 col-xs-6">
-//             <input type="text" className="form-control testNameInput" value={test.name} placeholder="test name" onChange={(e) => this.props.handleChange(e, studentKey)}/>
-//           </div>
-//           <div className="inlineTestTimeForm col-lg-6 col-md-6 col-sm-6 col-xs-6">
-//             <div className="quantity">
-//               <input type="number" min="0" max="6" step="1" value="0" onChange={(e) => this.props.handleHourChange(e, test)}/>
-//             </div>
-//             <div className="quantity">
-//               <input type="number" min="00" max="55" step="5" value="00" onChange={(e) => this.props.handleMinuteChange(e, studentKey, test)}/>
-//             </div>
-//           </div>
-//           <button type="submit" type="button" className="addTestBtn col-lg-1 col-md-1 col-sm-1 col-xs-1" onClick={() => this.changeState(this.state.addInLineTest, false)}><i className="fa fa-check checkAdd" aria-hidden="true"></i></button>
-//         </li>
-//       )
-//     } else if(test.total > 0 && !this.state.addInLineTest && !this.state.hideFinishedTest) {
-//       // TEST ONE DATA
-//       return (
-//         <li key={student.tests[testKey].id} className="dataButtonsAndBars col-lg-12 col-md-12 col-sm-12 col-xs-12" ref="safeDeleteHighlight" onMouseOver={() => this.changeState(this.state.redHover, true)} onMouseLeave={() => this.changeState(this.state.redHover, false)}>
-//         {/* <div className={"dataButtonsAndBars col-lg-12 col-md-12 col-sm-12 col-xs-12" + (student.isSafeToDelete) ? "deleteHighlight" : ""} onMouseOver={() => this.changeState(this.state.redHover, true)} onMouseLeave={() => this.changeState(this.state.redHover, false)}> */}
-//           <div className="testTimeData">
-// {/* test hide */}
-//             <div className="hideTest col-lg-1 col-md-1 col-sm-1 col-xs-1" ref = "redHover">
-//             {/* <div className={"hideTest col-lg-1 col-md-1 col-sm-1 col-xs-1" + (this.state.redHover && test.isOver) ? "hidden" : ""}> */}
-//               <div>
-//                 <i className="fa fa-minus" aria-hidden="true" onClick={() => this.changeState(this.state.hideFinishedTest, true)}></i>
-//               </div>
-//             </div>
-//             <div className="testTimeCell marginLeft marginRight col-lg-12 col-md-12 col-sm-12 col-xs-12">
-//               <p className="dataPointLabel col-lg-5 col-md-5 col-sm-5 col-xs-12">
-//                 started:
-//               </p>
-//               <p className="dataPoint col-lg-7 col-md-7 col-sm-7 col-xs-12">
-//                 {this.props.startTime(test)}
-//               </p>
-//             </div>
-//             <div className= "testTimeCell marginLeft marginRight col-lg-12 col-md-12 col-sm-12 col-xs-12">
-//               <p className="dataPointLabel col-lg-5 col-md-5 col-sm-5 col-xs-12">
-//                 paused:
-//               </p>
-//               <p className="dataPoint col-lg-6 col-md-6 col-sm-6 col-xs-6">
-//                 {parseTime(test.pausedTotal).hourMinSec}
-//               </p>
-//             </div>
-//             <div className="testTimeCell marginLeft marginRight col-lg-12 col-md-12 col-sm-12 col-xs-12">
-//               <p className="dataPointLabel col-lg-5 col-md-5 col-sm-5 col-xs-12">
-//                 std. end:
-//               </p>
-//               <p className="dataPoint col-lg-7 col-md-7 col-sm-7 col-xs-12">
-//                 {this.props.endTime(test, "standard")}
-//               </p>
-//             </div>
-//             <div className="testTimeCell marginLeft marginRight col-lg-12 col-md-12 col-sm-12 col-xs-12">
-//               <p className="dataPointLabel col-lg-5 col-md-5 col-sm-5 col-xs-12">
-//                 ext. end:
-//               </p>
-//               <p className="dataPoint col-lg-6 col-md-6 col-sm-6 col-xs-6">
-//                 {this.props.endTime(test, "extended")}
-//               </p>
-//             </div>
-//           </div>
-// {/* TEST ONE NAME */}
-//           <div className="buttonsAndBars">
-//             <div className="testNameCell marginRight marginLeft">
-//               {/* <div className={"buttonContainer col-lg-12 col-md-12 col-sm-12 col-xs-12" + (!test.hasTimerStarted && !test.isOver) ? "" : "hidden"}> */}
-//               <div className="buttonContainer col-lg-12 col-md-12 col-sm-12 col-xs-12" ref="hideStartButton">
-//                 <button className="countBtn" onClick={() => this.startTimer(studentKey, test)}>
-//                   <p className="countBtnText">
-//                     start {test.name} test
-//                   </p>
-//                 </button>
-//               </div>
-//               <div className="buttonContainer col-lg-12 col-md-12 col-sm-12 col-xs-12" ref="hideTestOver">
-//               {/* <div className={"buttonContainer col-lg-12 col-md-12 col-sm-12 col-xs-12" + (test.isOver && test.total > 0) ? "" : "hidden"}> */}
-//                 <button className="redBtn">
-//                   <p className="countBtnText">
-//                     {test.name} test is over
-//                   </p>
-//                 </button>
-//               </div>
-//               <div className="buttonContainer col-lg-12 col-md-12 col-sm-12 col-xs-12" ref="hidePause">
-//               {/* <div className={"buttonContainer col-lg-12 col-md-12 col-sm-12 col-xs-12" + (test.hasTimerStarted && !test.isTimerPaused && !test.isOver) ? "" : "hidden"}> */}
-//                 <button className="pauseBtn" onClick={() => this.pauseTimer(studentKey, test)}>
-//                   <p className="pauseBtnText">
-//                     pause {test.name} test
-//                   </p>
-//                 </button>
-//               </div>
-//               <div className="buttonContainer col-lg-12 col-md-12 col-sm-12 col-xs-12" ref="hideResume">
-//               {/* <div className={"buttonContainer col-lg-12 col-md-12 col-sm-12 col-xs-12" + (test.hasTimerStarted && test.isTimerPaused && !test.isOver) ? "" : "hidden"}> */}
-//                 <button className="resumeBtn col-lg-4 col-md-4 col-sm-4 col-xs-4" onClick={() => this.resumeTimer(studentKey, test)}>
-//                   <p className="resumeBtnText">
-//                     resume
-//                   </p>
-//                 </button>
-//                 <button className="resetBtn col-lg-4 col-md-4 col-sm-4 col-xs-4" onClick={() => this.resetTimer(studentKey, test)}>
-//                   <p className="resetBtnText">
-//                     reset
-//                   </p>
-//                 </button>
-//                 <button className="endBtn col-lg-4 col-md-4 col-sm-4 col-xs-4" onClick={() => this.endTimer(studentKey, test)}>
-//                   <p className="endBtnText">
-//                     end
-//                   </p>
-//                 </button>
-//               </div>
-//             </div>
-// {/* BEGIN TEST ONE BARS */}
-//             <div className="bars col-lg-12 col-md-12 col-sm-12 col-xs-12">
-//               <div className="progress fullBar">
-//                 <div className="progress-bar progress-bar-info" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style={this.fullBarStyle(studentKey, test)}>
-//                   <p className="barLabel">
-//                     {/* {timer(studentKey, test).countdown} */}
-//                     {this.state.countdown}
-//                   </p>
-//                 </div>
-//               </div>
-//               <div className="progress splitBar"> {/* Begin Bars */}
-//                 <div className="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style={this.standardBarStyle(studentKey, test)}>
-//                   <p className={"barLabel" + (this.state.countdown - this.testTime(studentKey, test, "extended") > 0) ? "" : "hidden"}>
-//                     {this.props.testTime(studentKey, test, "extended")}
-//                   </p>
-//                   <p className={"barLabel" + (this.state.countdown - this.testTime(studentKey, test, "extended") <= 0) ? "" : "hidden"}>
-//                     {/* {timer(studentKey, test).countdown} */}
-//                     {this.state.countdown}
-//                   </p>
-//                 </div>
-//                 <div className={"progress-bar progress-bar-success" + (this.state.countdown - this.testTime(studentKey, test, "extended") > 0) ? "" : "hidden"} role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style={this.extendBarStyle(studentKey, test)}>
-//                   <p className="barLabel">
-//                     {/* {timer(studentKey, test).countdown - this.testTime(studentKey, "testOneExtBar")} */}
-//                     {this.state.countdown - this.props.testTime(studentKey, test, "extendedBar")}
-//                   </p>
-//                 </div>
-//                 <div className={"progress-bar progress-bar-success" + (this.state.countdown - this.testTime(studentKey, test, "extended") <= 0) ? "" : "hidden"} role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style={this.extendZeroBarStyle()}>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-//         </li>
-//       )
-//     }
-//
-//   } // end of renderTests
-
-  // END Test Display Functions
-
   // BEGIN Render functions
 
   displayDeleteBtn(studentKey) {
@@ -677,34 +375,10 @@ class Student extends React.Component {
   }
 
   renderTests() {
-  // renderTestRender(studentKey) {
-    // for (var key in this.props.students.tests) {
-    //   return this.renderTests(this.props.students.tests[key], studentKey);
-    // }
 
     const { student, students, index} = this.props;
     const studentKey = index;
 
-    // for (var key in student.tests) {
-    //   return (
-    //   <Test
-    //     key = {key}
-    //     test = { this.props.student.tests[key]}
-    //     studentKey = {studentKey}
-    //     students = {students}
-    //     // student = {this.props.students[studentKey]}
-    //     student = {student}
-    //     hour={this.state.hour}
-    //     selectedTests={this.props.selectedTests}
-    //     handleChange={this.handleChange}
-    //     handleHourChange={this.handleHourChange}
-    //     handleMinuteChange={this.handleMinuteChange}
-    //     startTime={this.startTime}
-    //     endTime={this.endTime}
-    //     testTime={this.testTime}
-    //     />
-    //   )
-    // }
     return (
       <div className="test">{Object
         .keys(this.props.student.tests)
@@ -839,8 +513,7 @@ class Student extends React.Component {
       )
     }
 
-  }
-  // END Render functions
+  } // END Render functions
 }
 
 
