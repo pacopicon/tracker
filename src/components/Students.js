@@ -446,17 +446,17 @@ class Students extends React.Component {
       return (
         <div className="buttonContainer col-xs-12">
           {/* <div className={"buttonContainer col-xs-12" + () ? "" : "hidden"}> */}
-          <button className="resumeBtn col-lg-4 col-md-4 col-sm-4 col-xs-4" onClick={() => this.resumeTimer(studentKey, test)}>
+          <button className="resumeBtn col-xs-4" onClick={() => this.resumeTimer(studentKey, test)}>
             <p className="resumeBtnText">
               resume
             </p>
           </button>
-          <button className="resetBtn col-lg-4 col-md-4 col-sm-4 col-xs-4" onClick={() => this.resetTimer(studentKey, test)}>
+          <button className="resetBtn col-xs-4" onClick={() => this.resetTimer(studentKey, test)}>
             <p className="resetBtnText">
               reset
             </p>
           </button>
-          <button className="endBtn col-lg-4 col-md-4 col-sm-4 col-xs-4" onClick={() => this.endTimer(studentKey, test)}>
+          <button className="endBtn col-xs-4" onClick={() => this.endTimer(studentKey, test)}>
             <p className="endBtnText">
               end
             </p>
@@ -517,125 +517,129 @@ class Students extends React.Component {
     }
   }
 
-  renderTests(key, studentKey) {
+  renderTests(studentKey, tests) {
 
     // const { student, students, index} = this.props;
-    const testKey = key;
+    // const testKey = key;
     const student = this.props.students[studentKey];
-    const test = student.tests[key];
+    // const test = student.tests[key];
 
-    console.log("studentKey = ", studentKey);
-    console.log("testKey = ", testKey);
+    // console.log("studentKey = ", studentKey);
+    // console.log("testKey = ", testKey);
     // console.log("studentKey = ", studentKey);
 
-    if(test.total == 0 && !this.state.addInlinetest) {
-      return (
-        <div key={test.id} className="addTest dataButtonsAndBars col-xs-12">
-          <div>
-            <button className="fa fa-plus addInlinetestBtn" aria-hidden="true" name="addInlinetest" value={this.state.addInlinetest} onClick={(e) => this.handleToggle(e, true)}></button>
-          </div>
-        </div>
-      )
-    } else if(test.total == 0 && this.state.addInlinetest) {
-      return (
-        <div key={test.id} className="inlineForm buttonsAndBars">
-          <div className="inlineNameForm col-lg-6 col-md-6 col-sm-6 col-xs-6">
-            <input type="text" className="form-control testNameInput" value={test.name} placeholder="test name" onChange={(e) => this.props.handleChange(e, studentKey)}/>
-          </div>
-          <div className="inlineTestTimeForm col-lg-6 col-md-6 col-sm-6 col-xs-6">
-            <div className="quantity">
-              <input className="hourInput" type="number" min="0" max="6" step="1" value="0" onChange={(e) => this.props.handleHourChange(e, test)}/>
-            </div>
-            <div className="quantity">
-              <input className="minuteInput" type="number" min="00" max="55" step="5" value="00" onChange={(e) => this.props.handleMinuteChange(e, studentKey, test)}/>
+    // for (const test in tests) {
+      if(test.total == 0 && !this.state.addInlinetest) {
+        return (
+          <div key={test.id} className="addTest dataButtonsAndBars col-xs-12">
+            <div>
+              <button className="fa fa-plus addInlinetestBtn" aria-hidden="true" name="addInlinetest" value={this.state.addInlinetest} onClick={(e) => this.handleToggle(e, true)}></button>
             </div>
           </div>
-          {/* <div className="testTimeForm smallWidthMargin col-lg-6 col-md-6 col-sm-6 col-xs-6">
-            <div className="quantity">
-              <input className="hourInput" type="number" min="0" max="6" step="1" defaultValue="0" ref={(input) => this.AtestHour = input}/>
+        )
+      } else if(test.total == 0 && this.state.addInlinetest) {
+        return (
+          <div key={test.id} className="inlineForm buttonsAndBars">
+            <div className="inlineNameForm col-xs-6">
+              <input type="text" className="form-control testNameInput" value={test.name} placeholder="test name" onChange={(e) => this.props.handleChange(e, studentKey)}/>
             </div>
-            <div className="quantity">
-              <input className="minuteInput" type="number" min="00" max="55" step="5" defaultValue="00" ref={(input) => this.AtestMinute = input}/>
+            <div className="inlineTestTimeForm col-xs-6">
+              <div className="quantity">
+                <input className="hourInput" type="number" min="0" max="6" step="1" value="0" onChange={(e) => this.props.handleHourChange(e, test)}/>
+              </div>
+              <div className="quantity">
+                <input className="minuteInput" type="number" min="00" max="55" step="5" value="00" onChange={(e) => this.props.handleMinuteChange(e, studentKey, test)}/>
+              </div>
             </div>
-          </div> */}
-          <button type="submit" type="button" aria-hidden="true" className="fa fa-check checkAdd addTestBtn col-lg-1 col-md-1 col-sm-1 col-xs-1" name="addInlinetest" value="this.state.addInlinetest" onClick={(e) => this.handleToggle(e, false)}></button>
-        </div>
-      )
-    } else if(test.total > 0 && !this.state.addInlinetest && !this.state.hideFinishedTest) {
-      // TEST ONE DATA
-      return (
-        <div key={test.id} className="dataButtonsAndBars col-xs-12">
-        {/* <div key={test.id} className="dataButtonsAndBars col-xs-12" ref="safeDeleteHighlight" name="redHover" value="this.state.redhover" onMouseOver={(e) => this.handleToggle(e, true)} onMouseLeave={(e) => this.handleToggle(e, false)}> */}
-        {/* <div className={"dataButtonsAndBars col-xs-12" + (student.isSafeToDelete) ? "deleteHighlight" : ""} onMouseOver={() => this.changeState(this.state.redHover, true)} onMouseLeave={() => this.changeState(this.state.redHover, false)}> */}
-          <div className="testTimeData">
-{/* test hide */}
-            {/* <div className="hideTest col-lg-1 col-md-1 col-sm-1 col-xs-1"> */}
-            {/* <div className="hideTest col-lg-1 col-md-1 col-sm-1 col-xs-1" ref = "redHover"> */}
-            {/* <div className={"hideTest col-lg-1 col-md-1 col-sm-1 col-xs-1" + (this.state.redHover && test.isOver) ? "hidden" : ""}> */}
-              {/* <div> */}
-                {/* <i className="fa fa-minus" aria-hidden="true" onClick={() => this.changeState(this.state.hideFinishedTest, true)}></i> */}
-                {/* <button className="fa fa-minus hideFinishedTestBtn" aria-hidden="true" name="hideFinishedTest" value="this.state.hideFinishedTest" onClick={(e) => this.handleToggle(e, true)}></button> */}
+            {/* <div className="testTimeForm smallWidthMargin col-xs-6">
+              <div className="quantity">
+                <input className="hourInput" type="number" min="0" max="6" step="1" defaultValue="0" ref={(input) => this.AtestHour = input}/>
+              </div>
+              <div className="quantity">
+                <input className="minuteInput" type="number" min="00" max="55" step="5" defaultValue="00" ref={(input) => this.AtestMinute = input}/>
+              </div>
+            </div> */}
+            <button type="submit" type="button" aria-hidden="true" className="fa fa-check checkAdd addTestBtn col-lg-1 col-md-1 col-sm-1 col-xs-1" name="addInlinetest" value="this.state.addInlinetest" onClick={(e) => this.handleToggle(e, false)}></button>
+          </div>
+        )
+      } else if(test.total > 0 && !this.state.addInlinetest && !this.state.hideFinishedTest) {
+        // TEST ONE DATA
+        return (
+          <div key={test.id} className="dataButtonsAndBars col-xs-12">
+          {/* <div key={test.id} className="dataButtonsAndBars col-xs-12" ref="safeDeleteHighlight" name="redHover" value="this.state.redhover" onMouseOver={(e) => this.handleToggle(e, true)} onMouseLeave={(e) => this.handleToggle(e, false)}> */}
+          {/* <div className={"dataButtonsAndBars col-xs-12" + (student.isSafeToDelete) ? "deleteHighlight" : ""} onMouseOver={() => this.changeState(this.state.redHover, true)} onMouseLeave={() => this.changeState(this.state.redHover, false)}> */}
+            <div className="testTimeData">
+  {/* test hide */}
+              {/* <div className="hideTest col-lg-1 col-md-1 col-sm-1 col-xs-1"> */}
+              {/* <div className="hideTest col-lg-1 col-md-1 col-sm-1 col-xs-1" ref = "redHover"> */}
+              {/* <div className={"hideTest col-lg-1 col-md-1 col-sm-1 col-xs-1" + (this.state.redHover && test.isOver) ? "hidden" : ""}> */}
+                {/* <div> */}
+                  {/* <i className="fa fa-minus" aria-hidden="true" onClick={() => this.changeState(this.state.hideFinishedTest, true)}></i> */}
+                  {/* <button className="fa fa-minus hideFinishedTestBtn" aria-hidden="true" name="hideFinishedTest" value="this.state.hideFinishedTest" onClick={(e) => this.handleToggle(e, true)}></button> */}
+                {/* </div> */}
               {/* </div> */}
-            {/* </div> */}
-            <div className="testTimeCell marginLeft marginRight col-xs-12">
-              <p className="dataPointLabel col-lg-5 col-md-5 col-sm-5 col-xs-12">
-                started:
-              </p>
-              <p className="dataPoint col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                {this.props.startTime(test)}
-              </p>
-            </div>
-            <div className= "testTimeCell marginLeft marginRight col-xs-12">
-              <p className="dataPointLabel col-lg-5 col-md-5 col-sm-5 col-xs-12">
-                paused:
-              </p>
-              <p className="dataPoint col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                {parseTime(test.pausedTotal).hourMinSec}
-              </p>
-            </div>
-            <div className="testTimeCell marginLeft marginRight col-xs-12">
-              <p className="dataPointLabel col-lg-5 col-md-5 col-sm-5 col-xs-12">
-                std. end:
-              </p>
-              <p className="dataPoint col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                {this.props.endTime(test, "standard")}
-              </p>
-            </div>
-            <div className="testTimeCell marginLeft marginRight col-xs-12">
-              <p className="dataPointLabel col-lg-5 col-md-5 col-sm-5 col-xs-12">
-                ext. end:
-              </p>
-              <p className="dataPoint col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                {this.props.endTime(test, "extended")}
-              </p>
-            </div>
-          </div>
-{/* TEST ONE NAME */}
-          <div className="buttonsAndBars">
-            <div className="testNameCell marginRight marginLeft">
-              {this.renderButton(studentKey, test)}
-            </div>
-{/* BEGIN TEST ONE BARS */}
-            <div className="bars col-xs-12">
-              <div className="progress fullBar">
-                <div className="progress-bar progress-bar-info" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style={this.fullBarStyle(studentKey, test)}>
-                  <p className="barLabel">
-                    {/* {timer(studentKey, test).countdown} */}
-                    {this.state.countdown}
-                  </p>
-                </div>
+              <div className="testTimeCell marginLeft marginRight col-xs-12">
+                <p className="dataPointLabel col-sm-5 col-xs-12">
+                  started:
+                </p>
+                <p className="dataPoint col-sm-7 col-xs-12">
+                  {this.props.startTime(test)}
+                </p>
               </div>
-              <div className="progress splitBar"> {/* Begin Bars */}
-                <div className="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style={this.standardBarStyle(studentKey, test)}>
-                  {this.renderBarText(studentKey, test)}
-                </div>
-                {this.renderBars(studentKey, test)}
+              <div className= "testTimeCell marginLeft marginRight col-xs-12">
+                <p className="dataPointLabel col-sm-5 col-xs-12">
+                  paused:
+                </p>
+                <p className="dataPoint col-xs-6">
+                  {parseTime(test.pausedTotal).hourMinSec}
+                </p>
+              </div>
+              <div className="testTimeCell marginLeft marginRight col-xs-12">
+                <p className="dataPointLabel col-sm-5 col-xs-12">
+                  std. end:
+                </p>
+                <p className="dataPoint col-sm-7 col-xs-12">
+                  {this.props.endTime(test, "standard")}
+                </p>
+              </div>
+              <div className="testTimeCell marginLeft marginRight col-xs-12">
+                <p className="dataPointLabel col-sm-5 col-xs-12">
+                  ext. end:
+                </p>
+                <p className="dataPoint col-xs-6">
+                  {this.props.endTime(test, "extended")}
+                </p>
               </div>
             </div>
+  {/* TEST ONE NAME */}
+            <div className="buttonsAndBars">
+              <div className="testNameCell marginRight marginLeft">
+                {this.renderButton(studentKey, test)}
+              </div>
+  {/* BEGIN TEST ONE BARS */}
+              <div className="bars col-xs-12">
+                <div className="progress fullBar">
+                  <div className="progress-bar progress-bar-info" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style={this.fullBarStyle(studentKey, test)}>
+                    <p className="barLabel">
+                      {/* {timer(studentKey, test).countdown} */}
+                      {this.state.countdown}
+                    </p>
+                  </div>
+                </div>
+                <div className="progress splitBar"> {/* Begin Bars */}
+                  <div className="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style={this.standardBarStyle(studentKey, test)}>
+                    {this.renderBarText(studentKey, test)}
+                  </div>
+                  {this.renderBars(studentKey, test)}
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      )
-    }
+        )
+      }
+    // }
+
+
 
   } // end of renderTests
 
@@ -660,10 +664,10 @@ class Students extends React.Component {
 
     if(!this.state.printPage) {
       return(
-        <div key={student.id} className="row studentDisplay marginLeft marginRight col-lg-12 col-md-12 col-sm-12 col-xs-12">
-          <div className="student col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div key={student.id} className="row studentDisplay marginLeft marginRight col-xs-12">
+          <div className="student col-xs-12">
   {/* STUDENT: checkbox, name, extend-time*/}
-            <div className="checkboxIndexName marginRight marginLeft col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div className="checkboxIndexName marginRight marginLeft col-xs-12">
               {/* <input type="checkbox" className="checkbox" name="isSafeToDelete" checked={student.isSafeToDelete} onChange={(e) => this.handleCheckbox(e, studentKey)}/> */}
               <input type="checkbox" className="checkbox" name="isSafeToDelete" checked={student.isSafeToDelete} onChange={(e) => this.handleChange(e, studentKey)}/>
               <div className="indexAndNameCell">
@@ -678,7 +682,8 @@ class Students extends React.Component {
   {/* END STUDENT DISPLAY */}
 
   {/* BEGIN TESTS */}
-          {Object.keys(tests).map(this.renderTests(key, studentKey))}
+          {/* {Object.keys(tests).map(this.renderTests(key, studentKey))} */}
+          {this.renderTests(studentKey, tests)}
           {/* <ul>{this.renderTestRender(studentKey)}</ul> */}
           {/* <ul className="StudentTestWrapper">{this.renderTests()}</ul> */}
   {/* END TESTS */}
