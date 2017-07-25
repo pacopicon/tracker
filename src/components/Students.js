@@ -362,8 +362,8 @@ class Students extends React.Component {
       }
     }
 
-    testTime(key, test, option) {
-      const { student } = this.props;
+    testTime(studentKey, test, option) {
+      const student = this.props.students[studentKey];
       const testExtension = (test.time * student.extendTime) - test.time;
       const total = test.time * student.extendTime;
       if (option == "standard") {
@@ -468,13 +468,13 @@ class Students extends React.Component {
 
   renderBarText(studentKey, test) {
     // const { student, students, studentKey, test, tests } = this.props;
-    if(this.state.countdown - this.props.testTime(studentKey, test, "extended") > 0) {
+    if(this.state.countdown - this.testTime(studentKey, test, "extended") > 0) {
       return (
         <p>
-          {this.props.testTime(studentKey, test, "extended")}
+          {this.testTime(studentKey, test, "extended")}
         </p>
       )
-    } else if(this.state.countdown - this.props.testTime(studentKey, test, "extended") <= 0) {
+    } else if(this.state.countdown - this.testTime(studentKey, test, "extended") <= 0) {
       return (
         <p>
           {/* {timer(studentKey, test).countdown} */}
@@ -486,16 +486,16 @@ class Students extends React.Component {
 
   renderBars(studentKey, test) {
     // const { student, students, studentKey, test, tests } = this.props;
-    if(this.state.countdown - this.props.testTime(studentKey, test, "extended") > 0) {
+    if(this.state.countdown - this.testTime(studentKey, test, "extended") > 0) {
       return (
         <div className="progress-bar progress-bar-success" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style={this.extendBarStyle(studentKey, test)}>
           <p className="barLabel">
-            {/* {timer(studentKey, test).countdown - this.props.testTime(studentKey, "testOneExtBar")} */}
-            {this.state.countdown - this.props.testTime(studentKey, test, "extendedBar")}
+            {/* {timer(studentKey, test).countdown - this.testTime(studentKey, "testOneExtBar")} */}
+            {this.state.countdown - this.testTime(studentKey, test, "extendedBar")}
           </p>
         </div>
       )
-    } else if(this.state.countdown - this.props.testTime(studentKey, test, "extended") <= 0) {
+    } else if(this.state.countdown - this.testTime(studentKey, test, "extended") <= 0) {
       return (
         <div className="progress-bar progress-bar-success" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style={this.extendZeroBarStyle()}>
         </div>
@@ -517,18 +517,12 @@ class Students extends React.Component {
     }
   }
 
-  renderTests(studentKey, tests) {
+  renderTests(studentKey, test) {
 
-    // const { student, students, index} = this.props;
-    // const testKey = key;
     const student = this.props.students[studentKey];
-    // const test = student.tests[key];
 
-    // console.log("studentKey = ", studentKey);
-    // console.log("testKey = ", testKey);
-    // console.log("studentKey = ", studentKey);
+    this.addInlinetest = false;
 
-    // for (const test in tests) {
       if(test.total == 0 && !this.state.addInlinetest) {
         return (
           <div key={test.id} className="addTest dataButtonsAndBars col-xs-12">
@@ -583,7 +577,7 @@ class Students extends React.Component {
                   started:
                 </p>
                 <p className="dataPoint col-sm-7 col-xs-12">
-                  {this.props.startTime(test)}
+                  {this.startTime(test)}
                 </p>
               </div>
               <div className= "testTimeCell marginLeft marginRight col-xs-12">
@@ -599,7 +593,7 @@ class Students extends React.Component {
                   std. end:
                 </p>
                 <p className="dataPoint col-sm-7 col-xs-12">
-                  {this.props.endTime(test, "standard")}
+                  {this.endTime(test, "standard")}
                 </p>
               </div>
               <div className="testTimeCell marginLeft marginRight col-xs-12">
@@ -607,7 +601,7 @@ class Students extends React.Component {
                   ext. end:
                 </p>
                 <p className="dataPoint col-xs-6">
-                  {this.props.endTime(test, "extended")}
+                  {this.endTime(test, "extended")}
                 </p>
               </div>
             </div>
@@ -648,7 +642,10 @@ class Students extends React.Component {
     // const { student, index} = this.props;
     const studentKey = key;
     const student = this.props.students[studentKey]
-    const tests = student.tests;
+    const Atest = student.tests.Atest;
+    const Btest = student.tests.Btest;
+    const Ctest = student.tests.Ctest;
+    const Dtest = student.tests.Dtest;
     // console.log("index = ", index)
     // const studentKey = key;
     // console.log("studentKey = ", studentKey);
@@ -682,8 +679,10 @@ class Students extends React.Component {
   {/* END STUDENT DISPLAY */}
 
   {/* BEGIN TESTS */}
-          {/* {Object.keys(tests).map(this.renderTests(key, studentKey))} */}
-          {this.renderTests(studentKey, tests)}
+          {this.renderTests(studentKey, Atest)}
+          {this.renderTests(studentKey, Btest)}
+          {this.renderTests(studentKey, Ctest)}
+          {this.renderTests(studentKey, Dtest)}
           {/* <ul>{this.renderTestRender(studentKey)}</ul> */}
           {/* <ul className="StudentTestWrapper">{this.renderTests()}</ul> */}
   {/* END TESTS */}

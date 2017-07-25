@@ -126,10 +126,10 @@ class App extends React.Component {
       // add in our new student
       const timestamp = Date.now();
       students[`student-${timestamp}`] = student;
-      student.tests[`Atest`] = student.tests.Atest;
-      student.tests[`Btest`] = student.tests.Btest;
-      student.tests[`Ctest`] = student.tests.Ctest;
-      student.tests[`Dtest`] = student.tests.Dtest;
+      // student.tests[`Atest`] = student.tests.Atest;
+      // student.tests[`Btest`] = student.tests.Btest;
+      // student.tests[`Ctest`] = student.tests.Ctest;
+      // student.tests[`Dtest`] = student.tests.Dtest;
       // you can do this: this.state.students.student1 = student;
       // set state
       // this is more standard, grabbing the state and updating it: this.setState({ students: students})
