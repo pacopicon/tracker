@@ -399,15 +399,15 @@ class Students extends React.Component {
     }
   }
 
-  extendZeroBarStyle() {
+  extendZeroBarStyle(studentKey, test) {
     return {
       width: 0 + '%'
     }
   }
 
-  renderButton() {
+  renderButton(studentKey, test) {
     // const { student, students, studentKey, test, tests } = this.props;
-    const { studentKey, test } = this.props;
+    // const { studentKey, test } = this.props;
 
     if(!test.hasTimerStarted && !test.isOver) {
       return (
@@ -466,8 +466,8 @@ class Students extends React.Component {
     }
   }
 
-  renderBarText() {
-    const { student, students, studentKey, test, tests } = this.props;
+  renderBarText(studentKey, test) {
+    // const { student, students, studentKey, test, tests } = this.props;
     if(this.state.countdown - this.props.testTime(studentKey, test, "extended") > 0) {
       return (
         <p>
@@ -484,8 +484,8 @@ class Students extends React.Component {
     }
   }
 
-  renderBars() {
-    const { student, students, studentKey, test, tests } = this.props;
+  renderBars(studentKey, test) {
+    // const { student, students, studentKey, test, tests } = this.props;
     if(this.state.countdown - this.props.testTime(studentKey, test, "extended") > 0) {
       return (
         <div className="progress-bar progress-bar-success" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style={this.extendBarStyle(studentKey, test)}>
@@ -508,17 +508,25 @@ class Students extends React.Component {
 // BEGIN Student Render functions
 
   displayDeleteBtn(studentKey) {
-    if(!this.props.student.isSafeToDelete) {
+    // console.log("studentKey = ", studentKey);
+    const student = this.props.students[studentKey];
+    if(!student.isSafeToDelete) {
       return(
         <button className="fa fa-times deleteBtn" onClick={() => this.props.removeStudent(studentKey)}></button>
       )
     }
   }
 
-  renderTests(studentKey, testKey) {
+  renderTests(key, studentKey) {
 
-    const { student, students, index} = this.props;
-    const studentKey = index;
+    // const { student, students, index} = this.props;
+    const testKey = key;
+    const student = this.props.students[studentKey];
+    const test = student.tests[key];
+
+    console.log("studentKey = ", studentKey);
+    console.log("testKey = ", testKey);
+    // console.log("studentKey = ", studentKey);
 
     if(test.total == 0 && !this.state.addInlinetest) {
       return (
@@ -605,7 +613,7 @@ class Students extends React.Component {
 {/* TEST ONE NAME */}
           <div className="buttonsAndBars">
             <div className="testNameCell marginRight marginLeft">
-              {this.renderButton()}
+              {this.renderButton(studentKey, test)}
             </div>
 {/* BEGIN TEST ONE BARS */}
             <div className="bars col-xs-12">
@@ -619,9 +627,9 @@ class Students extends React.Component {
               </div>
               <div className="progress splitBar"> {/* Begin Bars */}
                 <div className="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style={this.standardBarStyle(studentKey, test)}>
-                  {this.renderBarText()}
+                  {this.renderBarText(studentKey, test)}
                 </div>
-                {this.renderBars()}
+                {this.renderBars(studentKey, test)}
               </div>
             </div>
           </div>
@@ -631,10 +639,12 @@ class Students extends React.Component {
 
   } // end of renderTests
 
-  renderStudents(index) {
+  renderStudents(key) {
+    // console.log("key = ", key);
     // const { student, index} = this.props;
-    const studentKey = index;
+    const studentKey = key;
     const student = this.props.students[studentKey]
+    const tests = student.tests;
     // console.log("index = ", index)
     // const studentKey = key;
     // console.log("studentKey = ", studentKey);
@@ -668,9 +678,9 @@ class Students extends React.Component {
   {/* END STUDENT DISPLAY */}
 
   {/* BEGIN TESTS */}
-          {/* {Object.keys(this.props.student.tests).map(this.renderTests())} */}
+          {Object.keys(tests).map(this.renderTests(key, studentKey))}
           {/* <ul>{this.renderTestRender(studentKey)}</ul> */}
-          <ul className="StudentTestWrapper">{this.renderTests()}</ul>
+          {/* <ul className="StudentTestWrapper">{this.renderTests()}</ul> */}
   {/* END TESTS */}
 
         </div>
