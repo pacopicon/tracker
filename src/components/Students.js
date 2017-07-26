@@ -14,6 +14,7 @@ class Students extends React.Component {
     this.handleHourChange = this.handleHourChange.bind(this);
     this.handleMinuteChange = this.handleMinuteChange.bind(this);
     this.handleToggle = this.handleToggle.bind(this);
+    this.simpleChange = this.simpleChange.bind(this);
     this.renderButton = this.renderButton.bind(this);
     this.renderBarText = this.renderBarText.bind(this);
     this.renderBars = this.renderBars.bind(this);
@@ -36,7 +37,10 @@ class Students extends React.Component {
       printPage: false,
       hour: 0,
       startTest: false,
-      addInlinetest: false,
+      addInlinetestA: false,
+      addInlinetestB: false,
+      addInlinetestC: false,
+      addInlinetestD: false,
       hideFinishedtest: false,
       redHover: false,
       topBarDividend: 0,
@@ -131,12 +135,19 @@ class Students extends React.Component {
   }
 
   handleToggle(e, boolean) {
+    console.log("e.target.name = " + e.target.name + ". e.target.value = " + e.target.value)
+    // this.setState({
+    //   [e.target.name]: e.target.value
+    // });
     this.setState({
-      [e.target.name]: e.target.value
+      [e.target.name]: boolean
     });
-    // console.log("e.target.name = " + e.target.name)
-    // console.log("e.target.value = " + e.target.value)
-    // console.log("e.target.name = " + e.target.name + " (value = " + e.target.value + ")")
+    console.log("e.target.name = " + e.target.name + ". e.target.value = " + e.target.value)
+  }
+
+  simpleChange(variable, boolean) {
+    console.log("variable = " + variable + ". boolean = " + boolean)
+    variable = boolean;
   }
 
 
@@ -517,21 +528,24 @@ class Students extends React.Component {
     }
   }
 
-  renderTests(studentKey, test) {
+  renderTests(studentKey, test, option) {
 
     const student = this.props.students[studentKey];
+    // console.log("option = ", option);
+    const addInlinetest = option;
 
     this.addInlinetest = false;
 
-      if(test.total == 0 && !this.state.addInlinetest) {
+      if(test.total == 0 && !this.addInlinetest) {
         return (
           <div key={test.id} className="addTest dataButtonsAndBars col-xs-12">
             <div>
-              <button className="fa fa-plus addInlinetestBtn" aria-hidden="true" name="addInlinetest" value={this.state.addInlinetest} onClick={(e) => this.handleToggle(e, true)}></button>
+              {/* <button className="fa fa-plus addInlinetestBtn" aria-hidden="true" name={option} value={addInlinetest} onClick={(e) => this.handleToggle(e, true)}></button> */}
+              <button className="fa fa-plus addInlinetestBtn" aria-hidden="true" name={option} value={addInlinetest} onClick={() => this.simpleChange(this.addInlinetest, true)}></button>
             </div>
           </div>
         )
-      } else if(test.total == 0 && this.state.addInlinetest) {
+      } else if(test.total == 0 && addInlinetest) {
         return (
           <div key={test.id} className="inlineForm buttonsAndBars">
             <div className="inlineNameForm col-xs-6">
@@ -545,18 +559,11 @@ class Students extends React.Component {
                 <input className="minuteInput" type="number" min="00" max="55" step="5" value="00" onChange={(e) => this.props.handleMinuteChange(e, studentKey, test)}/>
               </div>
             </div>
-            {/* <div className="testTimeForm smallWidthMargin col-xs-6">
-              <div className="quantity">
-                <input className="hourInput" type="number" min="0" max="6" step="1" defaultValue="0" ref={(input) => this.AtestHour = input}/>
-              </div>
-              <div className="quantity">
-                <input className="minuteInput" type="number" min="00" max="55" step="5" defaultValue="00" ref={(input) => this.AtestMinute = input}/>
-              </div>
-            </div> */}
-            <button type="submit" type="button" aria-hidden="true" className="fa fa-check checkAdd addTestBtn col-lg-1 col-md-1 col-sm-1 col-xs-1" name="addInlinetest" value="this.state.addInlinetest" onClick={(e) => this.handleToggle(e, false)}></button>
+            <button type="submit" type="button" aria-hidden="true" className="fa fa-check checkAdd addTestBtn col-lg-1 col-md-1 col-sm-1 col-xs-1" name="addInlinetest" value="addInlinetest" onClick={(e) => this.handleToggle(e, false)}></button>
           </div>
         )
-      } else if(test.total > 0 && !this.state.addInlinetest && !this.state.hideFinishedTest) {
+      } else if(test.total > 0 && !addInlinetest && !this.state.hideFinishedTest) {
+      if(test.total > 0 && !addInlinetest && !this.state.hideFinishedTest) {
         // TEST ONE DATA
         return (
           <div key={test.id} className="dataButtonsAndBars col-xs-12">
@@ -631,7 +638,7 @@ class Students extends React.Component {
           </div>
         )
       }
-    // }
+    }
 
 
 
@@ -646,6 +653,10 @@ class Students extends React.Component {
     const Btest = student.tests.Btest;
     const Ctest = student.tests.Ctest;
     const Dtest = student.tests.Dtest;
+    const addA = this.state.addInlinetestA;
+    const addB = this.state.addInlinetestB;
+    const addC = this.state.addInlinetestC;
+    const addD = this.state.addInlinetestD;
     // console.log("index = ", index)
     // const studentKey = key;
     // console.log("studentKey = ", studentKey);
@@ -679,10 +690,10 @@ class Students extends React.Component {
   {/* END STUDENT DISPLAY */}
 
   {/* BEGIN TESTS */}
-          {this.renderTests(studentKey, Atest)}
-          {this.renderTests(studentKey, Btest)}
-          {this.renderTests(studentKey, Ctest)}
-          {this.renderTests(studentKey, Dtest)}
+          {this.renderTests(studentKey, Atest, addA)}
+          {this.renderTests(studentKey, Btest, addB)}
+          {this.renderTests(studentKey, Ctest, addC)}
+          {this.renderTests(studentKey, Dtest, addD)}
           {/* <ul>{this.renderTestRender(studentKey)}</ul> */}
           {/* <ul className="StudentTestWrapper">{this.renderTests()}</ul> */}
   {/* END TESTS */}
